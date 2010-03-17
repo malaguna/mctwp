@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/jsp/include/templateRsc.xhtml">
+<ui:define name="cuerpo">
+
+<!-- Comienza la página JSF -->
+
+<div class="cuerpo">
+
+	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
+	
+	<h:form>
+	<h:panelGroup id="viewThumbs">
+		<t:dataTable id="imagesTable" 
+			rendered="#{viewResultImages.thumbs != null}" newspaperColumns="3"
+			styleClass="resTabla" headerClass="resCabecera" 
+			footerClass="pieTablaEstandar" rowClasses="resFilaPar"
+			value="#{viewResultImages.thumbs}" var="row" rows="6">
+			
+			<h:column>
+				<h:panelGrid columns="1" styleClass="cuerpo">
+					<h:outputText value="ID: #{row.thumbId}"/>
+					<h:panelGrid columns="2" styleClass="cuerpo">
+						<h:panelGrid columns="1" styleClass="cuerpo">
+							<h:graphicImage url="#{row.path}"></h:graphicImage>
+						</h:panelGrid>
+						<h:panelGrid columns="1" styleClass="cuerpo">
+							<h:outputText value="Imagen" rendered="#{not row.result}"/>
+							<h:outputLink value="/mctwp/jsp/research/image/download.jsf">
+				                <f:param name="imageId" value="#{row.thumbId}"/>
+				                <f:param name="collection" value="#{sessionInv.trial.collection}"/>
+				                <h:outputText value="Descargar"/>
+							</h:outputLink>
+							<h:panelGroup>
+								<h:selectBooleanCheckbox value="#{row.selected}" />
+								<h:outputText value="Enviar"/>
+							</h:panelGroup>
+						</h:panelGrid>					
+					</h:panelGrid>
+				</h:panelGrid>
+			</h:column>
+		</t:dataTable>
+		
+		<t:dataScroller id="scrollerTable" for="imagesTable"  fastStep="10" immediate="true" 
+			styleClass="scroll" paginator="true" paginatorMaxPages="20" 
+			rendered="#{viewTaskImages.thumbs != null}"
+			paginatorTableClass="paginator" paginatorActiveColumnStyle="font-weight:bold;" 
+			rowsCountVar="rows" displayedRowsCountVar="inview"
+			firstRowIndexVar="first" lastRowIndexVar="last" pageCountVar="pagTotal" 
+			pageIndexVar="pagActual">
+	
+			<f:facet name="first" >
+				<t:graphicImage url="/jsp/icons/resultset_first.png" />
+			</f:facet>
+			<f:facet name="last">
+				<t:graphicImage url="/jsp/icons/resultset_last.png" border="0" />
+			</f:facet>
+			<f:facet name="previous">
+				<t:graphicImage url="/jsp/icons/resultset_previous.png" border="0" />
+			</f:facet>
+			<f:facet name="next">
+				<t:graphicImage url="/jsp/icons/resultset_next.png" border="0" />
+			</f:facet>
+			
+			<h:outputFormat value="#{msgs['jsf.scroll.Image']}" styleClass="scroll">
+				<f:param value="#{rows}" />
+				<f:param value="#{inview}" />
+				<f:param value="#{first}" />
+				<f:param value="#{last}" />
+				<f:param value="#{pagActual}" />
+				<f:param value="#{pagTotal}" />
+			</h:outputFormat>
+
+		</t:dataScroller> 
+		
+	</h:panelGroup>
+	
+	<h:panelGrid columns="4" id="cuerpo" styleClass="frmTabla">
+
+		<f:facet name="header">
+			<h:panelGroup styleClass="headFrm">
+				<h:outputLabel value="#{msgs['jsf.headers.SendImages']}" styleClass="frmLabelHeader"/>
+			</h:panelGroup>
+		</f:facet>
+	
+		<h:outputLabel styleClass="frmLabel" value="#{msgs['jsf.generic.Host']} :" />
+		<h:outputLabel styleClass="frmLabel" value="#{msgs['jsf.generic.Port']} :" />
+		<h:outputLabel styleClass="frmLabel" value="#{msgs['jsf.generic.AET']} :" />
+		<h:outputLabel styleClass="frmLabel" value="" />
+		<h:inputText styleClass="frmInput" value="#{viewTaskImages.destination.hostname}" />
+		<h:inputText styleClass="frmInput" value="#{viewTaskImages.destination.port}" />
+		<h:inputText styleClass="frmInput" value="#{viewTaskImages.destination.aeTitle}" />
+		<h:commandButton styleClass="frmButton" value="#{msgs['jsf.actions.Send']}" action="#{viewResultImages.accSendImages}" />
+	</h:panelGrid>
+	</h:form>
+	
+</div>
+			
+<!-- Termina la página JSF -->
+
+</ui:define>
+</ui:composition>
+
+</html>

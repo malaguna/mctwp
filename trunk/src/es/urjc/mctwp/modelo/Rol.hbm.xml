@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-may-2007 20:48:40 by Hibernate Tools 3.2.0.b9 -->
+
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<hibernate-mapping>
+    <class name="es.urjc.mctwp.modelo.Rol" table="rol" select-before-update="true">
+        <comment></comment>
+        <id name="code" type="int">
+            <column name="codigo" />
+            <generator class="sequence">
+            	<param name="sequence">rol_seq</param>
+            </generator>
+        </id>
+        <property name="oid" type="string">
+            <column name="oid" length="36" not-null="true">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="name" type="string">
+            <column name="nombre" length="20" not-null="true">
+                <comment></comment>
+            </column>
+        </property>
+        
+        <!-- Asociaciones -->        
+
+        <set name="participations" 
+        	order-by="codigo"
+        	cascade="save-update lock "
+        	inverse="true"
+        	table="participacion">
+        	<key column="rol"></key>
+        	<one-to-many class="es.urjc.mctwp.modelo.Participation"/>
+        </set>
+        
+        <set name="actions"
+        	cascade="save-update lock" 
+        	table="autorizacion"
+        	inverse="true"
+        	order-by="accion">
+        	<key column="rol"></key>
+        	<many-to-many column="accion" class="es.urjc.mctwp.modelo.Action"/>
+        </set>
+    </class>
+</hibernate-mapping>

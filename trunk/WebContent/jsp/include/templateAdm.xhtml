@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/jsp/include/template.xhtml">
+
+	<ui:define name="sessionInfo">
+		<h:form>
+		<table style="float: right; vertical-align: top; padding-left: 5px;">
+			<tr>
+				<td>
+					[#{sessionInv.user.login}]
+				</td>
+				<td>
+			    	<h:commandLink 
+			    		action="#{trialIBean.accListTrials}">
+			    		<h:graphicImage 
+			    			url="/jsp/icons/computer_go.png" 
+			    			alt="#{msgs['jsf.area.Trial']}" 
+			    			title="#{msgs['jsf.area.Trial']}"/>
+			    	</h:commandLink>
+				</td>
+			</tr>
+		</table>
+		</h:form>
+	</ui:define>
+	
+	<ui:define name="appMenu">
+		<h:form id="frmMenuResearch">
+		    <t:jscookMenu id="menu" layout="hbr" theme="ThemeOffice">
+	    	    <t:navigationMenuItems id="navitems" value="#{sessionAdm.menu}" />
+		    </t:jscookMenu>
+	    </h:form>					
+	</ui:define>
+	
+</ui:composition>
+
+</html>

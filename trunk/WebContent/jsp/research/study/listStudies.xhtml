@@ -1,0 +1,136 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:mine="http://mctwp.urjc.es/jsf" >
+
+<ui:composition template="/jsp/include/templateProtocolable.xhtml">
+
+<ui:define name="saveState">
+	<t:saveState value="#{studyBean.studies}"/>
+</ui:define>
+
+<ui:define name="title">
+	<h3>
+		<h:outputText value="#{msgs['jsf.headers.StudiesOfPatient']}"/>
+	</h3>
+</ui:define>
+
+<ui:define name="filterForm">
+	<table>
+		<tr>
+			<td>
+				<h:outputText 
+					value="#{msgs['jsf.generic.Study']}"/>
+			</td>
+			<td colspan="2">
+				<h:inputText 
+					id="filterType" 
+					size="10"
+					styleClass="frmInput"
+					value="#{studyBean.filter.studyType}"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h:outputText 
+					value="#{msgs['jsf.generic.HospID']}"/>
+			</td>
+			<td>
+				<h:inputText 
+					id="filterId" 
+					size="10"
+					styleClass="frmInput"
+					value="#{studyBean.filter.hospitalId}"/>
+			</td>
+			<td>
+				<p:commandButton
+					id="filterButton" 
+					value="Filtrar" 
+					styleClass="frmButton" 
+					update="studyList, facesMessages" 
+					action="#{studyBean.accListStudiesOfPatient}" />
+			</td>
+		</tr>
+	</table>
+</ui:define>
+
+<ui:define name="tableContent">
+	<mine:protoTbl
+		id="studyList"
+		rows="10"
+		value="#{studyBean.studies}">
+		
+		<ui:define name="tableColumns">
+		
+			<mine:protoTblCol 
+				id="code"
+				value="#{row.code}"
+				sortParser="number"
+				header="#{msgs['jsf.generic.Code']}"/>
+		
+			<mine:protoTblCol 
+				id="hospitalId"
+				value="#{row.hospitalId}"
+				sortParser="number"
+				header="#{msgs['jsf.generic.HospID']}"/>
+		
+			<mine:protoTblCol 
+				id="type"
+				value="#{row.studyType}"
+				sortParser="string"
+				header="#{msgs['jsf.generic.Study']}"/>
+				
+			<mine:protoTblOpsCol
+				id="patientCmds"
+				actLstnBean="#{studyBean}"
+				actLstnName="alUpdateStudySelected"
+				editActBean="#{studyBean}"
+				editActName="accEditStudy"
+				editTarget="#{studyBean.study}"
+				explActBean="#{viewStudyImages}"
+				explActName="accListImagesOfStudy"
+				addImage="${true}" />
+				
+		</ui:define>
+	</mine:protoTbl>
+</ui:define>
+
+<ui:define name="buttonsForm">
+	<h:commandLink 
+		action="editStudy">
+		<h:graphicImage 
+			value="/jsp/icons/database_add.png"
+			title="#{msgs['jsf.actions.Create']}"  
+			alt="#{msgs['jsf.actions.Create']}" />
+	</h:commandLink>
+</ui:define>
+
+</ui:composition>
+
+</html>

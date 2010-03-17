@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/jsp/include/templateRsc.xhtml">
+<ui:define name="cuerpo">
+
+<!-- Comienza la página JSF -->
+
+<div class="cuerpo">
+
+	<t:saveState value="#{tasksBean.taskListMode}"/>
+	<t:saveState value="#{taskBean.possibleUsers}" />
+	<t:saveState value="#{taskBean.task}"/>
+
+	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
+	
+	<!-- Formulario de edición/creación de Procesos -->
+	<h:panelGroup id="cuerpo" styleClass="cuerpo">
+		<h:form id="frmProcess">
+
+			<!-- Cabecera de la tarea -->
+			<h:panelGrid columns="1" styleClass="frmTabla">
+			
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputLabel styleClass="frmLabelHeader" value="#{msgs['jsf.headers.TaskDetail']}">
+						</h:outputLabel>
+					</h:panelGroup>
+				</f:facet>
+						
+				<h:panelGrid columns="6" styleClass="cuerpo">
+					
+					<h:outputLabel for="codeRO" styleClass="frmLabelHeader" value="#{msgs['jsf.generic.Task']}"/>
+					<h:outputText id="codeRO" styleClass="frmOutput" value=": #{taskBean.task.code}" />
+					
+					<h:outputLabel for="doneRO" styleClass="frmLabelHeader" value="#{msgs['jsf.generic.Done']}"/>
+					<h:outputText id="doneRO" styleClass="frmOutput" value=": #{taskBean.task.done}" />
+					
+					<h:outputLabel for="fechaRO" styleClass="frmLabelHeader" value="#{msgs['jsf.generic.EndDate']}"/>
+					<h:outputText id="fechaRO" styleClass="frmOutput" value=": #{taskBean.task.endDate}">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Madrid"/>
+					</h:outputText>
+
+				</h:panelGrid>
+
+				<h:panelGrid columns="2" styleClass="cuerpo">
+					<h:outputLabel for="ownerRO" styleClass="frmLabelHeader" value="#{msgs['jsf.generic.Owner']}" />
+					<h:outputText id="ownerRO" styleClass="frmOutput" value=": #{taskBean.task.owner.fullName}" />
+				</h:panelGrid>
+				
+			</h:panelGrid>
+
+			<!-- Tabla de comentarios y evolución de la tarea -->
+			<t:dataTable id="commentsTable" 
+				rendered="#{not empty taskBean.task.logs}"
+				styleClass="resTabla" headerClass="resCabecera" 
+				footerClass="pieTablaEstandar"
+				value="#{taskBean.task.logs}" var="row">
+				
+				<h:column>
+					<h:panelGrid columns="4" styleClass="cuerpo">
+						<h:outputLabel styleClass="frmLabelHeader" value="#{msgs['jsf.generic.Author']}:"/>
+						<h:outputText value="#{row.author.fullName}"/>
+						<h:outputLabel styleClass="frmLabelHeader" value="#{msgs['jsf.generic.Date']}:"/>
+						<h:outputText value="#{row.stamp}">
+							<f:convertDateTime pattern="dd/MM/yyyy - HH:mm:ss" timeZone="Europe/Madrid"/>
+						</h:outputText>
+						<h:outputLabel styleClass="frmLabelHeader" value="#{msgs['jsf.generic.Field']}:"/>
+						<h:outputText value="#{row.field}"/>
+						<h:outputLabel styleClass="frmLabelHeader" value="#{msgs['jsf.generic.Value']}:"/>
+						<h:outputText value="#{row.value}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Madrid"/>
+						</h:outputText>
+					</h:panelGrid>
+
+					<h:panelGrid columns="1" styleClass="cuerpo" rendered="#{row.comment != null}">
+						<h:inputTextarea value="#{row.comment}" disabled="true" cols="80"/>
+					</h:panelGrid>
+					
+					<hr/>
+					
+				</h:column>
+				
+			</t:dataTable>
+				
+			<!-- Controles de entrada de datos -->
+			<h:panelGrid columns="1" styleClass="frmTabla">
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputLabel styleClass="frmLabelHeader" value="#{msgs['jsf.headers.TaskChanges']}">
+						</h:outputLabel>
+					</h:panelGroup>
+				</f:facet>
+				
+				<h:panelGrid columns="3" styleClass="cuerpo">
+					
+					<h:outputLabel for="owner" styleClass="frmLabel" value="#{msgs['jsf.generic.Owner']}" />
+					<h:selectOneMenu id="owner" value="#{taskBean.newOwner}">
+						<f:selectItems value="#{taskBean.possibleUsers}"/>
+					</h:selectOneMenu>
+					<t:message id="ownerError" style="frmLabelError" for="owner" styleClass="error"/>
+		
+					<h:outputLabel for="fecha" styleClass="frmLabel" value="#{msgs['jsf.generic.EndDate']}"/>
+					<t:inputCalendar id="fecha" monthYearRowClass="yearMonthHeader" weekRowClass="weekHeader" 
+						popupButtonStyleClass="standardBold" currentDayCellClass="currentDayCell"
+						value="#{taskBean.task.endDate}" renderAsPopup="true"
+		                popupTodayString="#{msgs['jsf.generic.ToDayString']}" popupDateFormat="dd/MM/yyyy" 
+		                popupWeekString="#{msgs['jsf.generic.WeekString']}" helpText="DD/MM/YYYY" forceId="true">
+		                	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Madrid"/>
+		            </t:inputCalendar>				
+					<t:message id="fechaError" style="frmLabelError" for="fecha" styleClass="error"/>
+					
+					<h:outputLabel for="done" styleClass="frmLabel" value="#{msgs['jsf.generic.Done']}" />
+					<h:selectBooleanCheckbox id="done" value="#{taskBean.task.done}"/>
+					<t:message id="doneError" style="frmLabelError" for="done" styleClass="error"/>
+		
+				</h:panelGrid>
+	
+				<h:panelGrid columns="1" styleClass="cuerpo" >
+					<h:outputLabel for="comment" styleClass="frmLabel" value="#{msgs['jsf.generic.Comment']}"/>
+					<h:inputTextarea id="comment" value="#{taskBean.taskComment}" cols="80"/>
+				</h:panelGrid>
+		
+			
+				<!-- Botones de acción -->
+				<h:panelGrid columns="2" styleClass="cuerpo" >
+					<h:commandButton id="save" styleClass="frmButton" value="#{msgs['jsf.actions.Save']}" action="#{taskBean.accSaveTask}"/>
+				</h:panelGrid>
+			</h:panelGrid>
+		
+		</h:form>
+	</h:panelGroup>
+
+</div>
+			
+<!-- Termina la página JSF -->
+
+</ui:define>
+</ui:composition>
+
+</html>

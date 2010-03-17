@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<!--
+Copyright 2008, 2009, 2010, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/jsp/include/template.xhtml">
+<ui:define name="cuerpo">
+
+<!-- Comienza la página JSF -->
+
+<div class="cuerpo">
+	
+	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>       
+
+	<h:form>
+	
+	    <h:panelGrid columns="2" styleClass="cuerpoCentrado" >
+	    	
+	    	<h:commandLink action="#{trialIBean.accListTrials}">
+	    		<h:graphicImage url="/jsp/img/research.png" alt="#{msgs['jsf.area.Trial']}"/>
+	    	</h:commandLink>
+	    	
+	    	<h:commandLink action="adminArea" rendered="#{sessionInv.userAdmin}">
+	    		<h:graphicImage url="/jsp/img/admin.png" alt="#{msgs['jsf.area.Admin']}"/>
+	    	</h:commandLink>
+	    	
+	    	<h:outputText value="#{msgs['jsf.area.Trial']}" />
+
+	    	<h:outputText value="#{msgs['jsf.area.Admin']}" />
+	    	
+	    </h:panelGrid>
+
+	</h:form>
+	
+</div>
+			
+<!-- Termina la página JSF -->
+
+</ui:define>
+</ui:composition>
+
+</html>

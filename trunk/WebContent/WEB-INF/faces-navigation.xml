@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN" "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<faces-config>
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>homePage</from-outcome>
+			<to-view-id>/jsp/home.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>adminArea</from-outcome>
+			<to-view-id>/jsp/admin/index.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>listTrialsOfUser</from-outcome>
+			<to-view-id>/jsp/research/trial/listTrials.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editTrialR</from-outcome>
+			<to-view-id>/jsp/research/trial/editTrial.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>listGroupsOfTrial</from-outcome>
+			<to-view-id>/jsp/research/group/listGroups.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editGroup</from-outcome>
+			<to-view-id>/jsp/research/group/editGroup.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>listPatientsOfGroup</from-outcome>
+			<to-view-id>/jsp/research/patient/listPatients.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editPatient</from-outcome>
+			<to-view-id>/jsp/research/patient/editPatient.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>deletePatients</from-outcome>
+			<to-view-id>/jsp/research/patient/deletePatients.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>movePatients</from-outcome>
+			<to-view-id>/jsp/research/patient/movePatients.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>listStudiesOfPatient</from-outcome>
+			<to-view-id>/jsp/research/study/listStudies.xhtml</to-view-id>
+		</navigation-case>
+			<navigation-case>
+			<from-outcome>editStudy</from-outcome>
+			<to-view-id>/jsp/research/study/editStudy.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>editProtocol</from-outcome>
+			<to-view-id>/jsp/research/protocol/viewProtocol.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>listImagesOfResult</from-outcome>
+			<to-view-id>/jsp/research/image/listResultImages.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>listImagesOfStudy</from-outcome>
+			<to-view-id>/jsp/research/image/listStudyImages.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>listImagesOfTask</from-outcome>
+			<to-view-id>/jsp/research/image/listTaskImages.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>listImagesOfFolder</from-outcome>
+			<to-view-id>/jsp/research/image/selectImages.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>listTasks</from-outcome>
+			<to-view-id>/jsp/research/task/listTasks.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>createTask</from-outcome>
+			<to-view-id>/jsp/research/task/createTask.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editTask</from-outcome>
+			<to-view-id>/jsp/research/task/editTask.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>listResultsOfTask</from-outcome>
+			<to-view-id>/jsp/research/result/listResults.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editResult</from-outcome>
+			<to-view-id>/jsp/research/result/editResult.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>uploadImages</from-outcome>
+			<to-view-id>/jsp/research/upload/upload.xhtml</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>selectFolder</from-outcome>
+			<to-view-id>/jsp/research/image/selectFolder.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>uploadSuccess</from-outcome>
+			<to-view-id>/jsp/research/upload/success.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>viewUserModalities</from-outcome>
+			<to-view-id>/jsp/research/modality/viewUserModalities.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>errorPage</from-outcome>
+			<to-view-id>/jsp/include/error.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>searchUsers</from-outcome>
+			<to-view-id>/jsp/admin/user/searchUsers.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editUser</from-outcome>
+			<to-view-id>/jsp/admin/user/editUser.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>viewUserLogs</from-outcome>
+			<to-view-id>/jsp/admin/user/viewUserLogs.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>viewUserParticipations</from-outcome>
+			<to-view-id>/jsp/admin/user/viewUserParticipations.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>searchProcesses</from-outcome>
+			<to-view-id>/jsp/admin/process/searchProcesses.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editProcess</from-outcome>
+			<to-view-id>/jsp/admin/process/editProcess.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+		
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>searchRoles</from-outcome>
+			<to-view-id>/jsp/admin/rol/searchRoles.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editRol</from-outcome>
+			<to-view-id>/jsp/admin/rol/editRol.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>viewRolAuthorizations</from-outcome>
+			<to-view-id>/jsp/admin/rol/viewRolAuthorizations.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>searchModalities</from-outcome>
+			<to-view-id>/jsp/admin/modality/searchModalities.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editModality</from-outcome>
+			<to-view-id>/jsp/admin/modality/editModality.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<navigation-case>
+			<from-outcome>searchTrials</from-outcome>
+			<to-view-id>/jsp/admin/trial/searchTrials.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>editTrial</from-outcome>
+			<to-view-id>/jsp/admin/trial/editTrial.xhtml</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>viewTrialMembers</from-outcome>
+			<to-view-id>/jsp/admin/trial/viewTrialMembers.xhtml</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+</faces-config>

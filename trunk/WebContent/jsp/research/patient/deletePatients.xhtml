@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/jsp/include/templateRsc.xhtml">
+
+<ui:define name="cuerpo">
+	<t:saveState value="#{patientBean.toDelete}" />
+	<t:saveState value="#{patientBean.cantDelete}" />
+
+	<h:form prependId="false">	
+	<table class="cuerpoCentrado">
+		<tr>
+			<td class="textoCentrado">
+				<h3><h:outputText value="#{msgs['jsf.headers.PatientsDeletion']}" /></h3>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<hr/>
+			</td>
+		</tr>
+		<tr>
+			<td class="bajoLinea">
+				<table>
+					<tr>
+						<td>
+							<p:tabView>
+								<p:tab
+									title="#{msgs['jsf.headers.toDelete']}">
+									
+									<p:dataTable
+										id="patientsToDelete"
+										rows="10"
+										var="row" 
+										value="#{patientBean.toDelete}"
+										paginator="true" 
+										paginatorPosition="bottom">
+										
+										<p:column sortBy="#{row.completeName}">
+											<f:facet name="header">
+												<h:outputText value="#{msgs['jsf.generic.Patient']}"/>
+											</f:facet>
+											<h:outputText value="#{row.completeName}"/>
+										</p:column>
+									</p:dataTable>
+								</p:tab>
+								<p:tab
+									rendered="#{!empty patientBean.cantDelete}" 
+									title="#{msgs['jsf.headers.toMantain']}">
+
+									<p:dataTable
+										id="patientsCantDelete"
+										rows="10"
+										var="row" 
+										value="#{patientBean.cantDelete}"
+										paginator="true" 
+										paginatorPosition="bottom">
+										
+										<p:column sortBy="#{row.completeName}">
+											<f:facet name="header">
+												<h:outputText value="#{msgs['jsf.generic.Patient']}"/>
+											</f:facet>
+											<h:outputText value="#{row.completeName}"/>
+										</p:column>
+									</p:dataTable>
+								</p:tab>
+							</p:tabView>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td style="float: right;">
+				<h:commandButton 
+					styleClass="frmButton"
+					value="#{msgs['jsf.actions.Delete']}" 
+					action="#{patientBean.accDeletePatients}"/>
+			</td>
+		</tr>
+	</table>
+	</h:form>
+	
+</ui:define>
+
+</ui:composition>
+</html>

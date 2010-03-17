@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/jsp/include/templateAdm.xhtml">
+<ui:define name="cuerpo">
+
+<!-- Comienza la página JSF -->
+
+<div class="cuerpo">
+
+	<t:saveState value="#{rolBean.rol}" />
+	<t:saveState value="#{rolBean.notAssignedActions}" />
+	<t:saveState value="#{rolBean.FSrcObject}" />
+	
+	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
+
+	<!-- user info -->
+	<h:form>
+		<h:panelGrid id="cuerpo" columns="3" styleClass="frmTabla">
+			
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputLabel styleClass="frmLabelHeader" value="#{msgs['jsf.headers.RolSearch']}">
+					</h:outputLabel>
+				</h:panelGroup>
+			</f:facet>
+				
+			<h:graphicImage id="image" url="/jsp/icons/user.png" />
+			<h:outputText value="#{rolBean.rol.code}" />
+			<h:outputText value="#{rolBean.rol.name}" />				
+												
+		</h:panelGrid>
+		
+		<h:panelGrid id="tabla" columns="1" styleClass="bodyFrm">
+		
+			<t:dataTable id="results"
+				styleClass="resTabla"
+				headerClass="resCabecera" footerClass="pieTablaEstandar" 
+				rowClasses="resFilaImpar, resFilaPar" columnClasses="columnaNormal" 
+				value="#{rolBean.rol.actionsSorted}" var="row" rows="10">
+					
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msgs['jsf.generic.Name']}" />
+					</f:facet>
+					<h:outputText value="#{row.name}"/>
+				</h:column>
+		
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msgs['jsf.generic.Action']}" />
+					</f:facet>
+					<h:outputText value="#{row.action}"/>
+				</h:column>
+		
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msgs['jsf.actions']}" />
+					</f:facet>
+					
+					<t:commandLink action="#{rolBean.accDelAuthorizationRol}" >
+						<h:graphicImage value="/jsp/icons/cross.png" alt="#{msgs['jsf.actions.Edit']}" />
+						<t:updateActionListener value="#{row.code}" property="#{rolBean.idActionSelected}"></t:updateActionListener>
+					</t:commandLink>
+				</h:column>										
+	
+			</t:dataTable>	
+			
+			<t:dataScroller id="scrollerTable" for="results"  fastStep="10" immediate="true" 
+				styleClass="scroll" paginator="true" paginatorMaxPages="5" 
+				paginatorTableClass="paginator" paginatorActiveColumnStyle="font-weight:bold;" 
+				rowsCountVar="rows" displayedRowsCountVar="inview"
+				firstRowIndexVar="first" lastRowIndexVar="last" pageCountVar="pagTotal" 
+				pageIndexVar="pagActual">
+		
+				<f:facet name="first" >
+					<t:graphicImage url="/jsp/icons/resultset_first.png" />
+				</f:facet>
+				<f:facet name="last">
+					<t:graphicImage url="/jsp/icons/resultset_last.png" border="0" />
+				</f:facet>
+				<f:facet name="previous">
+					<t:graphicImage url="/jsp/icons/resultset_previous.png" border="0" />
+				</f:facet>
+				<f:facet name="next">
+					<t:graphicImage url="/jsp/icons/resultset_next.png" border="0" />
+				</f:facet>
+				
+				<h:outputFormat value="#{msgs['jsf.scroll.Rol']}" styleClass="scroll">
+					<f:param value="#{rows}" />
+					<f:param value="#{inview}" />
+					<f:param value="#{first}" />
+					<f:param value="#{last}" />
+					<f:param value="#{pagActual}" />
+					<f:param value="#{pagTotal}" />
+				</h:outputFormat>
+
+			</t:dataScroller> 
+	             
+		</h:panelGrid>
+		
+		<h:panelGrid id="buttons" columns="5" styleClass="frmTabla">
+			
+			<f:facet name="header">
+				<h:panelGroup styleClass="headFrm">
+					<h:outputText value="#{msgs['jsf.headers.AddAuthorization']}" />
+				</h:panelGroup>
+			</f:facet>			
+		
+			<h:outputLabel value="Actions" styleClass="frmLabel"/>
+			<h:selectOneMenu id="action"  value="#{rolBean.idActionSelected}" styleClass="frmSelectOne">
+				<f:selectItems value="#{rolBean.notAssignedActions}" />
+			</h:selectOneMenu>
+			<t:message id="actionError" for="action" />	
+			
+			<f:facet name="footer">
+				<h:panelGroup styleClass="footFrm">
+					<h:commandButton id="anadir" value="#{msgs['jsf.actions.Add']}" action="#{rolBean.accAddAuthorizationRol}" styleClass="frmButton" />
+					<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{rolBean.accFindRol}" styleClass="frmButton" />
+				</h:panelGroup>
+			</f:facet>	
+									
+		</h:panelGrid>	
+
+	</h:form>
+	
+</div>
+			
+<!-- Termina la página JSF -->
+
+</ui:define>
+</ui:composition>
+
+</html>
