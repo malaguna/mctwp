@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<hibernate-mapping>
+    <class name="es.urjc.mctwp.modelo.User" table="usuario" select-before-update="true">
+        <comment></comment>
+        <id name="code" type="int">
+            <column name="codigo" />
+            <generator class="sequence">
+            	<param name="sequence">usuario_seq</param>
+            </generator>
+        </id>
+        <property name="oid" type="string">
+            <column name="oid" length="36" not-null="true">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="name" type="string">
+            <column name="nombre" length="20" not-null="true">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="lastName" type="string">
+            <column name="apellido1" length="20" not-null="true">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="surName" type="string">
+            <column name="apellido2" length="20" not-null="true">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="date" type="date">
+            <column name="fec_alta" length="0">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="login" type="string">
+            <column name="login" length="20" not-null="true">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="admin" type="java.lang.Boolean">
+            <column name="admin">
+                <comment></comment>
+            </column>
+        </property>
+        
+        <!-- Asociaciones -->
+        
+        <set name="participations" 
+        	table="participacion"
+        	inverse="true"
+        	cascade="save-update lock"
+        	order-by="codigo">
+        	<key column="usuario"></key>
+        	<one-to-many class="es.urjc.mctwp.modelo.Participation"/>
+        </set>
+        
+        <set name="trials" 
+        	table="participacion"
+        	cascade="save-update"
+        	order-by="codigo">
+        	<key column="usuario"></key>
+        	<many-to-many column="ensayo" class="es.urjc.mctwp.modelo.Trial"/>
+        </set>
+
+        <set name="modalities" 
+        	table="modusuario"
+        	cascade="save-update">
+        	<key column="usuario"></key>
+        	<many-to-many column="modalidad" class="es.urjc.mctwp.modelo.Modality"/>
+        </set>
+    </class>
+</hibernate-mapping>

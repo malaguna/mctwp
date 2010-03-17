@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+       
+	<bean id="DataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://localhost:5432/mctwp" />
+		<property name="username" value="admon" />
+		<property name="password" value="" />
+	</bean>
+
+	<bean id="ExTranslator" class="org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator">
+		<property name="dataSource"><ref bean="DataSource"/></property>
+	</bean>
+
+	<bean id="SessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="DataSource"/>
+		<property name="mappingResources">
+			<list>
+				<value>es/urjc/mctwp/modelo/Log.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/Rol.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/Menu.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/Task.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/User.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/Result.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/Action.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/Process.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/TaskLog.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/Modality.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/ImageData.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/ProcessDef.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/MapSeriesId.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/Protocolable.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/Participation.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="TxManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="SessionFactory"/>
+	</bean>
+
+	<bean id="HiberTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory"><ref bean="SessionFactory"/></property>
+		<property name="jdbcExceptionTranslator"><ref bean="ExTranslator"/></property>
+	</bean>
+	
+	<!-- DAO's Definition -->
+	<bean id="ActionDAO" class="es.urjc.mctwp.dao.ActionDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="CenterDAO" class="es.urjc.mctwp.dao.CenterDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="GroupDAO" class="es.urjc.mctwp.dao.GroupDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="ImageDataDAO" class="es.urjc.mctwp.dao.ImageDataDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="LogDAO" class="es.urjc.mctwp.dao.LogDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="MapSeriesIdDAO" class="es.urjc.mctwp.dao.MapSeriesIdDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="MenuDAO" class="es.urjc.mctwp.dao.MenuDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="ModalityDAO" class="es.urjc.mctwp.dao.ModalityDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="ParticipationDAO" class="es.urjc.mctwp.dao.ParticipationDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="PatientDAO" class="es.urjc.mctwp.dao.PatientDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="ProcessDAO" class="es.urjc.mctwp.dao.ProcessDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="ProcessDefDAO" class="es.urjc.mctwp.dao.ProcessDefDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="ProtocolableDAO" class="es.urjc.mctwp.dao.ProtocolableDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="ResultDAO" class="es.urjc.mctwp.dao.ResultDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="RolDAO" class="es.urjc.mctwp.dao.RolDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="StudyDAO" class="es.urjc.mctwp.dao.StudyDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="TaskDAO" class="es.urjc.mctwp.dao.TaskDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="TaskLogDAO" class="es.urjc.mctwp.dao.TaskLogDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="TrialDAO" class="es.urjc.mctwp.dao.TrialDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="UserDAO" class="es.urjc.mctwp.dao.UserDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="MapSeriesId" class="es.urjc.mctwp.image.management.SeriesIdMapper">
+		<property name="dao" ref="MapSeriesIdDAO" />
+	</bean>
+
+	<bean id="DicomCreator" class="es.urjc.mctwp.image.impl.dicom.ImageCreatorDicomImpl">
+		<property name="mapper" ref="MapSeriesId" />
+	</bean>
+
+	<bean id="DicomConversor" class="es.urjc.mctwp.image.impl.dicom.ImageConversorDicomImpl">
+	</bean>
+
+	<bean id="ImageManager" class="es.urjc.mctwp.image.impl.management.ImageManagerLocalImpl">
+		<property name="creators">
+			<list>
+				<ref bean="DicomCreator"/>
+			</list>
+		</property>
+		<property name="conversors">
+			<list>
+				<ref bean="DicomConversor"/>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="XmlImageColl" class="es.urjc.mctwp.image.impl.collection.eXist.ImageXMLCollectionExistImpl">
+		<property name="dburi"  value="xmldb:exist://nc8430:8088/xmlrpc" />
+		<property name="prefix" value="/db/mctwp" />
+		<property name="user"   value="mctwp" />
+		<property name="pass"   value="password" />
+		<property name="imageManager" ref="ImageManager" />
+	</bean>
+	
+	<bean id="FSImageColl" class="es.urjc.mctwp.image.impl.collection.fs.ImageContentCollectionFSImpl">
+		<property name="fsBaseDirPath" value="/opt/DICOM" />
+		<property name="fsTmpCollDir" value="temporal" />
+		<property name="imageManager" ref="ImageManager" />
+	</bean>
+
+	<bean id="ImageCollectionManager" class="es.urjc.mctwp.image.impl.collection.ImageCollectionManagerLocalImpl">
+		<property name="imageManager" ref="ImageManager" />
+		<property name="imageXMLCollection" ref="XmlImageColl" />
+		<property name="imageContentCollection" ref="FSImageColl" />
+	</bean>
+	
+	<bean id="MiniPACS" class="es.urjc.mctwp.pacs.impl.DcmStorageServerImpl">
+		<property name="tempDirectory" value="/tmp" />
+		<property name="hostname" value="nc8430" />
+		<property name="port" value="1234" />
+		<property name="aeTitle" value="MCTWP" />
+		<property name="thrName" value="SERVER" />
+		<property name="bufferSize" value="256" />
+		<property name="rspDelay" value="0" />
+		<property name="imageManager" ref="ImageManager" />
+		<property name="imageCollectionManager" ref="ImageCollectionManager" />
+	</bean>
+
+	<bean id="SampleObjSender" class="es.urjc.mctwp.pacs.impl.DcmSenderImpl">
+	</bean>
+
+	<bean id="DcmSenderFactory" class="es.urjc.mctwp.pacs.DcmSenderFactory">
+		<property name="tempDirectory" value="/tmp" />
+		<property name="hostname" value="nc8430" />
+		<property name="aeTitle" value="MCTWP" />
+		<property name="thrName" value="SENDER" />
+		<property name="bufferSize" value="256" />
+		<property name="rspDelay" value="0" />
+		<property name="imageManager" ref="ImageManager" />
+		<property name="sampleObjSender" ref="SampleObjSender" />
+	</bean>
+
+	<bean id="UserUtils" class="es.urjc.mctwp.service.blogic.UserUtils">
+		<property name="actionDao" 	ref="ActionDAO" />
+		<property name="rolDao" 	ref="RolDAO" />
+		<property name="logDao" 	ref="LogDAO" />
+		<property name="menuDao" 	ref="MenuDAO" />
+		<property name="participationDao" ref="ParticipationDAO" />
+		<property name="adminRolCode" value="1" />
+	</bean>
+		
+	<bean id="ImageUtils" class="es.urjc.mctwp.service.blogic.ImageUtils">
+		<property name="taskDao"	ref="TaskDAO" />
+		<property name="studyDao"	ref="StudyDAO" />
+		<property name="resultDao"	ref="ResultDAO" />
+		<property name="patientDao"	ref="PatientDAO" />
+		<property name="imageManager" 	 ref="ImageManager"/>
+		<property name="imageDataDao"	 ref="ImageDataDAO" />
+		<property name="imageColManager" ref="ImageCollectionManager" />
+	</bean>
+	
+	<bean id="PersistImagesVisitor" class="es.urjc.mctwp.service.blogic.PersistImagesVisitor">
+		<property name="utils" ref="ImageUtils" />
+		<property name="resultDao"	ref="ResultDAO" />
+		<property name="protocolableDao"	ref="ProtocolableDAO" />
+	</bean>
+	
+	<bean id="TaskUtils" class="es.urjc.mctwp.service.blogic.TaskUtils">
+		<property name="taskDao"	ref="TaskDAO" />
+		<property name="userDao"	ref="UserDAO" />
+		<property name="processDefDao" ref="ProcessDefDAO" />
+		<property name="protocolableDao"	ref="ProtocolableDAO" />
+	</bean>
+	 
+	<bean id="ServiceDelegate" class="es.urjc.mctwp.service.ServiceDelegate">
+		<property name="txManager" ref="TxManager" />
+	</bean>
+
+</beans>

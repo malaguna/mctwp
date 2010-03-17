@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
+        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="hibernate.connection.password">develop</property>
+        <property name="hibernate.connection.url">jdbc:mysql://prior/mctwp</property>
+        <property name="hibernate.connection.username">develop</property>
+        <property name="hibernate.default_schema">mctwp</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+        <mapping resource="es/urjc/mctwp/modelo/Caso.hbm.xml" />
+        <mapping resource="es/urjc/mctwp/modelo/Usuario.hbm.xml" />
+        <mapping resource="es/urjc/mctwp/modelo/Imagen.hbm.xml" />
+        <mapping resource="es/urjc/mctwp/modelo/Centro.hbm.xml" />
+        <mapping resource="es/urjc/mctwp/modelo/Proceso.hbm.xml" />
+        <mapping resource="es/urjc/mctwp/modelo/Rol.hbm.xml" />
+        <mapping resource="es/urjc/mctwp/modelo/Ensayo.hbm.xml" />
+        <mapping resource="es/urjc/mctwp/modelo/Resultado.hbm.xml" />
+        <mapping resource="es/urjc/mctwp/modelo/Participacion.hbm.xml" />
+        <mapping resource="es/urjc/mctwp/modelo/Estudio.hbm.xml" />
+    </session-factory>
+</hibernate-configuration>

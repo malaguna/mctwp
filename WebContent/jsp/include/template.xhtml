@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title>Multicenter clinical trials Web-PACS</title>
+		<p:resources />
+		<link rel="stylesheet" type="text/css" 
+			href="#{request.contextPath}/jsp/css/basic.css" />
+	</head>
+	
+	<body>
+  		<table 
+  			style="border-bottom: 1px dotted #666464; width: 900px;" 
+  			border="0" cellpadding="0" cellspacing="0" align="center">
+    		<tr>
+    			<td style="background-color: #D9F0EC; border: 1px; width: 30%;">
+    				<img 
+    					style="background-color: #009A80;" 
+    					src="#{request.contextPath}/jsp/img/logo.png"/>
+    			</td>
+    			
+    			<td style="background-color: #D9F0EC; border: 1px; width: 70%; vertical-align: top;">
+    				<ui:insert name="sessionInfo" />
+    			</td>
+    		</tr>
+
+			<tr>
+				<td colspan="2" style="background-color: #ffffff; height: 350px; vertical-align: top;">
+					<ui:insert name="appMenu"/>
+					<p:messages id="facesMessages" />
+					<ui:insert name="cuerpo" />
+				</td>	  
+			</tr>
+			
+			<tr>
+				<td colspan="2">
+					<table style="width: 100%; border: 0;" cellpadding="0" cellspacing="0">
+						<tr>
+							<td style="background-color: #009A80; width: 384px; height: 19px; text-align: left">
+								<span class="pieizq">&copy; Copyleft URJC</span>
+							</td>
+							<td style="width: 1px;">
+								<img src="#{request.contextPath}/jsp/img/pixel.gif" style="width: 1px; height: 1px;"/>
+							</td>
+							<td style="background-color: #D9F0EC;">
+								<img src="#{request.contextPath}/jsp/img/pixel.gif" style="width: 1px; height: 1px;"/>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	</body>
+</html>

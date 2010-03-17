@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/jsp/include/templateAdm.xhtml">
+<ui:define name="cuerpo">
+
+<!-- Comienza la página JSF -->
+
+<div class="cuerpo">
+
+	<t:saveState value="#{userBean.usersList}" />
+	<t:saveState value="#{userBean.FSrcObject}" />
+	
+	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
+
+	<!-- Search users form -->
+	<h:form>
+		<h:panelGrid id="cuerpo" columns="3" styleClass="frmTabla">
+			
+			<f:facet name="header">
+				<h:panelGroup>
+					<h:outputLabel styleClass="frmLabelHeader" value="#{msgs['jsf.headers.UserSearch']}">
+					</h:outputLabel>
+				</h:panelGroup>
+			</f:facet>
+				
+			<h:outputLabel value="#{msgs['jsf.generic.Login']}" styleClass="frmLabel" for="login" />
+			<h:inputText styleClass="frmInput" id="login" value="#{userBean.FSrcObject.login}"  />
+			<t:message id="loginError" for="login" />
+			
+			<h:outputLabel value="#{msgs['jsf.generic.Name']}" styleClass="frmLabel" for="name" />
+			<h:inputText styleClass="frmInput" id="name" value="#{userBean.FSrcObject.name}" />
+			<t:message id="nameError" for="name" />
+
+			<h:outputLabel value="#{msgs['jsf.generic.Lastname']}" styleClass="frmLabel" for="lastname" />
+			<h:inputText styleClass="frmInput" id="lastname" value="#{userBean.FSrcObject.lastName}" />
+			<t:message id="lnError" for="lastname" />
+
+			<h:outputLabel value="#{msgs['jsf.generic.Surname']}" styleClass="frmLabel" for="surname" />
+			<h:inputText styleClass="frmInput" id="surname" value="#{userBean.FSrcObject.surName}" />
+			<t:message id="snError" for="lastname" />
+			
+			<h:outputLabel value="#{msgs['jsf.generic.Admin']}" styleClass="frmLabel" for="admin" />
+			<h:selectOneMenu id="admin" value="#{userBean.FSrcObject.admin}">
+				<f:selectItem itemLabel="" itemValue=""/>
+				<f:selectItem itemLabel="Si" itemValue="#{true}"/>
+				<f:selectItem itemLabel="No" itemValue="#{false}"/>
+			</h:selectOneMenu>
+			<t:message id="admError" for="admin" />			
+
+			<f:facet name="footer">
+				<h:panelGroup styleClass="footFrm">
+					<h:commandButton id="find" value="#{msgs['jsf.actions.Find']}" action="#{userBean.accFindUser}" styleClass="frmButton" />
+				</h:panelGroup>
+			</f:facet>
+
+		</h:panelGrid>
+
+		<h:panelGrid id="tabla" columns="1" styleClass="bodyFrm">
+		
+			<t:dataTable id="results"
+				styleClass="resTabla"
+				headerClass="resCabecera" footerClass="pieTablaEstandar" 
+				rowClasses="resFilaImpar, resFilaPar" columnClasses="columnaNormal" 
+				value="#{userBean.usersList}" var="row" rows="20" 
+				rendered="#{userBean.usersList != null}">
+					
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msgs['jsf.generic.Code']}" />
+					</f:facet>
+					<h:outputText value="#{row.code}"/>
+				</h:column>
+		
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msgs['jsf.generic.Login']}" />
+					</f:facet>
+					<h:outputText value="#{row.login}"/>
+				</h:column>
+		
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msgs['jsf.generic.Name']}" />
+					</f:facet>
+						<h:outputText value="#{row.fullName}" />
+				</h:column>
+	
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msgs['jsf.generic.Date']}" />
+					</f:facet>
+						<h:outputText value="#{row.date}" />
+				</h:column>		
+				
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="#{msgs['jsf.actions']}" />
+					</f:facet>
+					
+					<t:commandLink action="#{userBean.accEditUser}" immediate="true">
+						<h:graphicImage value="/jsp/icons/user_edit.png" alt="#{msgs['jsf.actions.Edit']}" />
+						<t:updateActionListener value="#{row}" property="#{userBean.FEdcObject}"></t:updateActionListener>
+					</t:commandLink>
+					
+					<t:commandLink action="#{userBean.accViewParticipations}" actionListener="#{userBean.alUserSelected}" immediate="true">
+						<h:graphicImage value="/jsp/icons/application_form_add.png" alt="#{msgs['jsf.actions.Participations']}"/>
+					</t:commandLink>
+
+					<t:commandLink action="#{userBean.accViewLogs}" immediate="true">
+						<h:graphicImage value="/jsp/icons/eye.png" alt="#{msgs['jsf.actions.Logs']}"/>
+						<t:updateActionListener value="#{row}" property="#{userBean.user}"></t:updateActionListener>
+					</t:commandLink>
+				</h:column>										
+	
+			</t:dataTable>	
+			
+			<t:dataScroller id="scrollerTable" for="results"  fastStep="10" 
+				rendered="#{userBean.usersList != null}" immediate="true" 
+				styleClass="scroll" paginator="true" paginatorMaxPages="5" 
+				paginatorTableClass="paginator" paginatorActiveColumnStyle="font-weight:bold;" 
+				rowsCountVar="rows" displayedRowsCountVar="inview"
+				firstRowIndexVar="first" lastRowIndexVar="last" pageCountVar="pagTotal" 
+				pageIndexVar="pagActual">
+		
+				<f:facet name="first" >
+					<t:graphicImage url="/jsp/icons/resultset_first.png" />
+				</f:facet>
+				<f:facet name="last">
+					<t:graphicImage url="/jsp/icons/resultset_last.png" border="0" />
+				</f:facet>
+				<f:facet name="previous">
+					<t:graphicImage url="/jsp/icons/resultset_previous.png" border="0" />
+				</f:facet>
+				<f:facet name="next">
+					<t:graphicImage url="/jsp/icons/resultset_next.png" border="0" />
+				</f:facet>
+				
+				<h:outputFormat value="#{msgs['jsf.scroll.User']}" styleClass="scroll">
+					<f:param value="#{rows}" />
+					<f:param value="#{inview}" />
+					<f:param value="#{first}" />
+					<f:param value="#{last}" />
+					<f:param value="#{pagActual}" />
+					<f:param value="#{pagTotal}" />
+				</h:outputFormat>
+
+			</t:dataScroller> 
+	             
+		</h:panelGrid>
+
+	</h:form>
+	
+</div>
+			
+<!-- Termina la página JSF -->
+
+</ui:define>
+</ui:composition>
+
+</html>

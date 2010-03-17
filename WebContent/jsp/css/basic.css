@@ -1,0 +1,501 @@
+/* Copyright 2008, 2009 Miguel Ángel Laguna Lobato
+*
+* This file is part of Multiclinical Trial Web-PACS.
+* 
+* Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+* it and/or modify it under  the terms of the GNU General Public License 
+* as published by the Free  Software Foundation, either version 3 of the 
+* License, or (at your option) any later version.
+* 
+* Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+* be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+* of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+* General Public License for more details.
+* 
+* You should have received a copy of the GNU General Public License
+* along with Multiclinical Trial Web-PACS.  If not, see 
+* <http://www.gnu.org/licenses/>.
+*/
+
+/*
+   ------------------------------------------------------------
+   Estilo para layout general
+   ------------------------------------------------------------
+*/
+
+body {
+	top: 0;
+	background: #3e4042;
+	font-family: sans-serif, verdana; 
+	font-size:11px	
+}
+
+.cuerpo {
+	position: static;
+	padding: 0px 2px 2px 2px;
+}
+
+.cuerpoCentrado {
+	with: 100%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/* Pie */
+.pieizq {
+	color: #FFFFFF; 
+	font-family: sans-serif, verdana; 
+	font-size:11px
+}
+.piedcha {
+	color: #CDD9D7;
+	font-family: sans-serif, verdana; 
+	font-size:11px
+}
+
+.headerTitle {
+	border-bottom: 1px dotted #666464;	
+}
+
+.textoCentrado {
+	text-align:center;
+}
+
+.contenidoIzq{
+	vertical-align: top;
+}
+	
+.contenidoDch{
+	vertical-align: top; 
+	padding-left: 20px;
+}
+
+.bajoLinea{
+	border-bottom: 1px dashed #666464;
+}
+
+.entreLineas{
+	border-top: 1px dashed #666464; 
+	border-bottom: 1px dashed #666464; 
+	padding-top: 10px; 
+	padding-bottom: 10px;
+}
+
+.yui-skin-sam .yui-dt table .tablaBotonera {
+	border : none;
+}
+
+.yui-skin-sam .yui-dt td .tdBotonera,
+.yui-skin-sam .yui-dt tr.yui-dt-first td .tdBotonera{
+	border-top: none; 
+	border-bottom: none; 
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.yui-skin-sam .yui-dt td .tdBotoneraUltimo,
+.yui-skin-sam .yui-dt tr.yui-dt-first td .tdBotoneraUltimo{
+	border-top: none; 
+	border-bottom: none; 
+	border-right: none; 
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.yui-skin-sam .yui-dt table { 
+    margin:0;padding:0; 
+    font-family:arial;font-size:inherit; 
+    border-collapse:separate;*border-collapse:collapse;border-spacing:0; /* since ie6 and ie7 behave differently */ 
+    border: 1px solid #7F7F7F;
+    border-bottom: 1px solid #7F7F7F; 
+}
+
+.yui-skin-sam .yui-dt th {   
+	background: none;  
+	border: none;
+	border-right:1px solid #CBCBCB;
+}
+.yui-skin-sam th.yui-dt-sortable { 
+	background:#D8D8DA;
+}
+
+
+/*
+   ------------------------------------------------------------
+   Estilos de mensajes de error
+   ------------------------------------------------------------
+*/
+
+.frmLabelError {
+	display: block;
+	text-align: left; 
+	vertical-align: text-top;	
+	color : red;
+	border-color : red;
+	border : thin;
+}
+
+/*
+   ------------------------------------------------------------
+   Estilos de formularios
+   ------------------------------------------------------------
+*/
+
+.headFrm {
+	text-align: center;
+}
+
+.footFrm {
+	text-align: right;
+}
+
+.frmTabla {
+ 	border-top: 1px dotted #666464;
+	border-right: 1px dotted #666464;
+	border-left: 1px dotted #666464;
+	border-bottom: 1px dotted #666464;
+	margin-top: 15px;
+	margin-left: 15px;
+	vertical-align: text-top;
+}
+.frmTablaActividades {
+	text-align: left;
+	width: 75%;
+ 	border-top: 1px dotted #666464;
+	border-right: 1px dotted #666464;
+	border-left: 1px dotted #666464;
+	border-bottom: 1px dotted #666464;
+	margin-top: 15px;
+	margin-left: 15px;
+}
+
+.frmColumnaActividades{
+	vertical-align: text-top;
+}
+
+.frmLabel {
+	display: block;
+	text-align: left; 
+	vertical-align: text-top;
+}
+
+.frmLabelHeader {
+	display: block;
+	text-align: center; 
+	vertical-align: text-top;
+	border: 1px solid #666464;
+	background: #efefef;
+}
+
+.frmMessage {
+	display: block;
+	text-align: left;
+	color: red;
+}
+
+.frmInput {
+	font: 11px sans-serif, verdana;
+	color: #003b7c;
+	border: 1px solid #666464;
+}
+
+.frmBoolCheck{
+	font: 11px sans-serif, verdana;
+	color: #003b7c;
+	border: 1px solid #666464;
+}
+
+.frmBotonera {
+	float: right;
+}
+
+.frmSelectOne {
+	font: 11px sans-serif, verdana;
+	color: #003b7c;
+	border: 1px solid #666464;
+  	background-color: #f2f5f8;
+}
+
+.frmSelectMulti{
+	width: 250px;
+	font: 11px sans-serif, verdana;
+	color: #003b7c;
+	border: 1px solid #666464;
+}
+
+.frmButton {
+	border: 1px solid #666464;
+    background: #efefef;
+	font-family: sans-serif, verdana; 
+	font-size:11px;
+}
+
+.frmDate {
+	font: 11px sans-serif, verdana;
+	color: #003b7c;
+	border: 1px solid #666464;
+	color: #003b7c;
+    background: #efefef;
+}
+
+.frmColumnaIzq {
+	text-align: left;
+	vertical-align:top;
+}
+
+.frmColumnaCen {
+	text-align: center;
+	vertical-align:top;
+}
+
+.frmColumnaDer {
+	text-align: right;
+	vertical-align:top;
+}
+
+.frmColumnaImpar {
+	text-align: left;
+	vertical-align:top;
+	background:#cfd9e5; 
+}
+
+.frmColumnaPar {
+	text-align: left;
+	vertical-align:top;
+	background:#f2f5f8;
+}
+
+
+/*
+   ------------------------------------------------------------
+   Estilos de tablas de resultados
+   ------------------------------------------------------------
+*/
+
+
+.resTabla {
+
+	margin-top: 15px;
+	margin-left: 15px;
+}
+
+.resCabecera {
+	color: #666464;
+	background-color: #FFFFFF;
+	padding: 3;
+	text-align: center;
+	border: none;
+	margin-bottom: 2%;
+}
+
+.resFilaPar {
+	vertical-align:top;
+	background:#f2f5f8; 
+}
+
+.resFilaImpar{
+	vertical-align:top;
+	background:#cfd9e5; 
+}
+
+.scroll {
+	text-decoration: none;
+	margin-left: 15px;
+}
+
+/*
+   ------------------------------------------------------------
+   Enlaces
+   ------------------------------------------------------------
+*/
+a {
+	color: #333366;
+	font-size: 12px;
+}
+
+a:hover {
+	color: #333366;
+	text-decoration: underline;
+}
+
+.error {
+	font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #FF0000;
+}
+
+.sortLink {
+	color: #333366;
+	text-decoration: none;
+}
+
+/*
+   ------------------------------------------------------------
+   Estilos para imágenes
+   ------------------------------------------------------------
+*/
+
+img {
+	border: 0px;
+}
+
+
+/*
+   ------------------------------------------------------------
+   File Upload
+   ------------------------------------------------------------
+*/
+
+.fileUploadInput {
+	font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	width: 250px;
+}
+
+/*
+   ------------------------------------------------------------
+   Componente calendario
+   ------------------------------------------------------------
+*/
+
+.yearMonthHeader {
+	background-color: #DDDDDD;
+	color: #000000;
+	text-align: center;
+	border: none;
+	font-weight: bold;
+}
+
+.weekHeader {
+	background-color: #E7E7E7;
+	color: #000000;
+	text-align: center;
+	border: none;
+}
+
+.currentDayCell {
+	background-color: #DDDDDD;
+	color: #000000;
+	border: none;
+}
+
+
+/*
+   ------------------------------------------------------------
+   Componente árbol
+   ------------------------------------------------------------
+*/
+
+.nodeFolder
+{
+    font-size: 10px;
+    font-family: Verdana, Geneva, sans-serif;
+    text-decoration: none
+}
+.document
+{
+    color: blue;
+    font-size: 10px;
+    font-family: Verdana, Geneva, sans-serif;
+    text-decoration: none
+}
+.documentSelected
+{
+    color: blue;
+    font-size: 10px;
+    font-family: Verdana, Geneva, sans-serif;
+    text-decoration: none;
+    font-weight: bold
+}
+
+.childCount
+{
+    color: blue;
+    font-size: 10px;
+    font-family: Verdana, Geneva, sans-serif;
+    text-decoration: none
+}
+
+.yui-skin-sam .yui-ac {
+	position: relative;
+	font-family: arial;
+	font-size: 100%;
+}
+
+.yui-skin-sam .yui-ac-input {
+	position: relative;
+	width: 100%;
+	font: 11px sans-serif, verdana;
+	color: #003b7c;
+	border: 1px solid #666464;
+}
+
+.yui-skin-sam .yui-ac-container {
+	position: absolute;
+	top: 1.6em;
+	width: 100%;
+}
+
+.yui-skin-sam .yui-ac-content {
+	position: relative;
+	width: 100%;
+	border: 1px solid #808080;
+	background: #fff;
+	overflow: hidden;
+	z-index: 9050;
+}
+
+.yui-skin-sam .yui-ac-shadow {
+	position: relative;
+	margin: .3em;
+	width: 100%;
+	background: #000;
+	-moz-opacity: .10;
+	opacity: .10;
+	filter: alpha(opacity = 10);
+	z-index: 9049;
+}
+
+/* Propiedades Panel */
+
+.yui-skin-sam .yui-navset .yui-nav{  
+	border-color: #666464;  
+}  
+  
+.yui-skin-sam .yui-navset .yui-nav a {  
+	background: #fddb92;
+}  
+  
+.yui-skin-sam .yui-navset .yui-nav a:hover{  
+	background: #fcb828;  
+}  
+  
+.yui-skin-sam .yui-navset .yui-nav .selected a,   
+.yui-skin-sam .yui-navset .yui-nav .selected a:focus,  
+.yui-skin-sam .yui-navset .yui-nav .selected a:hover{  
+	background: #fcb828;  
+}  
+  
+.yui-skin-sam .yui-navset .yui-content{  
+	background: #ffffff;  
+	border-color: #666464;  
+}
+
+.yui-skin-sam .yui-accordionview .yui-accordion-content{
+	background: #ffffff;  
+	border-color: #666464;
+}
+
+/* Propiedades Accordion */
+
+.yui-skin-sam .yui-accordionview li.yui-accordion-panel a.yui-accordion-toggle {  
+	height:12px;
+	background: #fddb92;  
+}  
+   
+.yui-skin-sam .yui-accordionview li.yui-accordion-panel a.yui-accordion-toggle:hover {  
+	background: #fcb828;  
+}
+
+/*******************************/

@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/jsp/include/templateEditionRsc.xhtml">
+
+	<ui:define name="saveState">
+		<t:saveState value="#{studyBean.study}" />
+	</ui:define>
+
+	<ui:define name="title">
+		<h3><h:outputText value="#{msgs['jsf.headers.StudyEdition']}" />
+		</h3>
+	</ui:define>
+
+	<ui:define name="editionForm">
+		<h:panelGroup id="noObject" rendered="#{sessionInv.patient == null}">
+			<h:outputText styleClass="frmLabel"
+				value="#{msgs['jsf.generic.NoPatient']}" />
+		</h:panelGroup>
+
+		<h:panelGroup id="cuerpo" rendered="#{sessionInv.patient != null}">
+			<h:panelGrid columns="3">
+
+				<f:facet name="header">
+					<h:panelGroup styleClass="headFrm">
+						<h:outputLabel value="#{msgs['jsf.headers.StudyEdition']}"
+							styleClass="frmLabelHeader" />
+					</h:panelGroup>
+				</f:facet>
+
+				<h:outputLabel for="code" styleClass="frmLabel"
+					value="#{msgs['jsf.generic.Code']}" />
+				<h:inputText id="code" styleClass="frmInput"
+					value="#{studyBean.study.code}" disabled="true" />
+				<t:message id="codeError" style="frmLabelError" for="code"
+					styleClass="error" />
+
+				<h:outputLabel for="patient" styleClass="frmLabel"
+					value="#{msgs['jsf.generic.Patient']}" />
+				<h:inputText id="patient" styleClass="frmInput"
+					value="#{sessionInv.patient.completeName}" disabled="true" />
+				<t:message id="patientError" style="frmLabelError" for="patient"
+					styleClass="error" />
+
+				<h:outputLabel for="fecha" styleClass="frmLabel"
+					value="#{msgs['jsf.generic.Date']}" />
+				<t:inputCalendar id="fecha" monthYearRowClass="yearMonthHeader"
+					weekRowClass="weekHeader" popupButtonStyleClass="standardBold"
+					currentDayCellClass="currentDayCell"  styleClass="frmInput"
+					value="#{studyBean.study.date}" renderAsPopup="true"
+					popupTodayString="#{msgs['jsf.generic.ToDayString']}"
+					popupDateFormat="dd/MM/yyyy"
+					popupWeekString="#{msgs['jsf.generic.WeekString']}"
+					helpText="DD/MM/YYYY" forceId="true">
+					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Madrid" />
+				</t:inputCalendar>
+				<t:message id="fechaError" style="frmLabelError" for="fecha"
+					styleClass="error" />
+
+				<h:outputLabel for="tipo" styleClass="frmLabel"
+					value="#{msgs['jsf.generic.Type']}" />
+				<h:inputText id="tipo" styleClass="frmInput"
+					value="#{studyBean.study.studyType}" required="true">
+					<f:validateLength maximum="10" />
+				</h:inputText>
+				<t:message id="tipoError" style="frmLabelError" for="tipo"
+					styleClass="error" />
+
+			</h:panelGrid>
+		</h:panelGroup>
+	</ui:define>
+
+	<ui:define name="buttonsForm">
+		<h:panelGrid columns="2">
+			<h:commandButton id="save" styleClass="frmButton"
+				value="#{msgs['jsf.actions.Save']}"
+				action="#{studyBean.accSaveStudy}" />
+		</h:panelGrid>
+	</ui:define>
+
+</ui:composition>
+</html>

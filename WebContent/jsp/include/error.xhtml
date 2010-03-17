@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk">
+
+<ui:composition template="/jsp/include/template.xhtml">
+<ui:define name="cuerpo">
+
+<!-- Comienza la página JSF -->
+
+<div class="cuerpo">
+
+<script type="text/javascript">
+      <!--
+      //Función que muestra y oculta la traza de error
+      function show(){
+         var obj = document.getElementById('textoTrazaError');
+         if(obj.style.display == 'block') obj.style.display = 'none';
+         else obj.style.display = 'block';
+      }
+      -->
+</script>
+
+	<h:form id="frmError">
+	
+		<h:panelGrid id="cuerpo" columns="1">
+			
+			<h:panelGrid columns="2">
+				<t:graphicImage url="/jsp/img/error.png" border="0" />
+				<h:panelGrid columns="1">
+					<h:outputText value="Se ha producido un error en la aplicación." styleClass="textoCabeceraError"/>
+			    	<h:outputText value="#{error.msgError}"/>
+			    	<h:outputLink value="/argos" styleClass="textoCabeceraError">
+						<h:outputText value="Pulse aquí para  volver al inicio."/>			
+					</h:outputLink>
+			    </h:panelGrid>
+			</h:panelGrid>
+			
+			<h:outputText value="Pulse aquí para ver información que puede ser útil al servicio de informática para resolver el error." onclick="javascript:show();" styleClass="textoPieError"/>
+			
+			<h:panelGroup>
+		    	<h:outputText escape="false" value="#{error.abrir}"/>	
+		    	<h:outputText value="#{error.traza}"/>
+				<h:outputText escape="false" value="#{error.cerrar}" />	    	
+			</h:panelGroup>
+		    
+		</h:panelGrid>
+	</h:form>
+
+</div>
+			
+<!-- Termina la página JSF -->
+
+</ui:define>
+</ui:composition>
+
+</html>

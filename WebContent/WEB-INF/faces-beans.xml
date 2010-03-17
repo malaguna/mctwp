@@ -1,0 +1,316 @@
+<?xml version="1.0"?>
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN" "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<faces-config>
+	<application>
+		<variable-resolver>
+			org.springframework.web.jsf.DelegatingVariableResolver
+		</variable-resolver>
+		<message-bundle>
+			es.urjc.mctwp.resources.messages
+		</message-bundle>		
+
+		<!-- Configuración de Facelets -->
+		<view-handler>
+			com.sun.facelets.FaceletViewHandler
+		</view-handler> 
+	</application>
+
+	<converter>
+		<description></description>
+		<display-name>StringSerial</display-name>
+		<converter-id>StringSerial</converter-id>
+		<converter-class>es.urjc.mctwp.bbeans.converters.StringSerialConverter</converter-class>
+	</converter>
+
+	<managed-bean>
+		<managed-bean-name>applicationBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.ApplicationBean</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+		<managed-property>
+			<property-name>service</property-name>
+			<property-class>es.urjc.mctwp.service.ServiceDelegate</property-class>
+			<value>#{ServiceDelegate}</value>
+		</managed-property>
+		<managed-property>
+			<property-name>pacs</property-name>
+			<property-class>es.urjc.mctwp.pacs.DcmStorageServer</property-class>
+			<value>#{MiniPACS}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>messages</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.Messages</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>error</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.ErrorHandler</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+
+	<managed-bean>
+		<managed-bean-name>sessionInv</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.SessionInvBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>service</property-name>
+			<property-class>es.urjc.mctwp.service.ServiceDelegate</property-class>
+			<value>#{ServiceDelegate}</value>
+		</managed-property>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>sessionAdm</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.admin.SessionAdmBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+		<managed-property>
+			<property-name>service</property-name>
+			<property-class>es.urjc.mctwp.service.ServiceDelegate</property-class>
+			<value>#{ServiceDelegate}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>trialIBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.TrialBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>		
+	
+	<managed-bean>
+		<managed-bean-name>groupBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.GroupBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>		
+	
+	<managed-bean>
+		<managed-bean-name>patientBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.PatientBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>		
+	
+	<managed-bean>
+		<managed-bean-name>studyBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.StudyBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>			
+	
+	<managed-bean>
+		<managed-bean-name>protocolBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.ProtocolBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>			
+	
+	<managed-bean>
+		<managed-bean-name>taskBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.TaskBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>			
+	
+	<managed-bean>
+		<managed-bean-name>tasksBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.TasksBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>			
+	
+	<managed-bean>
+		<managed-bean-name>resultBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.ResultBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>			
+	
+	<managed-bean>
+		<managed-bean-name>selectFolder</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.image.SelectImageFolder</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>
+		
+	<managed-bean>
+		<managed-bean-name>selectImages</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.image.SelectImagesToImport</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>
+		
+	<managed-bean>
+		<managed-bean-name>viewStudyImages</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.image.ViewStudyImages</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>
+		
+	<managed-bean>
+		<managed-bean-name>viewTaskImages</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.image.ViewTaskImages</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>
+		
+	<managed-bean>
+		<managed-bean-name>viewResultImages</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.image.ViewResultImages</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>
+		
+	<managed-bean>
+		<managed-bean-name>imgUpload</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.upload.FileUploadBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>
+		
+	<managed-bean>
+		<managed-bean-name>modalityIBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.ModalityBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>userBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.admin.UserBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.admin.SessionAdmBean</property-class>
+			<value>#{sessionAdm}</value>
+		</managed-property>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>rolBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.admin.RolBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.admin.SessionAdmBean</property-class>
+			<value>#{sessionAdm}</value>
+		</managed-property>
+	</managed-bean>
+		
+	<managed-bean>
+		<managed-bean-name>processDefBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.admin.ProcessDefBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.admin.SessionAdmBean</property-class>
+			<value>#{sessionAdm}</value>
+		</managed-property>
+	</managed-bean>
+		
+	<managed-bean>
+		<managed-bean-name>trialBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.admin.TrialBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.admin.SessionAdmBean</property-class>
+			<value>#{sessionAdm}</value>
+		</managed-property>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>modalityBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.admin.ModalityBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.admin.SessionAdmBean</property-class>
+			<value>#{sessionAdm}</value>
+		</managed-property>
+	</managed-bean>
+</faces-config>

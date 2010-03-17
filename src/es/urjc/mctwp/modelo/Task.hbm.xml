@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<hibernate-mapping>
+    <class name="es.urjc.mctwp.modelo.Task" table="tarea" select-before-update="true">
+        <comment></comment>
+        <id name="code" type="int">
+            <column name="codigo" />
+            <generator class="sequence">
+            	<param name="sequence">tarea_seq</param>
+            </generator>
+        </id>
+        <property name="oid" type="string">
+            <column name="oid" length="36" not-null="true">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="endDate" type="date">
+            <column name="fecha" not-null="true">
+                <comment></comment>
+            </column>
+        </property>
+        <property name="done" type="boolean">
+            <column name="realizada">
+                <comment></comment>
+            </column>
+        </property>
+        
+        <many-to-one name="owner" column="usuario" not-null="true" unique="true"/>
+        <many-to-one name="process" column="proceso" not-null="true" unique="true"/>
+        <many-to-one name="source" column="fuente" not-null="true" unique="true"/>
+        <set name="logs"
+        	table="tarealog" 
+        	order-by="codigo" 
+        	cascade="save-update"
+        	inverse="true">
+        	<key column="tarea"></key>
+        	<one-to-many class="es.urjc.mctwp.modelo.TaskLog"/>        
+        </set>
+        <set name="results"
+        	table="resultado" 
+        	order-by="codigo" 
+        	cascade="save-update"
+        	inverse="true">
+        	<key column="tarea"></key>
+        	<one-to-many class="es.urjc.mctwp.modelo.Result"/>        
+        </set>
+        <set name="images" 
+        	table="imgtask" 
+        	order-by="imagen" 
+        	cascade="save-update"
+        	inverse="true">
+        	<key column="tarea" />
+        	<many-to-many class="es.urjc.mctwp.modelo.ImageData" column="imagen" />
+        </set>        
+                
+    </class>
+</hibernate-mapping>

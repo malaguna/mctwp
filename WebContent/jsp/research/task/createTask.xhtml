@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/jsp/include/templateRsc.xhtml">
+<ui:define name="cuerpo">
+
+<!-- Comienza la página JSF -->
+
+<div class="cuerpo">
+	
+	<t:saveState value="#{taskBean.possibleUsers}" />
+	<t:saveState value="#{taskBean.processes}" />
+
+	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
+	
+	<!-- Formulario de creación de Tarea -->
+	<h:panelGroup id="cuerpo" styleClass="cuerpo">
+		<h:form id="frmProcess">
+
+			<!-- Controles de entrada de datos -->
+			<h:panelGrid columns="1" styleClass="frmTabla">
+			
+				<f:facet name="header">
+					<h:panelGroup>
+						<h:outputLabel styleClass="frmLabelHeader" value="#{msgs['jsf.headers.TaskDetail']}">
+						</h:outputLabel>
+					</h:panelGroup>
+				</f:facet>
+				
+				<h:panelGrid columns="3" styleClass="cuerpo">
+					
+					<h:outputLabel for="owner" styleClass="frmLabel" value="#{msgs['jsf.generic.Owner']}" />
+					<h:selectOneMenu id="owner" value="#{taskBean.newOwner}">
+						<f:selectItems value="#{taskBean.possibleUsers}"/>
+					</h:selectOneMenu>
+					<t:message id="ownerError" style="frmLabelError" for="owner" styleClass="error"/>
+		
+					<h:outputLabel for="fecha" styleClass="frmLabel" value="#{msgs['jsf.generic.EndDate']}"/>
+					<t:inputCalendar id="fecha" monthYearRowClass="yearMonthHeader" weekRowClass="weekHeader" 
+						popupButtonStyleClass="standardBold" currentDayCellClass="currentDayCell"
+						value="#{taskBean.task.endDate}" renderAsPopup="true"
+		                popupTodayString="#{msgs['jsf.generic.ToDayString']}" popupDateFormat="dd/MM/yyyy" 
+		                popupWeekString="#{msgs['jsf.generic.WeekString']}" helpText="DD/MM/YYYY" forceId="true">
+		                	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Madrid"/>
+		            </t:inputCalendar>				
+					<t:message id="fechaError" style="frmLabelError" for="fecha" styleClass="error"/>
+					
+					<h:outputLabel for="process" styleClass="frmLabel" value="#{msgs['jsf.generic.Process']}" />
+					<h:selectOneMenu id="process" value="#{taskBean.idProcessSeleted}">
+						<f:selectItems value="#{taskBean.processes}"/>
+					</h:selectOneMenu>
+					<t:message id="processError" style="frmLabelError" for="process" styleClass="error"/>
+		
+				</h:panelGrid>
+	
+				<!-- Botones de acción -->
+				<h:panelGrid columns="2" styleClass="cuerpo" >
+					<h:commandButton id="save" styleClass="frmButton" value="#{msgs['jsf.actions.Save']}" action="#{taskBean.accCreateTask}"/>
+				</h:panelGrid>
+			</h:panelGrid>
+		
+		</h:form>
+	</h:panelGroup>
+
+</div>
+			
+<!-- Termina la página JSF -->
+
+</ui:define>
+</ui:composition>
+
+</html>

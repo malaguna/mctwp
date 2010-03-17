@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/jsp/include/templateAdm.xhtml">
+<ui:define name="cuerpo">
+
+<!-- Comienza la página JSF -->
+
+<div class="cuerpo">
+
+	<t:saveState value="#{trialBean.FSrcObject}" />
+	<t:saveState value="#{trialBean.FEdcObject}" />
+
+	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
+
+	<!-- Edit trial form -->
+	<h:form>
+		<h:panelGrid id="cuerpo" columns="3" styleClass="frmTabla">
+			
+			<f:facet name="header">
+				<h:panelGroup styleClass="headFrm">
+					<h:outputLabel value="#{msgs['jsf.headers.TrialEdition']}" styleClass="frmLabelHeader"/>
+				</h:panelGroup>
+			</f:facet>
+				
+			<h:outputLabel for="code" styleClass="frmLabel" value="#{msgs['jsf.generic.Code']}"/>
+			<h:inputText id="code" styleClass="frmInput" value="#{trialBean.FEdcObject.code}" disabled="true"/>
+			<t:message id="codeError" style="frmLabelError" for="code" styleClass="error"/>
+
+			<h:outputLabel for="name" styleClass="frmLabel" value="#{msgs['jsf.generic.Name']}" />
+			<h:inputText id="name" styleClass="frmInput" value="#{trialBean.FEdcObject.name}" />
+			<t:message id="namError" style="frmLabelError" for="name" />
+
+			<h:outputLabel for="project" styleClass="frmLabel" value="#{msgs['jsf.generic.Project']}" />
+			<h:inputText id="project" styleClass="frmInput" value="#{trialBean.FEdcObject.project}" />
+			<t:message id="pryError" style="frmLabelError" for="project" />
+
+			<h:outputLabel for="agency" styleClass="frmLabel" value="#{msgs['jsf.generic.Agency']}" />
+			<h:inputText id="agency" styleClass="frmInput" value="#{trialBean.FEdcObject.agency}" />
+			<t:message id="agenError" style="frmLabelError" for="agency" />
+
+			<h:outputLabel for="financing" styleClass="frmLabel" value="#{msgs['jsf.generic.Financing']}" />
+			<h:inputText id="financing" styleClass="frmInput" value="#{trialBean.FEdcObject.financing}" />
+			<t:message id="finanError" style="frmLabelError" for="financing" />
+
+			<h:outputLabel for="startDate" styleClass="frmLabel" value="#{msgs['jsf.generic.Init']}" />
+			<t:inputCalendar id="startDate" monthYearRowClass="yearMonthHeader" weekRowClass="weekHeader" 
+				popupButtonStyleClass="standardBold" currentDayCellClass="currentDayCell"
+				value="#{trialBean.FEdcObject.startDate}" renderAsPopup="true"
+                popupTodayString="#{msgs['jsf.generic.ToDayString']}" popupDateFormat="dd/MM/yyyy" 
+                popupWeekString="#{msgs['jsf.generic.WeekString']}" helpText="DD/MM/YYYY" forceId="true">
+                	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Madrid"/>
+            </t:inputCalendar>				
+			<t:message id="startError" style="frmLabelError" for="startDate" />
+
+			<h:outputLabel for="endDate" styleClass="frmLabel" value="#{msgs['jsf.generic.End']}" />
+			<t:inputCalendar id="endDate" monthYearRowClass="yearMonthHeader" weekRowClass="weekHeader" 
+				popupButtonStyleClass="standardBold" currentDayCellClass="currentDayCell"
+				value="#{trialBean.FEdcObject.endDate}" renderAsPopup="true"
+                popupTodayString="#{msgs['jsf.generic.ToDayString']}" popupDateFormat="dd/MM/yyyy" 
+                popupWeekString="#{msgs['jsf.generic.WeekString']}" helpText="DD/MM/YYYY" forceId="true">
+                	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Madrid"/>
+            </t:inputCalendar>				
+			<t:message id="endError" style="frmLabelError" for="endDate" />
+
+			<f:facet name="footer">
+				<h:panelGroup styleClass="footFrm">
+					<h:commandButton id="find" value="#{msgs['jsf.actions.Save']}" action="#{trialBean.accSaveTrial}" styleClass="frmButton" />
+					<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{trialBean.accFindTrial}" styleClass="frmButton" />
+				</h:panelGroup>
+			</f:facet>
+
+		</h:panelGrid>
+	</h:form>
+</div>
+			
+<!-- Termina la página JSF -->
+
+</ui:define>
+</ui:composition>
+
+</html>		

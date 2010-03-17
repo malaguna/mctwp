@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jstl/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<!--
+Components Attribute:
+
+	${id} 			: id of the component
+	${actLstnBean}	: BackBean of the actionListener
+	${actLstnName}	: Name of the actionListener
+	${editActBean}	: BackBean of the edit action
+	${editActName}	: Name of the edit action
+	${editTarget}	: Name of the property to update with edition
+	${explActBean}	: BackBean of the explore action
+	${explActName}	: Name of the explore action
+	${addImage}		: Wheter it must appear this command or not	 	
+ -->
+ 
+ <ui:composition>
+
+	<p:column id="${id}">
+	<table class="tablaBotonera">
+	<tr>
+	
+	<!-- Edit commandLink, it is optional -->
+	<c:if test="${!empty editActBean and !empty editActName}">
+	<td class="tdBotonera">		
+		<h:commandLink
+			id="${id}EditCommand"
+			action="${editActBean[editActName]}">
+			<h:graphicImage 
+				id="${id}EditIcon"
+				value="/jsp/icons/application_form_edit.png"
+				alt="${msgs['jsf.actions.Edit']}"
+				title="${msgs['jsf.actions.Edit']}"/>  
+			<f:setPropertyActionListener 
+				id="${id}ProtocoSPAL"
+				value="#{row}"
+				target="${editTarget}" />
+		</h:commandLink>
+	</td>
+	</c:if>
+	
+	<!-- Explore commandLink -->
+	<td class="tdBotonera">		
+		<h:commandLink
+			id="${id}ExploreCommand"
+			action="${explActBean[explActName]}"
+			actionListener="${actLstnBean[actLstnName]}">
+			<h:graphicImage 
+				id="${id}ExploreIcon"
+				value="/jsp/icons/folder_explore.png"
+				alt="${msgs['jsf.actions.Explore']}"
+				title="${msgs['jsf.actions.Explore']}"/>  
+		</h:commandLink>
+	</td>
+
+	<!-- Add image commandLink, it is optional -->
+	<c:if test="${addImage}">
+	<td class="tdBotonera">		
+		<h:commandLink
+			id="${id}AddImgCommand"
+			action="#{selectFolder.accSelectFolders}"
+			actionListener="${actLstnBean[actLstnName]}">
+			<h:graphicImage 
+				id="${id}AddImgIcon"
+				value="/jsp/icons/image_add.png"
+				alt="${msgs['jsf.actions.Upload']}"
+				title="${msgs['jsf.actions.Upload']}"/>  
+		</h:commandLink>
+	</td>
+	</c:if>
+	
+	<!-- Manage Protocol commandLink -->
+	<td class="tdBotonera">		
+		<h:commandLink
+			id="${id}ProtocolCommand"
+			action="#{protocolBean.accViewProtocol}"
+			actionListener="${actLstnBean[actLstnName]}">
+			<h:graphicImage 
+				id="${id}ProtocolIcon"
+				value="/jsp/icons/wrench.png"
+				alt="${msgs['jsf.actions.Protocol']}"
+				title="${msgs['jsf.actions.Protocol']}"/> 						
+			<f:setPropertyActionListener 
+				id="${id}ProtocoSPAL"
+				value="#{row}"
+				target="#{protocolBean.source}" />
+		</h:commandLink>
+	</td>
+
+	<!-- New Task commandLink -->
+	<td class="tdBotoneraUltimo">		
+		<h:commandLink
+			id="${id}NewTaskCommand"
+			action="#{taskBean.accNewTask}"
+			actionListener="${actLstnBean[actLstnName]}">
+			<h:graphicImage 
+				id="${id}NewTaskIcon"
+				value="/jsp/icons/pencil_add.png"
+				alt="${msgs['jsf.actions.NewTask']}"
+				title="${msgs['jsf.actions.NewTask']}"/>  
+		</h:commandLink>
+	</td>
+
+	</tr>
+	</table>
+	</p:column>
+	
+</ui:composition>
+</html>

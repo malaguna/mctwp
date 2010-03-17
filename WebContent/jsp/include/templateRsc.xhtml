@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/jsp/include/template.xhtml">
+
+	<ui:define name="sessionInfo">
+		<h:form id="headerForm">
+		
+		<script language="javascript">
+		    function changeTrial(){
+		        document.getElementById("headerForm:hiddenButton").click();
+		    }
+		</script>
+		
+		<table width="100%" style="padding-left: 5px;">
+			<tr>
+				<td>
+					<table>
+						<tr>
+							<td style="vertical-align: top; text-align: right;">
+								<b><h:outputText value="#{(!empty sessionInv.trial) ? msgs['jsf.generic.Trial'] : ''}" /></b>
+							</td>
+							<td style="vertical-align: top">
+								<h:selectOneMenu 
+									id="trialSel" 
+									value="#{sessionInv.trialSelected}" 
+									styleClass="frmSelectOne"
+									rendered="#{!empty sessionInv.trial}"
+									onchange="changeTrial()">
+									<f:selectItem itemLabel="..." itemValue="#{null}" />
+									<f:selectItems value="#{sessionInv.trials}" />
+								</h:selectOneMenu>
+								<h:commandButton
+									style="visibility: hidden"
+									value=""
+									id="hiddenButton" 
+									action="#{sessionInv.accUpdateTrialSelected}" />
+							</td>
+							<td>
+						    	<h:commandLink 
+						    		action="#{groupBean.accListGroupsOfTrial}"
+						    		rendered="#{!empty sessionInv.trial}">
+						    		<h:graphicImage 
+						    			url="/jsp/icons/group_go.png" 
+						    			alt="#{msgs['jsf.actions.ListGroups']}" 
+						    			title="#{msgs['jsf.actions.ListGroups']}"/>
+						    	</h:commandLink>
+							</td>
+						</tr>
+						<tr>
+							<td style="vertical-align: top; text-align: right;">
+								<b><h:outputText 
+										value="#{(!empty sessionInv.group) ? msgs['jsf.generic.Group'] : ''}"/></b>
+							</td>
+							<td style="vertical-align: top">
+								<h:commandLink
+									action="#{groupBean.accEditGroup}"
+									rendered="#{!empty sessionInv.group}">
+									<h:outputText 
+										value="#{sessionInv.group.description}" />
+									<f:setPropertyActionListener 
+										target="#{groupBean.group}"
+										value="#{sessionInv.group}"/>
+								</h:commandLink>
+							</td>
+							<td>
+						    	<h:commandLink 
+						    		action="#{patientBean.accListPatientsOfGroup}"
+						    		rendered="#{!empty sessionInv.group}">
+						    		<h:graphicImage 
+						    			url="/jsp/icons/user_go.png" 
+						    			alt="#{msgs['jsf.actions.ListPatients']}" 
+						    			title="#{msgs['jsf.actions.ListPatients']}"/>
+						    	</h:commandLink>
+							</td>
+						</tr>
+						<tr>
+							<td style="vertical-align: top; text-align: right;">
+								<b><h:outputText 
+										value="#{(!empty sessionInv.patient) ? msgs['jsf.generic.Patient'] : ''}"/></b>
+							</td>
+							<td style="vertical-align: top">
+								<h:commandLink
+									action="#{patientBean.accEditPatient}"
+									rendered="#{!empty sessionInv.patient}">
+									<h:outputText value="#{sessionInv.patient.completeName}"/>
+									<f:setPropertyActionListener 
+										target="#{patientBean.patient}"
+										value="#{sessionInv.patient}"/>
+								</h:commandLink>
+							</td>
+							<td>
+						    	<h:commandLink 
+						    		action="#{studyBean.accListStudiesOfPatient}"
+						    		rendered="#{!empty sessionInv.patient}">
+						    		<h:graphicImage 
+						    			url="/jsp/icons/report_go.png" 
+						    			alt="#{msgs['jsf.actions.ListStudies']}" 
+						    			title="#{msgs['jsf.actions.ListStudies']}"/>
+						    	</h:commandLink>
+							</td>
+						</tr>
+						<tr>
+							<td style="vertical-align: top; text-align: right;">
+								<b><h:outputText 
+										value="#{(!empty sessionInv.study) ? msgs['jsf.generic.Study'] : ''}"/></b>
+							</td>
+							<td style="vertical-align: top;">
+								<h:commandLink
+									action="#{studyBean.accEditStudy}"
+									rendered="#{!empty sessionInv.study}">
+									<h:outputText value="#{sessionInv.study.hospitalId}" />
+									<f:setPropertyActionListener 
+										target="#{studyBean.study}"
+										value="#{sessionInv.study}"/>
+								</h:commandLink>
+							</td>
+							<td>
+							</td>
+						</tr>
+					</table>
+				</td>
+				<td style="float: right; vertical-align: top">
+					<table>
+						<tr>
+							<td style="vertical-align: top">
+								<h:outputText value="[#{sessionInv.user.login}]"/>
+							</td>
+							<td>
+						    	<h:commandLink 
+						    		action="adminArea"
+						    		rendered="#{sessionInv.userAdmin}">
+						    		<h:graphicImage 
+						    			url="/jsp/icons/key_go.png" 
+						    			alt="#{msgs['jsf.area.Admin']}" 
+						    			title="#{msgs['jsf.area.Admin']}"/>
+						    	</h:commandLink>
+							</td>
+							<td>
+						    	<h:commandLink 
+						    		target="_blank"
+						    		action="uploadImages">
+						    		<h:graphicImage 
+						    			url="/jsp/icons/image_add.png" 
+						    			alt="#{msgs['jsf.actions.AddImages']}" 
+						    			title="#{msgs['jsf.actions.AddImages']}"/>
+						    	</h:commandLink>
+							</td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+		</h:form>
+	</ui:define>
+	
+	<ui:define name="appMenu">
+		<h:form id="frmMenuResearch">
+		    <t:jscookMenu id="menu" layout="hbr" theme="ThemeOffice">
+	    	    <t:navigationMenuItems id="navitems" value="#{sessionInv.menu}" />
+		    </t:jscookMenu>
+	    </h:form>					
+	</ui:define>
+	
+</ui:composition>
+
+</html>
