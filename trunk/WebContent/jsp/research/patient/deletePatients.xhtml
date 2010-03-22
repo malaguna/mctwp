@@ -98,11 +98,17 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			</td>
 		</tr>
 		<tr>
-			<td style="float: right;">
-				<h:commandButton 
-					styleClass="frmButton"
-					value="#{msgs['jsf.actions.Delete']}" 
-					action="#{patientBean.accDeletePatients}"/>
+			<td>
+				<table style="float: right;">
+					<tr>
+						<td>
+							<h:commandButton 
+								styleClass="frmButton"
+								value="#{msgs['jsf.actions.Delete']}" 
+								action="#{patientBean.accDeletePatients}"/>
+						</td>
+					</tr>
+				</table>
 			</td>
 		</tr>
 	</table>
