@@ -89,11 +89,17 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			</td>
 		</tr>
 		<tr>
-			<td style="float: right;">
-				<h:commandButton 
-					styleClass="frmButton"
-					value="#{msgs['jsf.actions.Move']}" 
-					action="#{patientBean.accMovePatients}"/>
+			<td>
+				<table style="float: right;">
+					<tr>
+						<td>
+							<h:commandButton 
+								styleClass="frmButton"
+								value="#{msgs['jsf.actions.Move']}" 
+								action="#{patientBean.accMovePatients}"/>
+						</td>
+					</tr>
+				</table>
 			</td>
 		</tr>
 	</table>

@@ -11,19 +11,25 @@
 
 	<ui:define name="sessionInfo">
 		<h:form>
-		<table style="float: right; vertical-align: top; padding-left: 5px;">
+		<table style="float: right; vertical-align: top;">
 			<tr>
-				<td>
-					[#{sessionInv.user.login}]
-				</td>
-				<td>
-			    	<h:commandLink 
-			    		action="#{trialIBean.accListTrials}">
-			    		<h:graphicImage 
-			    			url="/jsp/icons/computer_go.png" 
-			    			alt="#{msgs['jsf.area.Trial']}" 
-			    			title="#{msgs['jsf.area.Trial']}"/>
-			    	</h:commandLink>
+				<td style="vertical-align: top;">
+					<table style="float: right;">
+						<tr>
+							<td style="vertical-align: top">
+								<h:outputText value="[#{sessionInv.user.login}]"/>
+							</td>
+							<td>
+						    	<h:commandLink 
+						    		action="#{trialIBean.accListTrials}">
+						    		<h:graphicImage 
+						    			url="/jsp/icons/computer_go.png" 
+						    			alt="#{msgs['jsf.area.Trial']}" 
+						    			title="#{msgs['jsf.area.Trial']}"/>
+						    	</h:commandLink>
+							</td>
+						</tr>
+					</table>
 				</td>
 			</tr>
 		</table>
