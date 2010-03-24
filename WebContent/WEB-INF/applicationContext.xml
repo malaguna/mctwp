@@ -167,6 +167,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	</bean>
 
 	<bean id="DicomConversor" class="es.urjc.mctwp.image.impl.dicom.ImageConversorDicomImpl">
+		<property name="medconPath" value="/usr/bin/medcon" />
 	</bean>
 
 	<bean id="ImageManager" class="es.urjc.mctwp.image.impl.management.ImageManagerLocalImpl">
