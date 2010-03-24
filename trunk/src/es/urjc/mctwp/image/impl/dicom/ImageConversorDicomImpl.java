@@ -61,11 +61,19 @@ import es.urjc.mctwp.image.objects.SingleImage;
  */
 public class ImageConversorDicomImpl implements ImageConversor {
 	private Logger logger  = Logger.getLogger(this.getClass()); 
-	private String program = "/usr/local/xmedcon/bin/medcon";
+	private String medconPath = "/usr/bin/medcon";
 	private String options = "-c png -e 1";
     private URL xslt = null;
 
-    public void setXslt(URL xslt){
+    public String getMedconPath() {
+		return medconPath;
+	}
+
+	public void setMedconPath(String medconPath) {
+		this.medconPath = medconPath;
+	}
+
+	public void setXslt(URL xslt){
     	this.xslt = xslt;
     }
 
@@ -210,7 +218,7 @@ public class ImageConversorDicomImpl implements ImageConversor {
 				if(result.exists()) result.delete();
 				
 				//Execute transformation and scale
-				String cmd = program + " " + options + " -f " + 
+				String cmd = medconPath + " " + options + " -f " + 
 							 source.getAbsolutePath() + " -o " + 
 							 result.getAbsolutePath();
 				
