@@ -54,11 +54,9 @@ along with Multiclinical Trial Web-PACS.  If not, see
 						</h:panelGrid>
 						<h:panelGrid columns="1" styleClass="cuerpo">
 							<h:outputText value="Imagen" rendered="#{not row.result}"/>
-							<h:outputLink value="/mctwp/jsp/research/image/download.jsf">
-				                <f:param name="imageId" value="#{row.thumbId}"/>
-				                <f:param name="collection" value="#{sessionInv.trial.collection}"/>
-				                <h:outputText value="Descargar"/>
-							</h:outputLink>
+							<h:commandLink action="#{downloadBean.accDownloadImage}" actionListener="#{viewResultImages.alUpdateImageSelected}">
+				                <h:graphicImage url="/jsp/icons/picture_save.png" alt="#{msgs['jsf.actions.Download']}" />
+							</h:commandLink>
 							<h:panelGroup>
 								<h:selectBooleanCheckbox value="#{row.selected}" />
 								<h:outputText value="Enviar"/>
