@@ -50,11 +50,9 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<h:column>
 				<h:panelGrid columns="1" styleClass="cuerpo">
 					<h:panelGrid columns="3" styleClass="cuerpo">
-						<h:outputLink value="/mctwp/jsp/research/image/download.jsf">
-			                <f:param name="imageId" value="#{row.thumbId}"/>
-			                <f:param name="collection" value="#{sessionInv.trial.collection}"/>
+						<h:commandLink action="#{downloadBean.accDownloadImage}" actionListener="#{viewStudyImages.alUpdateImageSelected}">
 			                <h:graphicImage url="/jsp/icons/picture_save.png" alt="#{msgs['jsf.actions.Download']}" />
-						</h:outputLink>
+						</h:commandLink>
 						<h:commandLink action="#{tasksBean.accListImgTasks}" actionListener="#{viewStudyImages.alUpdateImageSelected}">
 							<h:graphicImage url="/jsp/icons/cog.png" alt="#{msgs['jsf.action.Download']}" />
 						</h:commandLink>
