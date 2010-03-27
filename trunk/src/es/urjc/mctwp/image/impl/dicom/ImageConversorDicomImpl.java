@@ -177,7 +177,7 @@ public class ImageConversorDicomImpl implements ImageConversor {
 	}	
 
 	/**
-	 * Obtains a png file from the first singleImage of the series
+	 * Obtains a png file from the one singleImage of the series
 	 * 
 	 * @param series
 	 * @return
@@ -186,8 +186,14 @@ public class ImageConversorDicomImpl implements ImageConversor {
 	private File toPng(SeriesImage series) throws ImageException {
 		File result = null;
 
-		if( (series.getImages() != null) && (!series.getImages().isEmpty()) )
-			result = toPng(series.getImages().get(0));
+		if( (series.getImages() != null) && (!series.getImages().isEmpty()) ){
+			int i = series.getImages().size();
+			
+			if(i>3)
+				result = toPng(series.getImages().get(i/2));
+			else
+				result = toPng(series.getImages().get(0));
+		}
 		
 		return result;
 	}
@@ -208,7 +214,7 @@ public class ImageConversorDicomImpl implements ImageConversor {
 			//Prepare output file
 			source = single.getContent();
 			String base = source.getParent();
-			String pre  = StringUtils.substringBefore(source.getName(), ".");
+			String pre  = StringUtils.substringBeforeLast(source.getName(), ".");
 			result = new File(FilenameUtils.concat(base, pre + ".png"));
 			
 			//Check if thumbnails exists. Like a cache of thumbnails
