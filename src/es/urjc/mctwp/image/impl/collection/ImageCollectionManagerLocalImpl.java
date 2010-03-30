@@ -56,7 +56,7 @@ public class ImageCollectionManagerLocalImpl extends ImageCollectionManager {
 		List<Image> result = null;
 		List<String> images = null;
 		
-		//Find identifiers of images that satisfies search criteria
+		//FobtainThumbind identifiers of images that satisfies search criteria
 		images = imxc.findImages(colName, attributes);
 		if( (images != null) && (images.size() >0) ){
 			result = new ArrayList<Image>();
@@ -69,13 +69,18 @@ public class ImageCollectionManagerLocalImpl extends ImageCollectionManager {
 		}
 		
 		return result;
-	}
-	
+	}	
 
 	@Override
 	public Image getImage(String colName, String imageId) throws ImageException, ImageCollectionException {
 		
 		return imcc.loadImage(colName, imageId);
+	}
+
+	@Override
+	public Image getTemporalImage(String colName, String imageId) throws ImageException, ImageCollectionException {
+		
+		return imcc.loadTempImage(colName, imageId);
 	}
 
 	@Override
@@ -149,11 +154,5 @@ public class ImageCollectionManagerLocalImpl extends ImageCollectionManager {
 		for(Image image : images){
 			imcc.storeTempImage(colName, image);
 		}
-	}
-
-	@Override
-	public Image getTemporalImage(String colName, String imageId) throws ImageException, ImageCollectionException {
-		
-		return imcc.loadTempImage(colName, imageId);
 	}
 }
