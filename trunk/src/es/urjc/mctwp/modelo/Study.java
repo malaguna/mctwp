@@ -81,7 +81,20 @@ public class Study extends Protocolable implements java.io.Serializable {
 	
 	@Override
 	public String getDescription(){
-		return studyType + " - " + hospitalId;
+		String resultado = null;
+		
+		if(studyType != null){
+			resultado = studyType;
+			if(hospitalId != null)
+				resultado += " - " + hospitalId;
+		}else{
+			if(hospitalId != null)
+				resultado = hospitalId;
+			else
+				resultado = getCode().toString();
+		}
+			
+		return resultado;
 	}	
 
 	@Override

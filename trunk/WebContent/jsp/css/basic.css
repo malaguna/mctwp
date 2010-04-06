@@ -149,10 +149,6 @@ body {
 }
 
 .frmTabla {
- 	border-top: 1px dotted #666464;
-	border-right: 1px dotted #666464;
-	border-left: 1px dotted #666464;
-	border-bottom: 1px dotted #666464;
 	margin-top: 15px;
 	margin-left: 15px;
 	vertical-align: text-top;
@@ -271,20 +267,23 @@ body {
    ------------------------------------------------------------
 */
 
+.topAlignedCol{
+	vertical-align: top;
+}
 
 .resTabla {
-
-	margin-top: 15px;
-	margin-left: 15px;
+	margin: 5px;
+	padding: 5px;
 }
 
 .resCabecera {
-	color: #666464;
-	background-color: #FFFFFF;
-	padding: 3;
+	background-color: #DDDDDD;
 	text-align: center;
 	border: none;
-	margin-bottom: 2%;
+	border-bottom: 1px solid;
+}
+
+.resPie {
 }
 
 .resFilaPar {
@@ -299,7 +298,9 @@ body {
 
 .scroll {
 	text-decoration: none;
-	margin-left: 15px;
+	margin-top: -20px;
+	margin-left: auto;
+	margin-right: auto;
 }
 
 /*

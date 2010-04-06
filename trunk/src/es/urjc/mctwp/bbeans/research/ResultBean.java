@@ -26,6 +26,7 @@ import es.urjc.mctwp.bbeans.ActionBeanNames;
 import es.urjc.mctwp.bbeans.RequestInvAbstractBean;
 import es.urjc.mctwp.modelo.Result;
 import es.urjc.mctwp.service.Command;
+import es.urjc.mctwp.service.commands.researchCmds.DeleteResult;
 import es.urjc.mctwp.service.commands.researchCmds.FindResultsByTask;
 import es.urjc.mctwp.service.commands.researchCmds.LoadResult;
 import es.urjc.mctwp.service.commands.researchCmds.SaveResult;
@@ -99,6 +100,14 @@ public class ResultBean extends RequestInvAbstractBean {
 		
 		//Update result into session
 		getSession().setResult(result);
+		
+		return accListResultsOfTask();
+	}
+
+	public String accDeleteResult(){
+		Command cmd = getCommand(DeleteResult.class);
+		((DeleteResult)cmd).setResult(result);
+		runCommand(cmd);
 		
 		return accListResultsOfTask();
 	}

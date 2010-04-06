@@ -36,27 +36,32 @@ along with Multiclinical Trial Web-PACS.  If not, see
 <div class="cuerpo">
 
 	<t:saveState value="#{selectFolder.userFolders}" />
-
-	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
 	
 	<h:form>
 
-	<t:dataTable id="gridThumbs" styleClass="resTabla"
-				headerClass="resCabecera" footerClass="pieTablaEstandar" 
-				rowClasses="resFilaImpar, resFilaPar" columnClasses="columnaNormal"
-				value="#{selectFolder.userFolders}" var="folder">
-		
-		<h:column>
-			<f:facet name="header">
-				<h:outputText value="#{msgs['jsf.generic.Folder']}" />
-			</f:facet>
-			<h:commandLink action="#{selectImages.accListFolder}">
-				<h:outputText value="#{folder.name}" />
-				<t:updateActionListener value="#{folder.name}" property="#{selectImages.folder}" />
-			</h:commandLink>
-		</h:column>
-	</t:dataTable>
-
+	<table class="cuerpoCentrado">
+		<tr>
+			<td>
+				<t:dataTable id="gridThumbs" styleClass="resTabla"
+					headerClass="resCabecera" footerClass="resPie"
+					columnClasses="frmColumnaCen"
+					value="#{selectFolder.userFolders}" var="folder">
+					
+					<h:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs['jsf.headers.SelectFolder']}" />
+						</f:facet>
+						<f:facet name="footer"><hr/></f:facet>
+						<h:commandLink action="#{selectImages.accListFolder}">
+							<h:outputText value="#{folder.name}" />
+							<t:updateActionListener value="#{folder.name}" property="#{selectImages.folder}" />
+						</h:commandLink>
+					</h:column>
+				</t:dataTable>
+			</td>
+		</tr>
+	</table>
+	
 	</h:form>
 		
 </div>

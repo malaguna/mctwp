@@ -25,7 +25,7 @@ public class TaskLog extends DomainObject{
 	private static final long serialVersionUID = 3681272960252995895L;
 	public static final String TLF_COMMENT = "comment";
 	public static final String TLF_OWNER = "owner"; 
-	public static final String TLF_DONE = "done"; 
+	public static final String TLF_STATUS = "status"; 
 	public static final String TLF_DATE = "date";
 	
 	private User author = null;

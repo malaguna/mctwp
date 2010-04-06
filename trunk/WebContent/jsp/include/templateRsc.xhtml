@@ -36,14 +36,10 @@
 									<f:selectItem itemLabel="..." itemValue="#{null}" />
 									<f:selectItems value="#{sessionInv.trials}" />
 								</h:selectOneMenu>
-								<h:commandButton
-									style="visibility: hidden"
-									value=""
-									id="hiddenButton" 
-									action="#{sessionInv.accUpdateTrialSelected}" />
 							</td>
 							<td>
 						    	<h:commandLink 
+						    		id="goGroups"
 						    		action="#{groupBean.accListGroupsOfTrial}"
 						    		rendered="#{!empty sessionInv.trial}">
 						    		<h:graphicImage 
@@ -52,14 +48,13 @@
 						    			title="#{msgs['jsf.actions.ListGroups']}"/>
 						    	</h:commandLink>
 							</td>
-						</tr>
-						<tr>
 							<td style="vertical-align: top; text-align: right;">
 								<b><h:outputText 
 										value="#{(!empty sessionInv.group) ? msgs['jsf.generic.Group'] : ''}"/></b>
 							</td>
 							<td style="vertical-align: top">
 								<h:commandLink
+						    		id="editGroup"
 									action="#{groupBean.accEditGroup}"
 									rendered="#{!empty sessionInv.group}">
 									<h:outputText 
@@ -71,6 +66,7 @@
 							</td>
 							<td>
 						    	<h:commandLink 
+						    		id="goPatients"
 						    		action="#{patientBean.accListPatientsOfGroup}"
 						    		rendered="#{!empty sessionInv.group}">
 						    		<h:graphicImage 
@@ -85,8 +81,9 @@
 								<b><h:outputText 
 										value="#{(!empty sessionInv.patient) ? msgs['jsf.generic.Patient'] : ''}"/></b>
 							</td>
-							<td style="vertical-align: top">
+							<td style="vertical-align: top" colspan="4">
 								<h:commandLink
+						    		id="editPatient"
 									action="#{patientBean.accEditPatient}"
 									rendered="#{!empty sessionInv.patient}">
 									<h:outputText value="#{sessionInv.patient.completeName}"/>
@@ -97,6 +94,7 @@
 							</td>
 							<td>
 						    	<h:commandLink 
+						    		id="goStudies"
 						    		action="#{studyBean.accListStudiesOfPatient}"
 						    		rendered="#{!empty sessionInv.patient}">
 						    		<h:graphicImage 
@@ -111,8 +109,9 @@
 								<b><h:outputText 
 										value="#{(!empty sessionInv.study) ? msgs['jsf.generic.Study'] : ''}"/></b>
 							</td>
-							<td style="vertical-align: top;">
+							<td colspan="4" style="vertical-align: top;">
 								<h:commandLink
+						    		id="editStudy"
 									action="#{studyBean.accEditStudy}"
 									rendered="#{!empty sessionInv.study}">
 									<h:outputText value="#{sessionInv.study.hospitalId}" />
@@ -122,6 +121,57 @@
 								</h:commandLink>
 							</td>
 							<td>
+						    	<h:commandLink 
+						    		id="goImgsStudy"
+						    		action="#{viewStudyImages.accListImagesOfStudy}"
+						    		rendered="#{!empty sessionInv.study}">
+						    		<h:graphicImage 
+						    			url="/jsp/icons/images.png" 
+						    			alt="#{msgs['jsf.headers.ImagesOfStudy']}" 
+						    			title="#{msgs['jsf.headers.ImagesOfStudy']}"/>
+						    	</h:commandLink>
+							</td>
+						</tr>
+						<tr>
+							<td style="vertical-align: top; text-align: right;">
+								<b><h:outputText 
+										value="#{(!empty sessionInv.image) ? msgs['jsf.generic.Image'] : ''}"/></b>
+							</td>
+							<td style="vertical-align: top;">
+								<h:outputText 
+									value="#{sessionInv.image.code}"
+									rendered="#{!empty sessionInv.image}" />
+							</td>
+							<td>
+						    	<h:commandLink 
+						    		id="goTasks"
+						    		action="#{tasksBean.accListImgTasks}"
+						    		rendered="#{!empty sessionInv.image}">
+						    		<h:graphicImage 
+						    			url="/jsp/icons/cog_go.png" 
+						    			alt="#{msgs['jsf.generic.Tasks']}" 
+						    			title="#{msgs['jsf.generic.Tasks']}"/>
+						    	</h:commandLink>
+							</td>
+							<td style="vertical-align: top; text-align: right;">
+								<b><h:outputText 
+										value="#{(!empty sessionInv.task) ? msgs['jsf.generic.Task'] : ''}"/></b>
+							</td>
+							<td style="vertical-align: top;">
+								<h:outputText 
+									value="#{sessionInv.task.code}"
+									rendered="#{!empty sessionInv.task}" />
+							</td>
+							<td>
+						    	<h:commandLink 
+						    		id="goImgsTasks"
+						    		action="#{viewTaskImages.accListImagesOfTask}"
+						    		rendered="#{!empty sessionInv.task}">
+						    		<h:graphicImage 
+						    			url="/jsp/icons/images.png" 
+						    			alt="#{msgs['jsf.headers.ImagesOfTask']}" 
+						    			title="#{msgs['jsf.headers.ImagesOfTask']}"/>
+						    	</h:commandLink>
 							</td>
 						</tr>
 					</table>
@@ -129,11 +179,12 @@
 				<td style="vertical-align: top;">
 					<table style="float: right;">
 						<tr>
-							<td style="vertical-align: top">
+							<td style="vertical-align: top">							
 								<h:outputText value="[#{sessionInv.user.login}]"/>
 							</td>
 							<td>
 						    	<h:commandLink 
+						    		id="goAdmArea"
 						    		action="adminArea"
 						    		rendered="#{sessionInv.userAdmin}">
 						    		<h:graphicImage 
@@ -147,17 +198,26 @@
 						    		target="_blank"
 						    		action="uploadImages">
 						    		<h:graphicImage 
-						    			url="/jsp/icons/image_add.png" 
+						    			url="/jsp/icons/picture_add.png" 
 						    			alt="#{msgs['jsf.actions.AddImages']}" 
 						    			title="#{msgs['jsf.actions.AddImages']}"/>
 						    	</h:commandLink>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3">
+								<h:commandButton
+									style="visibility: hidden"
+									value=""
+									id="hiddenButton" 
+									action="#{sessionInv.accUpdateTrialSelected}" />
 							</td>
 						</tr>
 					</table>
 				</td>
 			</tr>
 		</table>
-		</h:form>
+	</h:form>
 	</ui:define>
 	
 	<ui:define name="appMenu">

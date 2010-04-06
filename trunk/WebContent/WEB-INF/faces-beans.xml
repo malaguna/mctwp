@@ -324,4 +324,15 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<value>#{sessionInv}</value>
 		</managed-property>
 	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>imageDeletionBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.image.ImageDeletionBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>
 </faces-config>

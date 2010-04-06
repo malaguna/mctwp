@@ -25,12 +25,20 @@ along with Multiclinical Trial Web-PACS.  If not, see
 <facelet-taglib xmlns="http://java.sun.com/JSF/Facelet">
 	<namespace>http://mctwp.urjc.es/jsf</namespace>
 	<tag>
+		<tag-name>dcmSender</tag-name>
+		<source>dcmSender.xhtml</source>
+	</tag>
+	<tag>
 		<tag-name>protoTbl</tag-name>
 		<source>protoTbl.xhtml</source>
 	</tag>
 	<tag>
 		<tag-name>protoTblCol</tag-name>
 		<source>protoTblCol.xhtml</source>
+	</tag>
+	<tag>
+		<tag-name>protoTblDateCol</tag-name>
+		<source>protoTblDateCol.xhtml</source>
 	</tag>
 	<tag>
 		<tag-name>protoTblOpsCol</tag-name>

@@ -60,7 +60,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
         <set name="tasks" 
         	table="imgtask" 
         	order-by="tarea" 
-        	cascade="save-update delete">
+        	cascade="save-update">
         	<key column="imagen" />
         	<many-to-many class="es.urjc.mctwp.modelo.Task" column="tarea" />
         </set>        

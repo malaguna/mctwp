@@ -34,9 +34,17 @@ import es.urjc.mctwp.service.commands.imageCmds.LoadImage;
 
 public class DownloadBean extends RequestInvAbstractBean {
 	private int BUFFER_SIZE = 4096;
+	private String imageId = null;
 	
+	public String getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(String imageId) {
+		this.imageId = imageId;
+	}
+
 	public String accDownloadImage(){
-		String imageId = getSession().getImage().getImageId();
 		
 		if(imageId != null && !imageId.isEmpty()){
 			Trial trial = getSession().getTrial();

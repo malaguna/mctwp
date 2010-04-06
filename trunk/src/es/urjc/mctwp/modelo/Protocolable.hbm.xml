@@ -41,7 +41,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
         <set name="tasks" 
         	table="tarea" 
         	order-by="codigo" 
-        	cascade="save-update"
+        	cascade="save-update delete delete-orphan"
         	inverse="true">
         	<key column="fuente"/>
         	<one-to-many class="es.urjc.mctwp.modelo.Task"/>

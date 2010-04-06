@@ -31,14 +31,14 @@ along with Multiclinical Trial Web-PACS.  If not, see
 <ui:composition template="/jsp/include/templateRsc.xhtml">
 
 <ui:define name="cuerpo">
-	<t:saveState value="#{patientBean.toMove}" />
-	<t:saveState value="#{patientBean.groups}" />
+	<t:saveState value="#{studyBean.toDelete}" />
+	<t:saveState value="#{studyBean.cantDelete}" />
 
 	<h:form prependId="false">	
 	<table class="cuerpoCentrado">
 		<tr>
 			<td class="textoCentrado">
-				<h3><h:outputText value="#{msgs['jsf.headers.PatientsMove']}" /></h3>
+				<h3><h:outputText value="#{msgs['jsf.headers.StudiesDeletion']}" /></h3>
 			</td>
 		</tr>
 		<tr>
@@ -51,35 +51,43 @@ along with Multiclinical Trial Web-PACS.  If not, see
 				<table>
 					<tr>
 						<td>
-							<h:outputText value="#{msgs['jsf.actions.SelectGroup']}" />
-							<h:selectOneMenu 
-								id="grupos"
-								styleClass="frmSelectOne" 
-								value="#{patientBean.group}">
-								<f:selectItem itemLabel="..." itemValue="#{null}"/>
-								<f:selectItems value="#{patientBean.groups}"/>
-							</h:selectOneMenu>
-						</td>
-					</tr>
-					<tr>
-						<td>
 							<p:tabView>
 								<p:tab
-									title="#{msgs['jsf.headers.toMove']}">
+									title="#{msgs['jsf.headers.toDelete']}">
 									
 									<p:dataTable
-										id="patientsToMove"
+										id="studiesToDelete"
 										rows="10"
 										var="row" 
-										value="#{patientBean.toMove}"
+										value="#{studyBean.toDelete}"
 										paginator="true" 
 										paginatorPosition="bottom">
 										
-										<p:column sortBy="#{row.completeName}">
+										<p:column sortBy="#{row.description}">
 											<f:facet name="header">
-												<h:outputText value="#{msgs['jsf.generic.Patient']}"/>
+												<h:outputText value="#{msgs['jsf.generic.Study']}"/>
 											</f:facet>
-											<h:outputText value="#{row.completeName}"/>
+											<h:outputText value="#{row.description}"/>
+										</p:column>
+									</p:dataTable>
+								</p:tab>
+								<p:tab
+									rendered="#{!empty studyBean.cantDelete}" 
+									title="#{msgs['jsf.headers.toMantain']}">
+
+									<p:dataTable
+										id="studiesCantDelete"
+										rows="10"
+										var="row" 
+										value="#{studyBean.cantDelete}"
+										paginator="true" 
+										paginatorPosition="bottom">
+										
+										<p:column sortBy="#{row.description}">
+											<f:facet name="header">
+												<h:outputText value="#{msgs['jsf.generic.Study']}"/>
+											</f:facet>
+											<h:outputText value="#{row.description}"/>
 										</p:column>
 									</p:dataTable>
 								</p:tab>
@@ -96,8 +104,8 @@ along with Multiclinical Trial Web-PACS.  If not, see
 						<td>
 							<h:commandButton 
 								styleClass="frmButton"
-								value="#{msgs['jsf.actions.Move']}" 
-								action="#{patientBean.accMovePatients}"/>
+								value="#{msgs['jsf.actions.Delete']}" 
+								action="#{studyBean.accDeleteStudies}"/>
 						</td>
 					</tr>
 				</table>

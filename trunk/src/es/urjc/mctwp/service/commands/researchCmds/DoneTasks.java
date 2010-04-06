@@ -18,43 +18,44 @@
 
 package es.urjc.mctwp.service.commands.researchCmds;
 
+import java.util.List;
+
 import org.springframework.beans.factory.BeanFactory;
 
-import es.urjc.mctwp.dao.StudyDAO;
-import es.urjc.mctwp.modelo.Study;
+import es.urjc.mctwp.service.blogic.TaskUtils;
 import es.urjc.mctwp.service.ActionNames;
 import es.urjc.mctwp.service.BeanNames;
 import es.urjc.mctwp.service.Command;
 
-public class DeleteStudy extends Command {
-	private StudyDAO studyDao = null;
-	private Study study = null;
+public class DoneTasks extends Command {
+	private TaskUtils taskUtils = null;
+	private List<Integer> tasks = null;
 
-	public DeleteStudy(BeanFactory bf) {
+	public DoneTasks(BeanFactory bf) {
 		super(bf);
-		studyDao = (StudyDAO)bf.getBean(BeanNames.STUDY_DAO);
-		setAction(ActionNames.DELETE_STUDY);
+		taskUtils = (TaskUtils)bf.getBean(BeanNames.TASK_UTILS);
+		setAction(ActionNames.SAVE_TASK);
 		setReadOnly(false);
 	}
 	
-	public void setStudy(Study study) {
-		this.study = study;
+	public void setTask(List<Integer> tasks) {
+		this.tasks = tasks;
 	}
-	public Study getStudy() {
-		return study;
+	public List<Integer> getTask() {
+		return tasks;
 	}
 
 	@Override
 	public boolean isValidCommand(){
 		return  super.isValidCommand() && 
-				studyDao != null &&
-				study != null;
+				taskUtils != null &&
+				tasks != null;
 	}
 
 	@Override
 	public Command runCommand() {
-		studyDao.delete(study);
-		createLogComment("audit.deleteStudy", study.getHospitalId());
+		taskUtils.doneTasks(tasks, getUser());
+		createLogComment("audit.doneTasks", tasks);
 		return this;
 	}
 }
