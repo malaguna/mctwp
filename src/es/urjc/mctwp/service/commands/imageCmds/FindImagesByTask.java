@@ -25,6 +25,7 @@ import java.util.Set;
 import org.springframework.beans.factory.BeanFactory;
 
 import es.urjc.mctwp.dao.ImageDataDAO;
+import es.urjc.mctwp.dao.TaskDAO;
 import es.urjc.mctwp.modelo.ImageData;
 import es.urjc.mctwp.modelo.Task;
 import es.urjc.mctwp.service.ActionNames;
@@ -33,11 +34,13 @@ import es.urjc.mctwp.service.ResultCommand;
 
 public class FindImagesByTask extends ResultCommand<List<ImageData>> {
 	private ImageDataDAO imageDao = null;
+	private TaskDAO taskDao = null;
 	private Task task = null;
 
 	public FindImagesByTask(BeanFactory bf) {
 		super(bf);
 		imageDao = (ImageDataDAO)bf.getBean(BeanNames.IMAGE_DATA_DAO);
+		taskDao = (TaskDAO)bf.getBean(BeanNames.TASK_DAO);
 		setAction(ActionNames.FIND_IMAGES_STUDY);
 	}
 	
@@ -51,7 +54,8 @@ public class FindImagesByTask extends ResultCommand<List<ImageData>> {
 	@Override
 	public boolean isValidCommand(){
 		return  super.isValidCommand() && 
-		imageDao != null &&
+				imageDao != null &&
+				taskDao != null &&
 				task != null;
 	}	
 
@@ -60,6 +64,7 @@ public class FindImagesByTask extends ResultCommand<List<ImageData>> {
 		Set<ImageData> auxSet = null; 
 		this.setResult(new ArrayList<ImageData>());
 		
+		task = taskDao.findById(task.getCode());
 		auxSet = task.getImages();
 		if(auxSet != null)
 			for(ImageData image : auxSet)

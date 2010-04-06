@@ -26,6 +26,7 @@ import javax.faces.event.ActionEvent;
 import es.urjc.mctwp.bbeans.ActionBeanNames;
 import es.urjc.mctwp.modelo.Task;
 import es.urjc.mctwp.service.Command;
+import es.urjc.mctwp.service.commands.researchCmds.DoneTasks;
 import es.urjc.mctwp.service.commands.researchCmds.FindTasksByImage;
 import es.urjc.mctwp.service.commands.researchCmds.FindTasksByUser;
 import es.urjc.mctwp.service.commands.researchCmds.LoadTask;
@@ -36,8 +37,17 @@ public class TasksBean extends TaskAbstractBean{
 	public final int TASK_MODE_IMG = 2;
 	public final int TASK_MODE_SRC = 3;
 	
+	private Task filter = null;
 	private Integer taskListMode = TASK_MODE_USR;
 	private List<TaskTableItem> tasks = null;
+
+	public void setFilter(Task filter) {
+		this.filter = filter;
+	}
+
+	public Task getFilter() {
+		return filter;
+	}
 
 	public List<TaskTableItem> getTasks(){
 		return tasks;
@@ -141,6 +151,28 @@ public class TasksBean extends TaskAbstractBean{
 			((ReassignTasks)cmd).setNewOwner(newOwner);
 			((ReassignTasks)cmd).setComment(null);
 			runCommand(cmd);
+		}
+		
+		return result;
+	}
+	
+	public String accDoneTasks(){
+		String result = null;
+
+		if(tasks !=null){
+			List<Integer> taskIds = new ArrayList<Integer>();
+			
+			for(TaskTableItem tti : tasks){
+				if(tti.getSelected()){
+					taskIds.add(tti.getCode());
+					//msgTasks.append(tti.getCode() + ", ");
+				}
+			}
+		
+			Command cmd = getCommand(DoneTasks.class);
+			((DoneTasks)cmd).setTask(taskIds);
+			runCommand(cmd);
+			result = accListTasks();
 		}
 		
 		return result;

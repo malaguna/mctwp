@@ -41,8 +41,8 @@ along with Multiclinical Trial Web-PACS.  If not, see
                 <comment></comment>
             </column>
         </property>
-        <property name="done" type="boolean">
-            <column name="realizada">
+        <property name="status" type="string" not-null="true">
+            <column name="estado">
                 <comment></comment>
             </column>
         </property>
@@ -53,7 +53,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
         <set name="logs"
         	table="tarealog" 
         	order-by="codigo" 
-        	cascade="save-update"
+        	cascade="save-update delete delete-orphan"
         	inverse="true">
         	<key column="tarea"></key>
         	<one-to-many class="es.urjc.mctwp.modelo.TaskLog"/>        

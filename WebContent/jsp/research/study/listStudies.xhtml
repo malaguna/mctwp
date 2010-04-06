@@ -84,6 +84,8 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	<mine:protoTbl
 		id="studyList"
 		rows="10"
+		selectionColumn="#{true}"
+		selection="#{studyBean.selection}"
 		value="#{studyBean.studies}">
 		
 		<ui:define name="tableColumns">
@@ -128,6 +130,13 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			value="/jsp/icons/database_add.png"
 			title="#{msgs['jsf.actions.Create']}"  
 			alt="#{msgs['jsf.actions.Create']}" />
+	</h:commandLink>
+	<h:commandLink 
+		action="#{studyBean.accPrepareStudiesToDelete}">
+		<h:graphicImage 
+			value="/jsp/icons/cross.png"
+			title="#{msgs['jsf.actions.Delete']}"  
+			alt="#{msgs['jsf.actions.Delete']}" />
 	</h:commandLink>
 </ui:define>
 

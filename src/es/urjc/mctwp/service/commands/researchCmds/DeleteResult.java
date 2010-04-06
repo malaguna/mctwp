@@ -18,59 +18,42 @@
 
 package es.urjc.mctwp.service.commands.researchCmds;
 
-import java.util.List;
-
 import org.springframework.beans.factory.BeanFactory;
 
-import es.urjc.mctwp.service.blogic.TaskUtils;
+import es.urjc.mctwp.dao.ResultDAO;
+import es.urjc.mctwp.modelo.Result;
 import es.urjc.mctwp.service.ActionNames;
 import es.urjc.mctwp.service.BeanNames;
 import es.urjc.mctwp.service.Command;
 
-public class ReassignTasks extends Command {
-	private TaskUtils taskUtils = null;
-	private List<Integer> tasks = null;
-	private Integer newOwner = null;
-	private String comment = null;
+public class DeleteResult extends Command {
+	private ResultDAO resultDao = null;
+	private Result result = null;
 
-	public ReassignTasks(BeanFactory bf) {
+	public DeleteResult(BeanFactory bf) {
 		super(bf);
-		taskUtils = (TaskUtils)bf.getBean(BeanNames.TASK_UTILS);
-		setAction(ActionNames.SAVE_TASK);
+		resultDao = (ResultDAO)bf.getBean(BeanNames.RESULT_DAO);
+		setAction(ActionNames.DELETE_TASK);
 		setReadOnly(false);
 	}
 	
-	public void setTask(List<Integer> tasks) {
-		this.tasks = tasks;
+	public void setResult(Result result) {
+		this.result = result;
 	}
-	public List<Integer> getTask() {
-		return tasks;
-	}
-	public void setNewOwner(Integer newOwner) {
-		this.newOwner = newOwner;
-	}
-	public Integer getNewOwner() {
-		return newOwner;
-	}
-	public void setComment(String comment) {
-		this.comment = comment;
-	}
-	public String getComment() {
-		return comment;
+	public Result getResult() {
+		return result;
 	}
 
 	@Override
 	public boolean isValidCommand(){
 		return  super.isValidCommand() && 
-				taskUtils != null &&
-				newOwner != null &&
-				tasks != null;
+				resultDao != null &&
+				result != null;
 	}
 
 	@Override
 	public Command runCommand() {
-		taskUtils.reassignTasks(tasks, getUser(), newOwner, comment);
-		createLogComment("audit.reassignTasks", tasks, newOwner);
+		resultDao.delete(result);
 		return this;
 	}
 }

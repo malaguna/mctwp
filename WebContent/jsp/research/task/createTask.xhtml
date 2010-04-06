@@ -28,72 +28,81 @@ along with Multiclinical Trial Web-PACS.  If not, see
       xmlns:t="http://myfaces.apache.org/tomahawk"
       xmlns:p="http://primefaces.prime.com.tr/ui">
 
-<ui:composition template="/jsp/include/templateRsc.xhtml">
-<ui:define name="cuerpo">
+<ui:composition template="/jsp/include/templateEditionRsc.xhtml">
 
-<!-- Comienza la página JSF -->
+	<ui:define name="saveState">
+		<t:saveState value="#{taskBean.possibleUsers}" />
+		<t:saveState value="#{taskBean.processes}" />
+	</ui:define>
 
-<div class="cuerpo">
+	<ui:define name="title">
+		<h3><h:outputText value="#{msgs['jsf.headers.TaskEdition']}" />
+		</h3>
+	</ui:define>
 	
-	<t:saveState value="#{taskBean.possibleUsers}" />
-	<t:saveState value="#{taskBean.processes}" />
-
-	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
-	
-	<!-- Formulario de creación de Tarea -->
-	<h:panelGroup id="cuerpo" styleClass="cuerpo">
-		<h:form id="frmProcess">
-
-			<!-- Controles de entrada de datos -->
-			<h:panelGrid columns="1" styleClass="frmTabla">
+	<ui:define name="editionForm">
+		<h:panelGrid columns="3" styleClass="cuerpo">
 			
-				<f:facet name="header">
-					<h:panelGroup>
-						<h:outputLabel styleClass="frmLabelHeader" value="#{msgs['jsf.headers.TaskDetail']}">
-						</h:outputLabel>
-					</h:panelGroup>
-				</f:facet>
-				
-				<h:panelGrid columns="3" styleClass="cuerpo">
-					
-					<h:outputLabel for="owner" styleClass="frmLabel" value="#{msgs['jsf.generic.Owner']}" />
-					<h:selectOneMenu id="owner" value="#{taskBean.newOwner}">
-						<f:selectItems value="#{taskBean.possibleUsers}"/>
-					</h:selectOneMenu>
-					<t:message id="ownerError" style="frmLabelError" for="owner" styleClass="error"/>
-		
-					<h:outputLabel for="fecha" styleClass="frmLabel" value="#{msgs['jsf.generic.EndDate']}"/>
-					<t:inputCalendar id="fecha" monthYearRowClass="yearMonthHeader" weekRowClass="weekHeader" 
-						popupButtonStyleClass="standardBold" currentDayCellClass="currentDayCell"
-						value="#{taskBean.task.endDate}" renderAsPopup="true"
-		                popupTodayString="#{msgs['jsf.generic.ToDayString']}" popupDateFormat="dd/MM/yyyy" 
-		                popupWeekString="#{msgs['jsf.generic.WeekString']}" helpText="DD/MM/YYYY" forceId="true">
-		                	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Madrid"/>
-		            </t:inputCalendar>				
-					<t:message id="fechaError" style="frmLabelError" for="fecha" styleClass="error"/>
-					
-					<h:outputLabel for="process" styleClass="frmLabel" value="#{msgs['jsf.generic.Process']}" />
-					<h:selectOneMenu id="process" value="#{taskBean.idProcessSeleted}">
-						<f:selectItems value="#{taskBean.processes}"/>
-					</h:selectOneMenu>
-					<t:message id="processError" style="frmLabelError" for="process" styleClass="error"/>
-		
-				</h:panelGrid>
-	
-				<!-- Botones de acción -->
-				<h:panelGrid columns="2" styleClass="cuerpo" >
-					<h:commandButton id="save" styleClass="frmButton" value="#{msgs['jsf.actions.Save']}" action="#{taskBean.accCreateTask}"/>
-				</h:panelGrid>
-			</h:panelGrid>
-		
-		</h:form>
-	</h:panelGroup>
+			<h:outputLabel 
+				for="owner" 
+				styleClass="frmLabel" 
+				value="#{msgs['jsf.generic.Owner']}" />
+			<h:selectOneMenu 
+				id="owner"
+				styleClass="frmSelectOne" 
+				value="#{taskBean.newOwner}">
+				<f:selectItems value="#{taskBean.possibleUsers}"/>
+			</h:selectOneMenu>
+			<t:message 
+				id="ownerError" 
+				for="owner" 
+				style="frmLabelError" 
+				styleClass="error"/>
 
-</div>
+			<h:outputLabel 
+				for="fecha" 
+				styleClass="frmLabel" 
+				value="#{msgs['jsf.generic.EndDate']}"/>
+			<p:calendar 
+				id="fecha"
+				pattern="dd/MM/yyyy" 
+           		timeZone="Europe/Madrid"
+				value="#{taskBean.task.endDate}" />				
+			<t:message 
+				id="fechaError"
+				for="fecha" 
+				style="frmLabelError" 
+				styleClass="error"/>
 			
-<!-- Termina la página JSF -->
+			<h:outputLabel 
+				for="process" 
+				styleClass="frmLabel" 
+				value="#{msgs['jsf.generic.Process']}" />
+			<h:selectOneMenu 
+				id="process" 
+				styleClass="frmSelectOne"
+				value="#{taskBean.idProcessSeleted}">
+				<f:selectItems 
+					value="#{taskBean.processes}"/>
+			</h:selectOneMenu>
+			<t:message 
+				id="processError" 
+				for="process" 
+				style="frmLabelError" 
+				styleClass="error"/>
 
-</ui:define>
+		</h:panelGrid>
+	</ui:define>
+
+	<ui:define name="buttonsForm">
+		<h:panelGrid columns="1">
+			<h:commandButton 
+				id="save" 
+				styleClass="frmButton" 
+				value="#{msgs['jsf.actions.Save']}" 
+				action="#{taskBean.accCreateTask}"/>
+		</h:panelGrid>
+	</ui:define>
+
 </ui:composition>
-
 </html>

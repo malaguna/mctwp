@@ -18,6 +18,7 @@
 
 package es.urjc.mctwp.bbeans.research;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.event.ActionEvent;
@@ -26,7 +27,7 @@ import es.urjc.mctwp.bbeans.ActionBeanNames;
 import es.urjc.mctwp.bbeans.RequestInvAbstractBean;
 import es.urjc.mctwp.modelo.Study;
 import es.urjc.mctwp.service.Command;
-import es.urjc.mctwp.service.commands.researchCmds.DeleteStudy;
+import es.urjc.mctwp.service.commands.researchCmds.DeleteStudies;
 import es.urjc.mctwp.service.commands.researchCmds.FindStudiesByPatient;
 import es.urjc.mctwp.service.commands.researchCmds.LoadStudy;
 import es.urjc.mctwp.service.commands.researchCmds.SaveStudy;
@@ -37,9 +38,36 @@ import es.urjc.mctwp.service.commands.researchCmds.SaveStudy;
  * 
  */
 public class StudyBean extends RequestInvAbstractBean {
+	private Study[] selection = null;
 	private Study filter = new Study();
 	private Study study = new Study();
 	private List<Study> studies = null;
+	private List<Study> toDelete = null;
+	private List<Study> cantDelete = null;
+
+	public Study[] getSelection() {
+		return selection;
+	}
+
+	public void setSelection(Study[] selection) {
+		this.selection = selection;
+	}
+
+	public List<Study> getToDelete() {
+		return toDelete;
+	}
+
+	public void setToDelete(List<Study> toDelete) {
+		this.toDelete = toDelete;
+	}
+
+	public List<Study> getCantDelete() {
+		return cantDelete;
+	}
+
+	public void setCantDelete(List<Study> cantDelete) {
+		this.cantDelete = cantDelete;
+	}
 
 	public void setFilter(Study filter) {
 		this.filter = filter;
@@ -133,20 +161,79 @@ public class StudyBean extends RequestInvAbstractBean {
 
 		return accListStudiesOfPatient();
 	}
-
+	
 	/**
-	 * Delete an existing study
+	 * Delete existing patient
 	 * 
 	 * @return next view
 	 */
-	public String accDeleteStudy() {
-		Command cmd = getCommand(DeleteStudy.class);
-		((DeleteStudy) cmd).setStudy(study);
-		runCommand(cmd);
+	public String accPrepareStudyToDelete() {
+		if(study != null){
+			toDelete = new ArrayList<Study>();
+			toDelete.add(study);
+		}
+		
+		return prepareStudyDeletion();
+	}
+	
+	public String accPrepareStudiesToDelete(){
+		if( (selection != null) && (selection.length > 0) ){
+			toDelete = new ArrayList<Study>();
+			for(Study study : selection)
+				toDelete.add(study);
+		}
+		
+		return prepareStudyDeletion();
+	}
+	
+	public String accDeleteStudies(){
+		String result = null;
+		
+		Command cmd = getCommand(DeleteStudies.class);
+		((DeleteStudies) cmd).setStudies(toDelete);
+		((DeleteStudies) cmd).setDelete(true);
+		cmd = runCommand(cmd);
 
-		// Clean study state from session
-		getSession().setStudy(null);
+		if(cmd != null){
+			cantDelete = ((DeleteStudies) cmd).getResult();
+			
+			if(cantDelete == null || cantDelete.isEmpty()){
+				setInfoMessage(getMessage("jsf.info.AllStudiesDeleted"));
+				result = accListStudiesOfPatient();
+			}else{
+				setWarnMessage(getMessage("jsf.info.SomeStudiesDeleted"));
+				result = ActionBeanNames.DELETE_STUDIES;
+			}
+		}
+		
+		return result;
+	}
 
-		return accListStudiesOfPatient();
+	private String prepareStudyDeletion(){
+		String result = null;
+		
+		if( (toDelete != null) && (!toDelete.isEmpty()) ){
+			
+			Command cmd = getCommand(DeleteStudies.class);
+			((DeleteStudies) cmd).setStudies(toDelete);
+			((DeleteStudies) cmd).setDelete(false);
+			cmd = runCommand(cmd);
+			
+			if(cmd != null){
+				cantDelete = ((DeleteStudies) cmd).getResult();
+			
+				if(cantDelete != null && !cantDelete.isEmpty()){ 
+					toDelete.removeAll(cantDelete);
+					setWarnMessage(getMessage("jsf.info.SomeStudiesCantBeDeleted"));
+				}else
+					cantDelete = new ArrayList<Study>();
+			}
+			
+			result = ActionBeanNames.DELETE_STUDIES;
+		}else{
+			setWarnMessage(getMessage("jsf.info.NoStudiesSelected"));
+		}
+		
+		return result;		
 	}
 }

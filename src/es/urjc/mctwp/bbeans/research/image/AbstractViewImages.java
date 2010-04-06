@@ -58,7 +58,6 @@ public class AbstractViewImages extends RequestInvAbstractBean {
 		this.thumbs = images;
 	}	
 	
-	
 	/**
 	 * It retrieve image from ActionEvent and update selected 
 	 * image into session state and sets list mode to image.
@@ -138,5 +137,23 @@ public class AbstractViewImages extends RequestInvAbstractBean {
 		tsi.setPath(tn.getContent().getPath());
 		tsi.setImageId(image.getCode());
 		return tsi;
+	}
+	
+	public String accPrepareImagessToDelete(){
+		List<Integer> toDelete = null;
+		
+		if( (thumbs != null) && (thumbs.size() > 0) ){
+			toDelete = new ArrayList<Integer>();
+			for(ThumbSelectItem tsi: thumbs){
+				if(tsi.getSelected()){
+					toDelete.add(tsi.getImageId());
+				}
+			}
+		}
+		
+		ImageDeletionBean bean = (ImageDeletionBean) this.getBackBeanReference("imageDeletionBean");
+		bean.setToDelete(toDelete);
+		
+		return bean.prepareImageDeletion();
 	}	
 }

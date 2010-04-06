@@ -22,6 +22,8 @@ public class ActionBeanNames {
 	public final static String CREATE_TASK			= "createTask";	
 	
 	public final static String DELETE_PATIENTS		= "deletePatients";
+	public static final String DELETE_STUDIES 		= "deleteStudies";
+	public static final String DELETE_IMAGES	 	= "deleteImages";
 
 	public final static String EDIT_GROUP			= "editGroup";
 	public final static String EDIT_MODALITY		= "editModality";

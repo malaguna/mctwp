@@ -23,11 +23,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Task extends DomainObject {
+	public static final String OPEN = "open";
+	public static final String CLOSED = "closed";
+	public static final String REJECTED = "rejected";
 
 	private static final long serialVersionUID = -8921868396324541777L;
 	private Date endDate = null;
 	private User owner = null;
-	private Boolean done = false;
+	private String status = OPEN;
 	private Set<TaskLog> logs = null;
 	private ProcessDef process = null;
 	private Protocolable source = null;
@@ -50,20 +53,17 @@ public class Task extends DomainObject {
 		return endDate;
 	}
 	
-	public void setDone(Boolean done) {
-		this.done = done;
+	public void setStatus(String status) {
+		if(OPEN.equalsIgnoreCase(status))
+			this.status = status;
+		else if(CLOSED.equalsIgnoreCase(status))
+			this.status = status;
+		else if(REJECTED.equalsIgnoreCase(status))
+			this.status = status;
 	}
 	
-	public void setDone(boolean done) {
-		this.done = done;
-	}
-	
-	public Boolean getDone(Boolean done){
-		return done;
-	}
-	
-	public boolean isDone() {
-		return done;
+	public String getStatus() {
+		return status;
 	}
 	
 	public void setImages(Set<ImageData> images) {

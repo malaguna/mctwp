@@ -137,10 +137,10 @@ public class TaskUtils extends AbstractBLogic{
 				taux.setEndDate(task.getEndDate());
 
 			//Check status change
-			}else if(taux.isDone() != task.isDone()){
-				tl.setField(TaskLog.TLF_DONE);
-				tl.setValue(Boolean.toString(task.isDone()));
-				taux.setDone(task.isDone());
+			}else if(!taux.getStatus().equalsIgnoreCase(task.getStatus())){
+				tl.setField(TaskLog.TLF_STATUS);
+				tl.setValue(task.getStatus());
+				taux.setStatus(task.getStatus());
 				
 			//Only a comment is done
 			}else {
@@ -174,6 +174,26 @@ public class TaskUtils extends AbstractBLogic{
 				tl.setComment(comment);
 				
 				t.setOwner(newOwner);
+				t.addLog(tl);
+				
+				taskDao.persist(t);
+			}
+		}
+	}
+
+	public void doneTasks(List<Integer> tasks, User author) {
+		if( (tasks != null) && (!tasks.isEmpty()) ){
+			
+			userDao.reattach(author, GenericDAO.DIRTY_IGNORE);;
+
+			for(Integer ti : tasks){
+				Task t = taskDao.findById(ti);
+				TaskLog tl = new TaskLog();
+				
+				tl.setAuthor(author);
+				tl.setField(TaskLog.TLF_STATUS);
+				tl.setValue(Task.CLOSED);
+				t.setStatus(Task.CLOSED);
 				t.addLog(tl);
 				
 				taskDao.persist(t);

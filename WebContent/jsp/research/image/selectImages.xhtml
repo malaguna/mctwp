@@ -41,65 +41,77 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
 	
 	<h:form>
-	<h:panelGroup id="viewThumbs">
-		<t:dataTable id="gridThumbs" newspaperColumns="3" styleClass="resTabla"
-			headerClass="resCabecera" footerClass="pieTablaEstandar" 
-			rowClasses="resFilaImpar, resFilaPar" columnClasses="columnaNormal"
-			value="#{selectImages.thumbs}" var="fimag" rows="6">
-			
-			<h:column>
-				<h:panelGrid columns="1" styleClass="cuerpo">
-					<h:outputText value="#{fimag.thumbId} "/>
-					<h:panelGrid columns="2" styleClass="cuerpo">
-						<h:panelGrid columns="1" styleClass="cuerpo">
-							<h:graphicImage url="#{fimag.path}"></h:graphicImage>
+	
+	<table style="margin-left: auto; margin-right: auto;">
+		<tr>
+			<td>
+				<t:dataTable 
+					id="gridThumbs" 
+					newspaperColumns="3" 
+					styleClass="resTabla"
+					headerClass="resCabecera" 
+					columnClasses="topAlignedCol"
+					value="#{selectImages.thumbs}" 
+					var="fimag" rows="6">
+					
+					<f:facet name="header">
+						<h:outputText value="#{msgs['jsf.generic.Images']}" />
+					</f:facet>
+					<f:facet name="footer"><hr/></f:facet>
+					<h:column styleClass="topAligned">
+						<h:panelGrid 
+							columns="1">
+							<h:graphicImage 
+								url="#{fimag.path}" 
+								alt="#{fimag.thumbId}" 
+								title="#{fimag.thumbId}"/>
+							<h:panelGroup>
+								<h:selectBooleanCheckbox value="#{fimag.selected}" />
+								<h:outputText value="Importar"/>
+							</h:panelGroup>
 						</h:panelGrid>
-						<h:panelGroup>
-							<h:selectBooleanCheckbox value="#{fimag.selected}" />
-							<h:outputText value="Importar"/>
-						</h:panelGroup>
-					</h:panelGrid>
-				</h:panelGrid>
-			</h:column>
-		</t:dataTable>
-		
-		<t:dataScroller id="scrollerTable" for="gridThumbs"  fastStep="10" 
-			styleClass="scroll" paginator="true" paginatorMaxPages="20" 
-			paginatorTableClass="paginator" paginatorActiveColumnStyle="font-weight:bold;" 
-			rowsCountVar="rows" displayedRowsCountVar="inview"
-			firstRowIndexVar="first" lastRowIndexVar="last" pageCountVar="pagTotal" 
-			pageIndexVar="pagActual">
-	
-			<f:facet name="first" >
-				<t:graphicImage url="/jsp/icons/resultset_first.png" />
-			</f:facet>
-			<f:facet name="last">
-				<t:graphicImage url="/jsp/icons/resultset_last.png" border="0" />
-			</f:facet>
-			<f:facet name="previous">
-				<t:graphicImage url="/jsp/icons/resultset_previous.png" border="0" />
-			</f:facet>
-			<f:facet name="next">
-				<t:graphicImage url="/jsp/icons/resultset_next.png" border="0" />
-			</f:facet>
+					</h:column>
+				</t:dataTable>
+				
+				<t:dataScroller 
+					id="scrollerTable" 
+					for="gridThumbs"  
+					fastStep="10" 
+					styleClass="scroll" 
+					paginator="true" 
+					paginatorMaxPages="20" 
+					displayedRowsCountVar="inview"
+					firstRowIndexVar="first" 
+					lastRowIndexVar="last" 
+					pageCountVar="pagTotal" 
+					pageIndexVar="pagActual"
+					rowsCountVar="rows">
 			
-			<h:outputFormat value="#{msgs['jsf.scroll.Image']}" styleClass="scroll">
-				<f:param value="#{rows}" />
-				<f:param value="#{inview}" />
-				<f:param value="#{first}" />
-				<f:param value="#{last}" />
-				<f:param value="#{pagActual}" />
-				<f:param value="#{pagTotal}" />
-			</h:outputFormat>
-
-		</t:dataScroller> 
-		
-	</h:panelGroup>
+					<f:facet name="first" >
+						<t:graphicImage url="/jsp/icons/resultset_first.png" />
+					</f:facet>
+					<f:facet name="last">
+						<t:graphicImage url="/jsp/icons/resultset_last.png" border="0" />
+					</f:facet>
+					<f:facet name="previous">
+						<t:graphicImage url="/jsp/icons/resultset_previous.png" border="0" />
+					</f:facet>
+					<f:facet name="next">
+						<t:graphicImage url="/jsp/icons/resultset_next.png" border="0" />
+					</f:facet>
+					
+				</t:dataScroller> 
+			</td>
+			<td style="vertical-align: bottom;">
+				<h:commandButton 
+					id="new" 
+					styleClass="frmButton" 
+					value="#{msgs['jsf.actions.Import']}" 
+					action="#{selectImages.importImages}"/>
+			</td>
+		</tr>
+	</table>
 	
-	<h:panelGrid columns="2" styleClass="cuerpo">
-		<h:commandButton id="new" styleClass="frmButton" value="#{msgs['jsf.actions.Import']}" action="#{selectImages.importImages}"/>
-	</h:panelGrid>
-
 	</h:form>
 		
 </div>

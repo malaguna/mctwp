@@ -26,118 +26,107 @@ along with Multiclinical Trial Web-PACS.  If not, see
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:t="http://myfaces.apache.org/tomahawk"
-      xmlns:p="http://primefaces.prime.com.tr/ui">
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:mine="http://mctwp.urjc.es/jsf" >
 
-<ui:composition template="/jsp/include/templateRsc.xhtml">
-<ui:define name="cuerpo">
+<ui:composition template="/jsp/include/templateProtocolable.xhtml">
 
-<!-- Comienza la página JSF -->
-
-<div class="cuerpo">
-
-	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
-	
+<ui:define name="saveState">
 	<t:saveState value="#{resultBean.results}" />
-	
-	<!-- Aviso de que no existe Tarea -->
-	<h:panelGroup id="noObject" styleClass="cuerpo" rendered="#{sessionInv.task == null}">
-		<h:outputText styleClass="frmLabel" value="#{msgs['jsf.generic.NoTask']}" />
-	</h:panelGroup>
-	
-	<!-- Tabla de resulatados de la tarea en curso -->
-	<h:panelGroup styleClass="cuerpo" rendered="#{sessionInv.task != null}">
-		<h:form>
-			<t:dataTable id="pacientes" styleClass="resTabla"
-					headerClass="resCabecera" footerClass="pieTablaEstandar" 
-					rowClasses="resFilaImpar, resFilaPar" columnClasses="columnaNormal"
-					value="#{resultBean.results}" var="row" rows="15">
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="#{msgs['jsf.generic.Code']}" />
-					</f:facet>
-					<h:outputText id="codigo" value="#{row.code}"/>
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="#{msgs['jsf.generic.Date']}" />
-					</f:facet>
-					<h:outputText id="fecha" value="#{row.date}"/>
-				</h:column>
-				
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="#{msgs['jsf.generic.Result']}" />
-					</f:facet>
-					<h:outputText value="#{row.description}" />
-				</h:column>
-
-				<h:column>
-					<t:commandLink action="#{resultBean.accEditResult}" immediate="true">
-						<h:graphicImage value="/jsp/icons/application_form_edit.png" alt="#{msgs['jsf.actions.Edit']}" />
-						<t:updateActionListener value="#{row}" property="#{resultBean.result}"></t:updateActionListener>
-					</t:commandLink>
-				</h:column>
-				<h:column>
-					<t:commandLink action="#{viewResultImages.accListImagesOfResult}" actionListener="#{resultBean.alUpdateResultSelected}" immediate="true">
-						<h:graphicImage value="/jsp/icons/images.png" alt="#{msgs['jsf.actions.ExploreImg']}" />
-					</t:commandLink>
-				</h:column>
-				<h:column>
-					<t:commandLink action="#{selectFolder.accSelectFolders}" actionListener="#{resultBean.alUpdateResultSelected}" immediate="true">
-						<h:graphicImage value="/jsp/icons/image_add.png" alt="#{msgs['jsf.actions.Upload']}" />
-					</t:commandLink>
-				</h:column>
-				
-			</t:dataTable>
-			
-			<t:dataScroller id="scrollerTable" for="pacientes"  fastStep="10" immediate="true" 
-				styleClass="scroll" paginator="true" paginatorMaxPages="20" 
-				paginatorTableClass="paginator" paginatorActiveColumnStyle="font-weight:bold;" 
-				rowsCountVar="rows" displayedRowsCountVar="inview"
-				firstRowIndexVar="first" lastRowIndexVar="last" pageCountVar="pagTotal" 
-				pageIndexVar="pagActual">
-		
-				<f:facet name="first" >
-					<t:graphicImage url="/jsp/icons/resultset_first.png" />
-				</f:facet>
-				<f:facet name="last">
-					<t:graphicImage url="/jsp/icons/resultset_last.png" border="0" />
-				</f:facet>
-				<f:facet name="previous">
-					<t:graphicImage url="/jsp/icons/resultset_previous.png" border="0" />
-				</f:facet>
-				<f:facet name="next">
-					<t:graphicImage url="/jsp/icons/resultset_next.png" border="0" />
-				</f:facet>
-				
-				<h:outputFormat value="#{msgs['jsf.scroll.Result']}" styleClass="scroll">
-					<f:param value="#{rows}" />
-					<f:param value="#{inview}" />
-					<f:param value="#{first}" />
-					<f:param value="#{last}" />
-					<f:param value="#{pagActual}" />
-					<f:param value="#{pagTotal}" />
-				</h:outputFormat>
-	
-			</t:dataScroller> 
-			
-		</h:form>	
-		
-		<!-- Botonera de operaciones con casos -->
-		<h:form>
-			<h:panelGrid columns="2">
-				<h:commandButton id="new" styleClass="frmButton" value="#{msgs['jsf.actions.Create']}" action="editResult"/>
-			</h:panelGrid>
-		</h:form>
-
-	</h:panelGroup>
-	
-</div>
-			
-<!-- Termina la página JSF -->
-
 </ui:define>
-</ui:composition>
 
+<ui:define name="title">
+	<h3>
+		Resultados de la Tarea #{sessionInv.task.code}
+	</h3>
+</ui:define>
+
+<ui:define name="tableContent">
+	<mine:protoTbl
+		id="resultsList"
+		rows="10"
+		value="#{resultBean.results}">
+		
+		<ui:define name="tableColumns">
+		
+			<mine:protoTblCol 
+				id="code"
+				value="#{row.code}"
+				sortParser="number"
+				header="#{msgs['jsf.generic.Code']}"/>
+		
+			<mine:protoTblDateCol 
+				id="description"
+				value="#{row.description}"
+				sortParser="string"
+				header="#{msgs['jsf.generic.Result']}"/>
+
+			<mine:protoTblCol 
+				id="dateCol"
+				value="#{row.date}"
+				sortParser="string"
+				header="#{msgs['jsf.generic.Date']}"/>
+		
+			<p:column id="tblImgBotonera">
+				<table class="tablaBotonera">
+					<tr>
+						<td class="tdBotonera">		
+							<h:commandLink
+								id="tblRstEdit"
+								immediate="true"
+								action="#{resultBean.accEditResult}">
+								<h:graphicImage 
+									id="tblIconRstEdit"
+									value="/jsp/icons/application_form_edit.png" 
+									alt="#{msgs['jsf.actions.Edit']}"
+									title="#{msgs['jsf.actions.Edit']}"/>  
+								<f:setPropertyActionListener 
+									value="#{row}" 
+									target="#{resultBean.result}" />
+							</h:commandLink>
+						</td>
+							
+						<td class="tdBotonera">	
+							<h:commandLink
+								id="tblRstListImages"
+								immediate="true"
+								action="#{viewResultImages.accListImagesOfResult}" 
+								actionListener="#{resultBean.alUpdateResultSelected}">
+								<h:graphicImage 
+									id="tblIconRstListImages"
+									value="/jsp/icons/images.png" 
+									alt="#{msgs['jsf.actions.ExploreImg']}"
+									title="#{msgs['jsf.actions.ExploreImg']}"/>  
+							</h:commandLink>
+						</td>
+			
+						<td class="tdBotoneraUltimo">		
+							<h:commandLink
+								id="tblRstAddImg"
+								immediate="true"
+								action="#{selectFolder.accSelectFolders}" 
+								actionListener="#{resultBean.alUpdateResultSelected}">
+								<h:graphicImage 
+									id="tblIconRstAddImg"
+									value="/jsp/icons/image_add.png" 
+									alt="#{msgs['jsf.actions.Upload']}"
+									title="#{msgs['jsf.actions.Upload']}"/>  
+							</h:commandLink>
+						</td>
+					</tr>
+				</table>
+			</p:column>
+		</ui:define>
+	</mine:protoTbl>
+</ui:define>
+
+<ui:define name="buttonsForm">
+	<h:commandButton 
+		id="new" 
+		styleClass="frmButton" 
+		value="#{msgs['jsf.actions.Create']}" 
+		action="editResult"/>
+</ui:define>
+
+</ui:composition>
 </html>
