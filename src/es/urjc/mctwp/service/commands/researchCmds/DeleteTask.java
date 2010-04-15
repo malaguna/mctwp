@@ -18,9 +18,14 @@
 
 package es.urjc.mctwp.service.commands.researchCmds;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.BeanFactory;
 
+import es.urjc.mctwp.dao.ImageDataDAO;
 import es.urjc.mctwp.dao.TaskDAO;
+import es.urjc.mctwp.modelo.ImageData;
 import es.urjc.mctwp.modelo.Task;
 import es.urjc.mctwp.service.ActionNames;
 import es.urjc.mctwp.service.BeanNames;
@@ -28,11 +33,13 @@ import es.urjc.mctwp.service.Command;
 
 public class DeleteTask extends Command {
 	private TaskDAO taskDao = null;
+	private ImageDataDAO imgDao = null;
 	private Task task = null;
 
 	public DeleteTask(BeanFactory bf) {
 		super(bf);
 		taskDao = (TaskDAO)bf.getBean(BeanNames.TASK_DAO);
+		imgDao = (ImageDataDAO)bf.getBean(BeanNames.IMAGE_DATA_DAO);
 		setAction(ActionNames.DELETE_TASK);
 		setReadOnly(false);
 	}
@@ -48,11 +55,29 @@ public class DeleteTask extends Command {
 	public boolean isValidCommand(){
 		return  super.isValidCommand() && 
 				taskDao != null &&
+				imgDao != null &&
 				task != null;
 	}
 
 	@Override
 	public Command runCommand() {
+		List<Integer> imgIds = null;
+		task = taskDao.findById(task.getCode());
+		
+		if(task.getImages() != null){
+			imgIds = new ArrayList<Integer>();
+			
+			for(ImageData image : task.getImages()){
+				imgIds.add(image.getCode());
+			}
+			
+			for(Integer imgId : imgIds){
+				ImageData image = imgDao.findById(imgId);
+				image.delTask(task);
+				imgDao.persist(image);
+			}
+		}
+		
 		taskDao.delete(task);
 		return this;
 	}

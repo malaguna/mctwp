@@ -44,7 +44,7 @@ public class TaskBean extends TaskAbstractBean{
 	private Integer idProcessSeleted = null;
 	private String taskComment = null;
 	private Task task = new Task();
-
+	
 	public void setTask(Task task) {
 		this.task = task;
 	}
@@ -129,7 +129,6 @@ public class TaskBean extends TaskAbstractBean{
 		loadPossibleUsers();
 		
 		Command cmd = getCommand(FindAllProcess.class);
-		((FindAllProcess)cmd).setSource(currentSource());
 		cmd = runCommand(cmd);
 		auxList = ((FindAllProcess)cmd).getResult();
 		

@@ -24,14 +24,12 @@ import org.springframework.beans.factory.BeanFactory;
 
 import es.urjc.mctwp.dao.ProcessDefDAO;
 import es.urjc.mctwp.modelo.ProcessDef;
-import es.urjc.mctwp.modelo.Protocolable;
 import es.urjc.mctwp.service.ActionNames;
 import es.urjc.mctwp.service.BeanNames;
 import es.urjc.mctwp.service.ResultCommand;
 
 public class FindAllProcess extends ResultCommand<List<ProcessDef>> {
 	private ProcessDefDAO processDefDao = null;
-	private Protocolable source = null;
 
 	public FindAllProcess(BeanFactory bf) {
 		super(bf);
@@ -39,19 +37,10 @@ public class FindAllProcess extends ResultCommand<List<ProcessDef>> {
 		setAction(ActionNames.FIND_ALL_PROCESS);
 	}
 	
-	public Protocolable getSource() {
-		return source;
-	}
-
-	public void setSource(Protocolable source) {
-		this.source = source;
-	}
-
 	@Override
 	public boolean isValidCommand(){
 		return  super.isValidCommand() &&
-				processDefDao != null &&
-				source != null;
+				processDefDao != null;
 	}
 
 	@Override

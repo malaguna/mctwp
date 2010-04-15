@@ -86,10 +86,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 					                	value="#{row.thumbId}"
 					                	target="#{downloadBean.imageId}"/>
 								</h:commandLink>
-								<h:panelGroup>
-									<h:selectBooleanCheckbox value="#{row.selected}" />
-									<h:outputText value="Enviar"/>
-								</h:panelGroup>
+								<h:selectBooleanCheckbox value="#{row.selected}" />
 							</h:panelGrid>					
 						</h:panelGrid>
 					</h:column>

@@ -109,6 +109,8 @@ along with Multiclinical Trial Web-PACS.  If not, see
 					id="status"
 					styleClass="frmSelectOne" 
 					value="#{taskBean.task.status}">
+					<f:selectItem itemLabel="" itemValue="#{null}" />
+					<f:selectItems value="#{taskBean.stateLst}" />
 				</h:selectOneMenu>
 				<t:message 
 					id="statusError" 
@@ -145,12 +147,17 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	</ui:define>
 
 	<ui:define name="buttonsForm">
-		<h:panelGrid columns="1">
+		<h:panelGrid columns="2">
 			<h:commandButton 
 				id="save" 
 				styleClass="frmButton" 
 				value="#{msgs['jsf.actions.Save']}" 
 				action="#{taskBean.accSaveTask}"/>
+			<h:commandButton 
+				id="delete" 
+				styleClass="frmButton" 
+				value="#{msgs['jsf.actions.Delete']}" 
+				action="#{taskBean.accDeleteTask}"/>
 		</h:panelGrid>
 	</ui:define>
 

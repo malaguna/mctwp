@@ -113,6 +113,14 @@ public class ImageData extends DomainObject implements java.io.Serializable {
 			task.addImage(this);
 		}
 	}
+	
+	public void delTask(Task task){
+		if(task != null)
+			if(tasks != null){
+				tasks.remove(task);
+				task.delImage(this);
+			}
+	}
 
 	public int getThumbnailSize() {
 		return (int)thumbnail.length;

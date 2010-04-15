@@ -73,11 +73,17 @@ Definitions:
 	<h:outputLabel 
 		styleClass="frmLabel" 
 		value="" />
-	<h:commandButton 
-		styleClass="frmButton" 
-		style="float: right;" 
-		value="#{msgs['jsf.actions.Send']}" 
-		action="#{backBean.accSendImages}" />
+	<h:panelGroup style="float: right;">
+		<h:commandButton 
+			styleClass="frmButton" 
+			value="#{msgs['jsf.actions.Send']}" 
+			action="#{backBean.accSendImages}" />
+		<h:commandButton 
+			style="margin-left: 5px;"
+			styleClass="frmButton"
+			value="#{msgs['jsf.actions.DeleteSelected']}"
+			action="#{backBean.accPrepareImagesToDelete}" />
+	</h:panelGroup>
 </h:panelGrid>
 	
 </ui:composition>

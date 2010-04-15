@@ -105,6 +105,15 @@ public class TasksBean extends TaskAbstractBean{
 	}
 	
 	/**
+	 * Wrapper action to list task of image loaded in session
+	 * @return
+	 */
+	public String accListUsrTasks(){
+		taskListMode = TASK_MODE_USR;
+		return accListTasks();
+	}
+	
+	/**
 	 * Wrapper action to list task of a protocolable loaded in session
 	 * @return
 	 */
