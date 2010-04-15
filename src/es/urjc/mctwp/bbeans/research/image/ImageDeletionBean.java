@@ -10,8 +10,8 @@ import es.urjc.mctwp.service.Command;
 import es.urjc.mctwp.service.commands.researchCmds.DeleteImages;
 
 public class ImageDeletionBean extends RequestInvAbstractBean {
-	private List<Integer> toDelete = null; //Patients that can be deleted
-	private List<ImageData> cantDelete = null; //Patients that can not be deleted
+	private List<Integer> toDelete = null; //Images that can be deleted
+	private List<ImageData> cantDelete = null; //Images that can not be deleted
 
 	public void setCantDelete(List<ImageData> cantDelete) {
 		this.cantDelete = cantDelete;

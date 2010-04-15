@@ -116,7 +116,7 @@ public class FindTasks extends ResultCommand<List<Task>> {
 			criteria.createCriteria("owner").add(Restrictions.eq("code", owner));
 		
 		if(process != null)
-			criteria.createCriteria("process").add(Restrictions.eq("code", owner));
+			criteria.createCriteria("process").add(Restrictions.eq("code", process));
 		
 		if(taskState != null)
 			criteria.add(Restrictions.eq("status", taskState));
