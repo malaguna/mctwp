@@ -34,15 +34,15 @@ public class TaskDAO extends GenericDAO<Task, Integer> {
 	@SuppressWarnings ("unchecked")
 	public List<Task> findTasksByUser(User user){
 		List<Task> result = null;
-		String query = "FROM Task t WHERE t.owner=?";
+		String query = "FROM Task t WHERE t.owner=? AND status=?";
 		
 		try{
-			result = this.getHibernateTemplate().find(query, user);
+			result = this.getHibernateTemplate().find(query, new Object[] {user, Task.OPEN});
 		}catch(RuntimeException re){
 			logErrMsg("findTasksByUser", re);
 			throw re;
 		}
 		
 		return result;
-	}	
+	}
 }

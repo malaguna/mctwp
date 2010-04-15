@@ -62,7 +62,8 @@ public class FindTasksByImage extends ResultCommand<List<Task>> {
 		if(aux != null){
 			this.setResult(new ArrayList<Task>());
 			for(Task task : aux)
-				this.getResult().add(task);
+				if(Task.OPEN.equalsIgnoreCase(task.getStatus()))
+					this.getResult().add(task);
 		}
 		
 		return this;

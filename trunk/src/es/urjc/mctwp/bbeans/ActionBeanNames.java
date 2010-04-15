@@ -56,6 +56,7 @@ public class ActionBeanNames {
 	public final static String SEARCH_MODALITIES	= "searchModalities";
 	public final static String SEARCH_PROCESSES		= "searchProcesses";
 	public final static String SEARCH_ROLES			= "searchRoles";
+	public static final String SEARCH_TASKS 		= "searchTasks";
 	public final static String SEARCH_TRIALS		= "searchTrials";
 	public final static String SEARCH_USERS			= "searchUsers";
 	
@@ -67,4 +68,5 @@ public class ActionBeanNames {
 	public final static String VIEW_USER_LOGS		= "viewUserLogs";
 	public final static String VIEW_USER_MODALITIES	= "viewUserModalities";
 	public final static String VIEW_USER_PRATICIP	= "viewUserParticipations";
+
 }

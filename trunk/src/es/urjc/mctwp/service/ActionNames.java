@@ -101,4 +101,5 @@ public class ActionNames {
 	public final static String SEND_IMAGES			= "sendImages";
 	
 	public final static String STORE_TEMP_IMAGES	= "storeTemporalImages";
+	public static final String FIND_TASKS 			= "searchTasks";
 }

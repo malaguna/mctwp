@@ -48,4 +48,5 @@ public class BeanNames {
 	public final static String SERVICE_DELEGATE = "ServiceDelegate";
 	
 	public final static String PERSIST_IMG_VISITOR = "PersistImagesVisitor";
+	public static final String SESSION_FACTORY = "SessionFactory";
 }

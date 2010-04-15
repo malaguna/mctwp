@@ -139,7 +139,7 @@ public class AbstractViewImages extends RequestInvAbstractBean {
 		return tsi;
 	}
 	
-	public String accPrepareImagessToDelete(){
+	public String accPrepareImagesToDelete(){
 		List<Integer> toDelete = null;
 		
 		if( (thumbs != null) && (thumbs.size() > 0) ){

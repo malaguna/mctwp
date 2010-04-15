@@ -68,7 +68,7 @@ public class ImageDeletionBean extends RequestInvAbstractBean {
 					cantDelete = new ArrayList<ImageData>();
 			}
 			
-			result = ActionBeanNames.DELETE_PATIENTS;
+			result = ActionBeanNames.DELETE_IMAGES;
 		}else{
 			setWarnMessage(getMessage("jsf.info.NoImagesSelected"));
 		}

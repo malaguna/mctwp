@@ -172,6 +172,17 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	</managed-bean>			
 	
 	<managed-bean>
+		<managed-bean-name>taskSearchBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.TasksSearchBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.research.SessionInvBean</property-class>
+			<value>#{sessionInv}</value>
+		</managed-property>
+	</managed-bean>			
+	
+	<managed-bean>
 		<managed-bean-name>resultBean</managed-bean-name>
 		<managed-bean-class>es.urjc.mctwp.bbeans.research.ResultBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>

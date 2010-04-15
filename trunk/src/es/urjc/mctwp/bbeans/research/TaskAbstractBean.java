@@ -26,6 +26,7 @@ import javax.faces.model.SelectItem;
 
 import es.urjc.mctwp.bbeans.RequestInvAbstractBean;
 import es.urjc.mctwp.modelo.Participation;
+import es.urjc.mctwp.modelo.Task;
 import es.urjc.mctwp.modelo.User;
 import es.urjc.mctwp.service.Command;
 import es.urjc.mctwp.service.commands.researchCmds.LoadParticipationsOfTrial;
@@ -34,41 +35,56 @@ import es.urjc.mctwp.service.commands.researchCmds.LoadParticipationsOfTrial;
  * Implements common functionality for Task and Tasks BackBeans
  * 
  * @author miguel
- *
+ * 
  */
-public class TaskAbstractBean extends RequestInvAbstractBean{
+public class TaskAbstractBean extends RequestInvAbstractBean {
 	protected Integer newOwner = null;
 	protected List<SelectItem> possibleUsers = new ArrayList<SelectItem>();
+	private SelectItem[] stateLst = new SelectItem[] {
+			new SelectItem(Task.OPEN, Task.OPEN),
+			new SelectItem(Task.CLOSED, Task.CLOSED),
+			new SelectItem(Task.REJECTED, Task.REJECTED) };
 
 	public Integer getNewOwner() {
 		return newOwner;
 	}
+
 	public void setNewOwner(Integer no) {
 		this.newOwner = no;
 	}
+
 	public List<SelectItem> getPossibleUsers() {
 		return possibleUsers;
 	}
+
 	public void setPossibleUsers(List<SelectItem> possibleUsers) {
 		this.possibleUsers = possibleUsers;
 	}
-	
+
+	public void setStateLst(SelectItem[] states) {
+	}
+
+	public SelectItem[] getStateLst() {
+		return stateLst;
+	}
+
 	/**
 	 * Retrieves all possible users that can be assigned a task
 	 * 
 	 * @return
 	 */
-	protected void loadPossibleUsers(){
+	protected void loadPossibleUsers() {
 		Command cmd = getCommand(LoadParticipationsOfTrial.class);
 		cmd = runCommand(cmd);
-		Iterator<Participation> it = ((LoadParticipationsOfTrial)cmd).getResult();
+		Iterator<Participation> it = ((LoadParticipationsOfTrial) cmd)
+				.getResult();
 
-		if(it != null){
+		if (it != null) {
 			possibleUsers = new ArrayList<SelectItem>();
-			
-			while(it.hasNext()){
+
+			while (it.hasNext()) {
 				User u = it.next().getUser();
-					possibleUsers.add(new SelectItem(u.getCode(), u.getFullName()));
+				possibleUsers.add(new SelectItem(u.getCode(), u.getFullName()));
 			}
 		}
 	}

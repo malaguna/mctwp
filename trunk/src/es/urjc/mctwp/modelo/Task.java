@@ -91,6 +91,12 @@ public class Task extends DomainObject {
 		}
 	}
 	
+	public void delImage(ImageData image){
+		if(image != null)
+			if(images != null)
+				images.remove(image);
+	}
+	
 	public void setLogs(Set<TaskLog> logs) {
 		this.logs = logs;
 	}

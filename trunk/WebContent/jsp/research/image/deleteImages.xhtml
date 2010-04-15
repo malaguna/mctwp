@@ -52,6 +52,24 @@ along with Multiclinical Trial Web-PACS.  If not, see
 					<tr>
 						<td>
 							<p:tabView>
+								<p:tab title="#{msgs['jsf.headers.toDelete']}">
+
+									<p:dataTable
+										id="imagesToDelete"
+										rows="10"
+										var="row" 
+										value="#{imageDeletionBean.toDelete}"
+										paginator="true" 
+										paginatorPosition="bottom">
+										
+										<p:column sortBy="#{row.imageId}">
+											<f:facet name="header">
+												<h:outputText value="#{msgs['jsf.generic.Image']}"/>
+											</f:facet>
+											<h:outputText value="#{row.imageId}"/>
+										</p:column>
+									</p:dataTable>
+								</p:tab>
 								<p:tab
 									rendered="#{!empty imageDeletionBean.cantDelete}" 
 									title="#{msgs['jsf.headers.toMantain']}">

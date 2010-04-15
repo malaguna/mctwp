@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:p="http://primefaces.prime.com.tr/ui"
+      xmlns:mine="http://mctwp.urjc.es/jsf" >
+
+<ui:composition template="/jsp/include/templateProtocolable.xhtml">
+
+<ui:define name="saveState">
+	<t:saveState value="#{taskSearchBean.possibleUsers}" />
+	<t:saveState value="#{taskSearchBean.processList}"/>
+	<t:saveState value="#{taskSearchBean.taskList}"/>
+	<t:saveState value="#{taskSearchBean.stateLst}" />
+</ui:define>
+
+<ui:define name="title">
+	<h3>
+		<h:outputText 
+			value="Buscar Tareas"/>
+	</h3>
+</ui:define>
+	
+<ui:define name="filterForm">
+	<table>
+		<tr>
+			<td>
+				<h:outputLabel 
+					styleClass="frmLabel" 
+					value="#{msgs['jsf.generic.Owner']}"/>
+			</td>
+			<td colspan="2">
+				<h:selectOneMenu 
+					id="owner" 
+					styleClass="frmSelectOne"
+					value="#{taskSearchBean.newOwner}">
+					<f:selectItem itemLabel="" itemValue="#{null}" />
+					<f:selectItems value="#{taskSearchBean.possibleUsers}"/>
+				</h:selectOneMenu>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h:outputLabel 
+					styleClass="frmLabel" 
+					value="#{msgs['jsf.generic.Process']}" />
+			</td>
+			<td colspan="2">
+				<h:selectOneMenu 
+					id="process"
+					styleClass="frmSelectOne" 
+					value="#{taskSearchBean.process}">
+					<f:selectItem itemLabel="" itemValue="#{null}" />
+					<f:selectItems value="#{taskSearchBean.processList}" />
+				</h:selectOneMenu>
+			</td>		
+		</tr>
+		<tr>
+			<td>
+				<h:outputLabel 
+					styleClass="frmLabel" 
+					value="#{msgs['jsf.generic.StartDate']}" />
+			</td>
+			<td colspan="2">
+				<p:calendar
+					id="startDate"
+					styleClass="frmInput"
+					value="#{taskSearchBean.startDate}"
+					timeZone="Europe/Madrid"
+					pattern="dd/MM/yyyy" />
+			</td>		
+		</tr>
+		<tr>
+			<td>
+				<h:outputLabel 
+					styleClass="frmLabel" 
+					value="#{msgs['jsf.generic.EndDate']}" />
+			</td>
+			<td colspan="2">
+				<p:calendar
+					id="endDate"
+					styleClass="frmInput"
+					value="#{taskSearchBean.endDate}"
+					timeZone="Europe/Madrid"
+					pattern="dd/MM/yyyy" />
+			</td>		
+		</tr>
+		<tr>
+			<td>
+				<h:outputLabel 
+					styleClass="frmLabel" 
+					value="#{msgs['jsf.generic.Status']}" />
+			</td>
+			<td>
+				<h:selectOneMenu 
+					id="status"
+					styleClass="frmSelectOne" 
+					value="#{taskSearchBean.taskState}">
+					<f:selectItem itemLabel="" itemValue="#{null}" />
+					<f:selectItems value="#{taskSearchBean.stateLst}" />
+				</h:selectOneMenu>
+			</td>		
+			<td>
+				<h:commandButton
+					id="filterButton" 
+					value="Buscar" 
+					styleClass="frmButton" 
+					action="#{taskSearchBean.accSearchTasks}" />
+			</td>
+		</tr>
+	</table>
+</ui:define>
+	
+<ui:define name="tableContent">
+	<mine:protoTbl
+		id="tareasList"
+		rows="10"
+		value="#{taskSearchBean.taskList}">
+		
+		<ui:define name="tableColumns">
+		
+			<mine:protoTblCol 
+				id="code"
+				value="#{row.code}"
+				sortParser="number"
+				header="#{msgs['jsf.generic.Code']}"/>
+		
+			<mine:protoTblCol 
+				id="ownerName"
+				value="#{row.owner.fullName}"
+				sortParser="string"
+				header="#{msgs['jsf.generic.Owner']}"/>
+		
+			<mine:protoTblCol 
+				id="processName"
+				value="#{row.process.name}"
+				sortParser="string"
+				header="#{msgs['jsf.generic.Process']}"/>
+		
+			<mine:protoTblDateCol 
+				id="date"
+				value="#{row.endDate}"
+				sortParser="string"
+				header="#{msgs['jsf.generic.DueTo']}"/>
+
+			<p:column id="tblImgBotonera">
+				<table class="tablaBotonera">
+					<tr>
+						<td class="tdBotonera">		
+							<h:commandLink
+								id="tblImgEditTask"
+								immediate="true"
+								action="#{taskBean.accEditTask}">
+								<h:graphicImage 
+									id="tblIconImgEditTask"
+									value="/jsp/icons/application_form_edit.png" 
+									alt="#{msgs['jsf.actions.Edit']}"
+									title="#{msgs['jsf.actions.Edit']}"/>  
+								<f:setPropertyActionListener 
+									value="#{row.code}" 
+									target="#{taskBean.task.code}" />
+							</h:commandLink>
+						</td>
+							
+						<td class="tdBotonera">		
+							<h:commandLink
+								id="tblImgListImagesTask"
+								immediate="true"
+								action="#{viewTaskImages.accListImagesOfTask}" 
+								actionListener="#{taskSearchBean.alUpdateTaskSelected}">
+								<h:graphicImage 
+									id="tblIconListImagesTask"
+									value="/jsp/icons/images.png" 
+									alt="#{msgs['jsf.actions.ExploreImg']}"
+									title="#{msgs['jsf.actions.ExploreImg']}"/>  
+							</h:commandLink>
+						</td>
+			
+						<td class="tdBotoneraUltimo">		
+							<h:commandLink
+								id="tblImgListResTask"
+								immediate="true"
+								action="#{resultBean.accListResultsOfTask}" 
+								actionListener="#{taskSearchBean.alUpdateTaskSelected}">
+								<h:graphicImage 
+									id="tblIconListResTask"
+									value="/jsp/icons/table.png" 
+									alt="#{msgs['jsf.actions.ExploreRes']}"
+									title="#{msgs['jsf.actions.ExploreRes']}"/>  
+							</h:commandLink>
+						</td>
+					</tr>
+				</table>
+			</p:column>
+
+		</ui:define>
+	</mine:protoTbl>
+</ui:define>
+
+</ui:composition>
+</html>

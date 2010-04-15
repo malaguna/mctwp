@@ -132,6 +132,10 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<from-outcome>editTask</from-outcome>
 			<to-view-id>/jsp/research/task/editTask.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>searchTasks</from-outcome>
+			<to-view-id>/jsp/research/task/searchTasks.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
