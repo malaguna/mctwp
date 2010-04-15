@@ -62,11 +62,11 @@ along with Multiclinical Trial Web-PACS.  If not, see
 										paginator="true" 
 										paginatorPosition="bottom">
 										
-										<p:column sortBy="#{row.imageId}">
+										<p:column sortBy="#{row}">
 											<f:facet name="header">
 												<h:outputText value="#{msgs['jsf.generic.Image']}"/>
 											</f:facet>
-											<h:outputText value="#{row.imageId}"/>
+											<h:outputText value="#{row}"/>
 										</p:column>
 									</p:dataTable>
 								</p:tab>
@@ -82,11 +82,11 @@ along with Multiclinical Trial Web-PACS.  If not, see
 										paginator="true" 
 										paginatorPosition="bottom">
 										
-										<p:column sortBy="#{row.imageId}">
+										<p:column sortBy="#{row.code}">
 											<f:facet name="header">
 												<h:outputText value="#{msgs['jsf.generic.Image']}"/>
 											</f:facet>
-											<h:outputText value="#{row.imageId}"/>
+											<h:outputText value="#{row.code}"/>
 										</p:column>
 									</p:dataTable>
 								</p:tab>
