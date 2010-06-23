@@ -37,7 +37,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	</bean>
 
 	<bean id="ExTranslator" class="org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator">
-		<property name="dataSource"><ref bean="DataSource"/></property>
+		<property name="dataSource" ref="DataSource"/>
 	</bean>
 
 	<bean id="SessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
@@ -73,8 +73,8 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	</bean>
 
 	<bean id="HiberTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
-		<property name="sessionFactory"><ref bean="SessionFactory"/></property>
-		<property name="jdbcExceptionTranslator"><ref bean="ExTranslator"/></property>
+		<property name="sessionFactory" ref="SessionFactory"/>
+		<property name="jdbcExceptionTranslator" ref="ExTranslator"/>
 	</bean>
 	
 	<!-- DAO's Definition -->
