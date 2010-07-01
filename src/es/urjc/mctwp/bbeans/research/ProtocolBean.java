@@ -113,7 +113,6 @@ public class ProtocolBean extends RequestInvAbstractBean{
 	 * @return
 	 */
 	public String accViewProtocol(){
-		List<ProcessDef> aux = null;
 		
 		//Reload Protocolable from database and update state
 		Command cmd = getCommand(LoadProtocolable.class);
@@ -121,33 +120,47 @@ public class ProtocolBean extends RequestInvAbstractBean{
 		cmd = runCommand(cmd);
 		source = ((LoadProtocolable)cmd).getResult();
 		
-		//Get not assigned processes
-		cmd = getCommand(FindNotAssignedProcesses.class);
-		((FindNotAssignedProcesses)cmd).setSource(source);
-		cmd = runCommand(cmd);
-		aux = ((FindNotAssignedProcesses)cmd).getResult();
-		
-		if(aux != null){
-			notAssignedProcesses = new ArrayList<SelectItem>();
-			for(ProcessDef processDef : aux)
-				notAssignedProcesses.add(new SelectItem(processDef.getCode(), processDef.getDescription()));
-		}
-		
-		//Get possible users
-		cmd = getCommand(LoadParticipationsOfTrial.class);
-		cmd = runCommand(cmd);
-		Iterator<Participation> it = ((LoadParticipationsOfTrial)cmd).getResult();
-
-		if(it != null){
-			possibleUsers = new ArrayList<SelectItem>();
-			
-			while(it.hasNext()){
-				User u = it.next().getUser();
-					possibleUsers.add(new SelectItem(u.getCode(), u.getFullName()));
-			}
-		}		
-		
 		return ActionBeanNames.EDIT_PROTOCOL;
+	}
+	
+	public String accPrepareAddition(){
+		List<ProcessDef> aux = null;
+
+		if(source != null){
+			
+			//Get not assigned processes
+			Command cmd = getCommand(FindNotAssignedProcesses.class);
+			((FindNotAssignedProcesses)cmd).setSource(source);
+			cmd = runCommand(cmd);
+			aux = ((FindNotAssignedProcesses)cmd).getResult();
+			
+			if(aux != null && !aux.isEmpty()){
+				notAssignedProcesses = new ArrayList<SelectItem>();
+				for(ProcessDef processDef : aux)
+					notAssignedProcesses.add(new SelectItem(processDef.getCode(), processDef.getName()));
+
+				//Get possible users
+				cmd = getCommand(LoadParticipationsOfTrial.class);
+				cmd = runCommand(cmd);
+				Iterator<Participation> it = ((LoadParticipationsOfTrial)cmd).getResult();
+		
+				if(it != null && it.hasNext()){
+					possibleUsers = new ArrayList<SelectItem>();
+					
+					while(it.hasNext()){
+						User u = it.next().getUser();
+							possibleUsers.add(new SelectItem(u.getCode(), u.getFullName()));
+					}
+				}else
+					setWarnMessage(getMessage("jsf.info.NoPossibleUsers"));
+
+			}else
+				setWarnMessage(getMessage("jsf.info.NoAvailableProcess"));
+			
+		}else
+			setWarnMessage(getMessage("jsf.info.NoProtocolSelected"));
+		
+		return ActionBeanNames.ADD_PROCESS;
 	}
 	
 	/**

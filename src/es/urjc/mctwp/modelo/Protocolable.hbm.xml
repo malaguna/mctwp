@@ -50,7 +50,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
         <set name="processes" 
         	table="proceso" 
         	order-by="codigo" 
-        	cascade="save-update"
+        	cascade="save-update delete delete-orphan"
         	inverse="true">
         	<key column="protocolable"/>
         	<one-to-many class="es.urjc.mctwp.modelo.Process" />

@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/jsp/include/templateEditionRsc.xhtml">
+
+	<ui:define name="saveState">
+		<t:saveState value="#{protocolBean.notAssignedProcesses}" />
+		<t:saveState value="#{protocolBean.possibleUsers}" />
+		<t:saveState value="#{protocolBean.source}" />
+	</ui:define>
+
+	<ui:define name="title">
+		<h3><h:outputText value="#{msgs['jsf.headers.AddProcess']}" />
+		</h3>
+	</ui:define>
+
+	<ui:define name="editionForm">
+		<h:panelGroup id="noObject"
+			rendered="#{sessionInv.trial == null}">
+			<h:outputText styleClass="frmLabel"
+				value="#{msgs['jsf.generic.NoTrial']}" />
+		</h:panelGroup>
+
+		<h:panelGroup id="cuerpo" rendered="#{sessionInv.trial != null}">
+			<h:panelGrid columns="3">
+	
+				<h:outputLabel value="Process" styleClass="frmLabel"/>
+				<h:selectOneMenu id="process"  value="#{protocolBean.idProcessDefSelected}" styleClass="frmSelectOne">
+					<f:selectItems value="#{protocolBean.notAssignedProcesses}" />
+				</h:selectOneMenu>
+				<t:message id="processError" for="process" />											
+		
+				<h:outputLabel value="#{msgs['jsf.generic.Owner']}" styleClass="frmLabel" for="owner" />
+				<h:selectOneMenu id="owner" value="#{protocolBean.owner}" styleClass="frmSelectOne">
+					<f:selectItems value="#{protocolBean.possibleUsers}"/>
+				</h:selectOneMenu>
+				<t:message id="ownerError" for="owner" />
+		
+				<h:outputLabel value="#{msgs['jsf.generic.TimeToDo']}" styleClass="frmLabel" for="days" />
+				<h:inputText id="days" value="#{protocolBean.days}" styleClass="frmInput" />
+				<t:message id="daysError" for="days" />
+
+			</h:panelGrid>
+		</h:panelGroup>
+	</ui:define>
+
+	<ui:define name="buttonsForm">
+		<h:panelGrid columns="2">
+			<h:commandButton 
+				id="anadir" 
+				value="#{msgs['jsf.actions.Add']}" 
+				action="#{protocolBean.accAddProcess}" 
+				styleClass="frmButton" />
+		</h:panelGrid>
+	</ui:define>
+
+</ui:composition>
+</html>

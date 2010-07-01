@@ -18,6 +18,7 @@
 
 package es.urjc.mctwp.modelo;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,6 +38,10 @@ public class Protocolable extends ImageContainer{
 		return processes;
 	}
 	
+	public ArrayList<Process> getProcessesList() {
+		return new ArrayList<Process>(processes);
+	}
+	
 	public void addProcess(Process process){
 		if(process != null){
 			if(processes == null)
@@ -48,9 +53,12 @@ public class Protocolable extends ImageContainer{
 	}
 
 	public void delProcess(Process process){
-		if(process != null)
-			if(processes != null)
+		if(process != null){
+			if(processes != null){
 				processes.remove(process);
+				process.setSource(null);
+			}
+		}
 	}
 
 	public void setTasks(Set<Task> tasks) {

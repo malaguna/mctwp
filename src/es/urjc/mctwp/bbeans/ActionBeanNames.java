@@ -19,6 +19,8 @@
 package es.urjc.mctwp.bbeans;
 
 public class ActionBeanNames {
+	public static final String ADD_PROCESS 			= "addProcess";
+
 	public final static String CREATE_TASK			= "createTask";	
 	
 	public final static String DELETE_PATIENTS		= "deletePatients";
@@ -68,5 +70,4 @@ public class ActionBeanNames {
 	public final static String VIEW_USER_LOGS		= "viewUserLogs";
 	public final static String VIEW_USER_MODALITIES	= "viewUserModalities";
 	public final static String VIEW_USER_PRATICIP	= "viewUserParticipations";
-
 }
