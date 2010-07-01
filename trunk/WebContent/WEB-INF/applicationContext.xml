@@ -33,7 +33,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<property name="driverClassName" value="org.postgresql.Driver" />
 		<property name="url" value="jdbc:postgresql://localhost:5432/mctwp" />
 		<property name="username" value="admon" />
-		<property name="password" value="" />
+		<property name="password" value="admon" />
 	</bean>
 
 	<bean id="ExTranslator" class="org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator">
