@@ -110,6 +110,10 @@ public class ImageManagerLocalImpl extends ImageManager {
 				result.setContent(thumb);
 				result.setId(image.getId());
 				
+				PatientInfo info = conversor.getPatientInfo(image);
+				if(info != null)
+					result.setPatInfo(info);
+				
 				break;
 			}
 		}

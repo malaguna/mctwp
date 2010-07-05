@@ -158,6 +158,13 @@ public class SelectImagesToImport extends RequestInvAbstractBean {
 					ThumbSelectItem tsi = new ThumbSelectItem();
 					tsi.setThumbId(tn.getId());
 					tsi.setPath(tn.getContent().getPath());
+					
+					if(tn.getPatInfo() != null){
+						tsi.setPatName(tn.getPatInfo().getName());
+						tsi.setPatCode(tn.getPatInfo().getCode());
+						tsi.setStdCode(tn.getPatInfo().getStudy());
+					}
+						
 					thumbs.add(tsi);
 				} catch (IOException e) {
 				}

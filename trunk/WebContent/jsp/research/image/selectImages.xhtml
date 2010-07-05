@@ -65,6 +65,10 @@ along with Multiclinical Trial Web-PACS.  If not, see
 								url="#{fimag.path}" 
 								alt="#{fimag.thumbId}" 
 								title="#{fimag.thumbId}"/>
+							<h:outputText
+								value="#{fimag.patName}"/>
+							<h:outputText
+								value="#{fimag.stdCode}"/>
 							<h:panelGroup>
 								<h:selectBooleanCheckbox value="#{fimag.selected}" />
 								<h:outputText value="Importar"/>
