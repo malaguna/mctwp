@@ -34,7 +34,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 
 <!-- Comienza la página JSF -->
 
-<t:saveState value="#{viewStudyImages.thumbs}"></t:saveState>
+<t:saveState value="#{viewStudyImages.thumbs}" />
 
 <div class="cuerpo">
 	
@@ -45,8 +45,16 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<td colspan="2" style="text-align: center;">
 				<h3>
 					<h:outputText
-						value="Imágenes del estudio #{sessionInv.study.code} [#{sessionInv.study.hospitalId}]" 
-						/>
+						style="margin-right: 10px;"
+						value="Imágenes del estudio #{sessionInv.study.code} [#{sessionInv.study.hospitalId}]" />
+					<h:commandLink 
+						style="vertical-align:  bottom;"
+						action="#{downloadBean.accDownloadAllImages}">
+		                <h:graphicImage 
+		                	url="/jsp/icons/picture_save_all.png" 
+		                	alt="#{msgs['jsf.actions.DownloadAll']}" 
+		                	title="#{msgs['jsf.actions.DownloadAll']}"/>
+					</h:commandLink>
 				</h3>
 			</td>
 		</tr>
@@ -64,7 +72,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 					value="#{viewStudyImages.thumbs}" 
 					var="row" rows="6">
 					
-					<f:facet name="header">
+					<f:facet name="header">						
 						<h:outputText value="#{msgs['jsf.generic.Images']}" />
 					</f:facet>
 					<f:facet name="footer"><hr/></f:facet>
@@ -130,7 +138,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 					</f:facet>
 							
 				</t:dataScroller> 
-		
+				
 			</td>
 			<td style="vertical-align: top;">
 				<mine:dcmSender backBean="#{viewStudyImages}" />
