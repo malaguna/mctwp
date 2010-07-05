@@ -22,9 +22,18 @@ public class ThumbNail extends SingleImage {
 
 	private static final long serialVersionUID = -692355198454080975L;
 	public static final String TBN_EXT = "png";
+	private PatientInfo patInfo = null;
 
 	public ThumbNail(){
 		super();
 		this.setType(TBN_EXT);
+	}
+
+	public void setPatInfo(PatientInfo patInfo) {
+		this.patInfo = patInfo;
+	}
+
+	public PatientInfo getPatInfo() {
+		return patInfo;
 	}
 }
