@@ -184,7 +184,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	</bean>
 	
 	<bean id="XmlImageColl" class="es.urjc.mctwp.image.impl.collection.eXist.ImageXMLCollectionExistImpl">
-		<property name="dburi"  value="xmldb:exist://nc8430:8088/xmlrpc" />
+		<property name="dburi"  value="xmldb:exist://localhost:8088/xmlrpc" />
 		<property name="prefix" value="/db/mctwp" />
 		<property name="user"   value="mctwp" />
 		<property name="pass"   value="password" />
@@ -205,7 +205,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	
 	<bean id="MiniPACS" class="es.urjc.mctwp.pacs.impl.DcmStorageServerImpl">
 		<property name="tempDirectory" value="/tmp" />
-		<property name="hostname" value="nc8430" />
+		<property name="hostname" value="localhost" />
 		<property name="port" value="1234" />
 		<property name="aeTitle" value="MCTWP" />
 		<property name="thrName" value="SERVER" />
@@ -220,7 +220,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 
 	<bean id="DcmSenderFactory" class="es.urjc.mctwp.pacs.DcmSenderFactory">
 		<property name="tempDirectory" value="/tmp" />
-		<property name="hostname" value="nc8430" />
+		<property name="hostname" value="localhost" />
 		<property name="aeTitle" value="MCTWP" />
 		<property name="thrName" value="SENDER" />
 		<property name="bufferSize" value="256" />

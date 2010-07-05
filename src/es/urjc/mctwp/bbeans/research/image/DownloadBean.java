@@ -19,6 +19,7 @@
 package es.urjc.mctwp.bbeans.research.image;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -29,10 +30,14 @@ import es.urjc.mctwp.bbeans.RequestInvAbstractBean;
 import es.urjc.mctwp.image.objects.Image;
 import es.urjc.mctwp.image.objects.SeriesImage;
 import es.urjc.mctwp.image.objects.SingleImage;
+import es.urjc.mctwp.modelo.ImageData;
+import es.urjc.mctwp.modelo.Study;
 import es.urjc.mctwp.modelo.Trial;
+import es.urjc.mctwp.service.commands.imageCmds.FindImagesByStudy;
 import es.urjc.mctwp.service.commands.imageCmds.LoadImage;
 
 public class DownloadBean extends RequestInvAbstractBean {
+	private final static String contentType = "zip";
 	private int BUFFER_SIZE = 4096;
 	private String imageId = null;
 	
@@ -51,96 +56,26 @@ public class DownloadBean extends RequestInvAbstractBean {
 			
 			try{
 				if(trial != null){
-					FacesContext ctx = FacesContext.getCurrentInstance();  
-					HttpServletResponse response = (HttpServletResponse) ctx.getExternalContext().getResponse();  
+					HttpServletResponse response = prepareResponse();  
 	
+					//Get Image
 					LoadImage cmd = (LoadImage) getCommand(LoadImage.class);
 					cmd.setCollection(trial.getCollection());
 					cmd.setImageId(imageId);
-					cmd.setUser(getSession().getUser());
-					cmd.setTrial(trial);
 					cmd = (LoadImage)runCommand(cmd);
 					Image img = cmd.getResult();
-	
-					//Avoid caching image files is response
-					response.setHeader("pragma", "no-cache");
-					response.setHeader("Cache-control", "no-cache, no-store, must-revalidate");
-					response.setHeader("Expires", "01 Jan 2000 00:00:00 GMT");
-	
-					if(img instanceof SingleImage){
-						SingleImage single = (SingleImage)img;
-						
-						//If the file exists
-						if(single.getContent().exists()){
-				
-							//Get file name without parents
-							String contentType = img.getType();
-							String fileName = imageId + "." + contentType;
-							
-							//Prepare header
-							response.setContentType(contentType);
-							StringBuffer contentDisposition = new StringBuffer();
-							contentDisposition.append("attachment;");
-							contentDisposition.append("filename=\"");
-							contentDisposition.append(fileName);
-							contentDisposition.append("\"");
-							response.setHeader ("Content-Disposition", contentDisposition.toString());
-					
-							//Put file content
-							byte bytes[] = new byte[BUFFER_SIZE];
-							FileInputStream fileIS = new FileInputStream(single.getContent());
-							while(fileIS.read(bytes) != -1)
-								response.getOutputStream().write(bytes);
-							
-							fileIS.close();
-						}
-					}else{
-						SeriesImage serie = (SeriesImage)img;
-						
-						//Get file name without parents
-						String contentType = img.getType();
-						String fileName = imageId + ".zip";
-						
-						//Prepare header
-						response.setContentType(contentType);
-						StringBuffer contentDisposition = new StringBuffer();
-						contentDisposition.append("attachment;");
-						contentDisposition.append("filename=\"");
-						contentDisposition.append(fileName);
-						contentDisposition.append("\"");
-						response.setHeader ("Content-Disposition", contentDisposition.toString());
-						
-						if(serie.getImages() != null){
-							//Prepare ZipOutputStream and writes files into
-							ZipOutputStream zos;
-							zos = new ZipOutputStream(response.getOutputStream());
-							
-							//Add every image to zip file
-							for(Image i : serie.getImages()){
-	
-								if(i instanceof SingleImage){
-									SingleImage si = (SingleImage)i;
-									
-									//Create zip entry
-									ZipEntry ze = new ZipEntry(si.getContent().getName());
-									zos.putNextEntry(ze);
 
-									//Write zip entry
-									byte bytes[] = new byte[BUFFER_SIZE];
-									FileInputStream fileIS = new FileInputStream(si.getContent());;
-									while(fileIS.read(bytes) != -1)
-										zos.write(bytes);
-									
-									fileIS.close();
-								}					
-							}
-							
-							//Close zip file
-							zos.close();
-						}
-					}
+					//Get file name without parents and prepare header
+					String fileName = imageId + "." + contentType;
+					configResponseHeader(response, contentType, fileName);
 					
-					ctx.responseComplete();
+					//Prepare ZipOutputStream and writes files into
+					ZipOutputStream zos = null;
+					zos = new ZipOutputStream(response.getOutputStream());
+					addImageToZos(zos, img, null);
+					zos.close();
+					
+					completeResponse();
 				}
 			} catch (Exception e) {
 				setErrorMessage(e.getLocalizedMessage());
@@ -149,5 +84,117 @@ public class DownloadBean extends RequestInvAbstractBean {
 		}
 				
 		return null;
+	}
+	
+	public String accDownloadAllImages(){
+		Study std = getSession().getStudy();
+		
+		if(std != null){
+			
+			try{
+				HttpServletResponse response = prepareResponse();  
+	
+				//Get Images of Study
+				FindImagesByStudy cmd1 = (FindImagesByStudy) getCommand(FindImagesByStudy.class);
+				cmd1.setStudy(std);
+				cmd1 = (FindImagesByStudy)runCommand(cmd1);
+				
+				if(cmd1 != null && !cmd1.getResult().isEmpty()){
+	
+					//Get file name without parents and prepare header
+					String fileName = std + "." + contentType;
+					configResponseHeader(response, contentType, fileName);
+	
+					//Prepare ZipOutputStream and writes files into
+					ZipOutputStream zos = null;
+					zos = new ZipOutputStream(response.getOutputStream());
+					
+					for(ImageData imdt : cmd1.getResult()){
+						LoadImage cmd2 = (LoadImage) getCommand(LoadImage.class);
+						cmd2.setCollection(getSession().getTrial().getCollection());
+						cmd2.setImageId(imdt.getImageId());
+						cmd2 = (LoadImage)runCommand(cmd2);
+						
+						if(cmd2 != null && cmd2.getResult() != null)
+							addImageToZos(zos, cmd2.getResult(), std.getCode().toString());
+					}
+					
+					zos.close();
+					completeResponse();
+				}
+			} catch (Exception e) {
+				setErrorMessage(e.getLocalizedMessage());
+				e.printStackTrace();
+			}
+		}
+		
+		return null;
+	}
+	
+	private HttpServletResponse prepareResponse(){
+		HttpServletResponse result = null;
+		
+		FacesContext ctx = FacesContext.getCurrentInstance();  
+		result = (HttpServletResponse) ctx.getExternalContext().getResponse();  
+		result.setHeader("pragma", "no-cache");
+		result.setHeader("Cache-control", "no-cache, no-store, must-revalidate");
+		result.setHeader("Expires", "01 Jan 2000 00:00:00 GMT");
+		
+		return result;
+	}
+	
+	private void configResponseHeader(HttpServletResponse response, String contentType, String fileName){
+		response.setContentType(contentType);
+		StringBuffer contentDisposition = new StringBuffer();
+		contentDisposition.append("attachment;");
+		contentDisposition.append("filename=\"");
+		contentDisposition.append(fileName);
+		contentDisposition.append("\"");
+		response.setHeader ("Content-Disposition", contentDisposition.toString());
+	}
+	
+	private void completeResponse(){
+		FacesContext.getCurrentInstance().responseComplete();
+	}
+	
+	private void addImageToZos(ZipOutputStream zos, Image img, String path) throws IOException{
+		
+		if(img != null){
+			if(path == null)
+				path = "";
+			
+			if(img instanceof SingleImage)
+				addSingleImageToZos(zos, (SingleImage) img, path);
+			
+			else if(img instanceof SeriesImage){
+				SeriesImage serie = (SeriesImage)img;
+				
+				if(serie.getImages() != null)
+					for(Image i : serie.getImages())
+						addImageToZos(zos, i, path + "/" + serie.getId());
+			}
+		}
+	}
+	
+	private void addSingleImageToZos(ZipOutputStream zos, SingleImage si, String path) throws IOException{
+		
+		//Prepare entry path
+		String entry = null;		
+		if(path != null && !path.isEmpty())
+			entry = path + "/" + si.getContent().getName();
+		else
+			entry = si.getContent().getName();
+		
+		//Create zip entry
+		ZipEntry ze = new ZipEntry(entry);
+		zos.putNextEntry(ze);
+
+		//Write zip entry
+		byte bytes[] = new byte[BUFFER_SIZE];
+		FileInputStream fileIS = new FileInputStream(si.getContent());;
+		while(fileIS.read(bytes) != -1)
+			zos.write(bytes);
+		
+		fileIS.close();
 	}
 }
