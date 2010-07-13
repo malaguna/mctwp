@@ -23,10 +23,9 @@ import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
-import es.urjc.mctwp.bbeans.RequestInvAbstractBean;
+import es.urjc.mctwp.bbeans.GenericDownloadBean;
 import es.urjc.mctwp.image.objects.Image;
 import es.urjc.mctwp.image.objects.SeriesImage;
 import es.urjc.mctwp.image.objects.SingleImage;
@@ -36,9 +35,8 @@ import es.urjc.mctwp.modelo.Trial;
 import es.urjc.mctwp.service.commands.imageCmds.FindImagesByStudy;
 import es.urjc.mctwp.service.commands.imageCmds.LoadImage;
 
-public class DownloadBean extends RequestInvAbstractBean {
+public class DownloadBean extends GenericDownloadBean {
 	private final static String contentType = "zip";
-	private int BUFFER_SIZE = 4096;
 	private String imageId = null;
 	
 	public String getImageId() {
@@ -102,7 +100,7 @@ public class DownloadBean extends RequestInvAbstractBean {
 				if(cmd1 != null && !cmd1.getResult().isEmpty()){
 	
 					//Get file name without parents and prepare header
-					String fileName = std + "." + contentType;
+					String fileName = std.getDescription() + "." + contentType;
 					configResponseHeader(response, contentType, fileName);
 	
 					//Prepare ZipOutputStream and writes files into
@@ -129,32 +127,6 @@ public class DownloadBean extends RequestInvAbstractBean {
 		}
 		
 		return null;
-	}
-	
-	private HttpServletResponse prepareResponse(){
-		HttpServletResponse result = null;
-		
-		FacesContext ctx = FacesContext.getCurrentInstance();  
-		result = (HttpServletResponse) ctx.getExternalContext().getResponse();  
-		result.setHeader("pragma", "no-cache");
-		result.setHeader("Cache-control", "no-cache, no-store, must-revalidate");
-		result.setHeader("Expires", "01 Jan 2000 00:00:00 GMT");
-		
-		return result;
-	}
-	
-	private void configResponseHeader(HttpServletResponse response, String contentType, String fileName){
-		response.setContentType(contentType);
-		StringBuffer contentDisposition = new StringBuffer();
-		contentDisposition.append("attachment;");
-		contentDisposition.append("filename=\"");
-		contentDisposition.append(fileName);
-		contentDisposition.append("\"");
-		response.setHeader ("Content-Disposition", contentDisposition.toString());
-	}
-	
-	private void completeResponse(){
-		FacesContext.getCurrentInstance().responseComplete();
 	}
 	
 	private void addImageToZos(ZipOutputStream zos, Image img, String path) throws IOException{

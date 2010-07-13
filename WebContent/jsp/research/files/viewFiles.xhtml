@@ -29,21 +29,22 @@ along with Multiclinical Trial Web-PACS.  If not, see
       xmlns:p="http://primefaces.prime.com.tr/ui"
       xmlns:mine="http://mctwp.urjc.es/jsf">
 
-<ui:composition template="/jsp/include/templateProtocolable.xhtml">
+<ui:composition template="/jsp/include/templateUploadFileProto.xhtml">
 
 <ui:define name="saveState">
-	<t:saveState value="#{protocolBean.source}" />
+	<t:saveState value="#{filesProtocolableBean.source}" />
+	<t:saveState value="#{filesProtocolableBean.files}" />
 </ui:define>
 
 <ui:define name="title">
-	<h3><h:outputText value="#{msgs['jsf.headers.ProtocolEdition']}"/></h3>
+	<h3><h:outputText value="#{msgs['jsf.headers.FilesEdition']}"/></h3>
 </ui:define>
 
 <ui:define name="tableContent">
 	<mine:protoTbl
-		id="processList"
+		id="filesList"
 		rows="10"
-		value="#{protocolBean.source.processesList}">
+		value="#{filesProtocolableBean.files}">
 		
 		<ui:define name="tableColumns">
 		
@@ -55,47 +56,80 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		
 			<mine:protoTblCol 
 				id="name"
-				value="#{row.processDef.name}"
+				value="#{row.name}"
 				sortParser="string"
 				header="#{msgs['jsf.generic.Name']}"/>
 				
-			<p:column id="delProcess">
+			<mine:protoTblCol 
+				id="size"
+				value="#{row.size}"
+				sortParser="number"
+				header="#{msgs['jsf.generic.Size']}"/>
+				
+			<mine:protoTblCol 
+				id="contentType"
+				value="#{row.contentType}"
+				sortParser="string"
+				header="#{msgs['jsf.generic.Type']}"/>
+				
+			<p:column id="buttons">
 				<table class="tablaBotonera">
 
 				<tr>
+				<!-- Download commandLink -->
+				<td class="tdBotonera">		
+					<h:commandLink
+						id="buttonsDownloadCommand"
+						action="#{filesProtocolableBean.accDownloadFile}">
+						<h:graphicImage 
+							id="buttonsDownloadIcon"
+							value="/jsp/icons/picture_save.png"
+							alt="${msgs['jsf.actions.Download']}"
+							title="${msgs['jsf.actions.Download']}"/>
+						<f:setPropertyActionListener 
+							id="buttonsUpdateToDownload"
+							value="#{row}"
+							target="#{filesProtocolableBean.file}" />
+					</h:commandLink>
+				</td>
+
 				<!-- Delete commandLink -->
 				<td class="tdBotoneraUltimo">		
 					<h:commandLink
 						id="buttonsDeleteCommand"
-						action="#{protocolBean.accDelProcess}">
+						action="#{filesProtocolableBean.accDelFile}">
 						<h:graphicImage 
 							id="buttonsDeleteIcon"
 							value="/jsp/icons/cross.png"
-							alt="${msgs['jsf.actions.Delete']}"
-							title="${msgs['jsf.actions.Delete']}"/>
+							alt="#{msgs['jsf.actions.Delete']}"
+							title="#{msgs['jsf.actions.Delete']}"/>
 						<f:setPropertyActionListener 
 							id="buttonsUpdateToDelete"
-							value="#{row.code}"
-							target="#{protocolBean.idProcessSelected}" />
+							value="#{row}"
+							target="#{filesProtocolableBean.file}" />
 					</h:commandLink>
 				</td>
 				</tr>
 
 				</table>
 			</p:column>
-
+		
 		</ui:define>
 	</mine:protoTbl>
 </ui:define>
 
 <ui:define name="buttonsForm">
-	<h:commandLink 
-		action="#{protocolBean.accPrepareAddition}">
-		<h:graphicImage 
-			value="/jsp/icons/database_add.png"
-			title="#{msgs['jsf.actions.Create']}"  
-			alt="#{msgs['jsf.actions.Create']}" />
-	</h:commandLink>
+	<t:inputFileUpload id="uploadFiles"
+		accept="*"
+		value="#{filesProtocolableBean.upFile}"
+		storage="file"
+		styleClass="frmInput" />
+	<h:commandButton
+		id="uploadBtn"
+		styleClass="frmButton"
+		value="#{msgs['jsf.actions.Add']}"
+		action="#{filesProtocolableBean.accUploadFile}"
+		/>
 </ui:define>
 
 </ui:composition>

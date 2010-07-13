@@ -70,4 +70,6 @@ public class ActionBeanNames {
 	public final static String VIEW_USER_LOGS		= "viewUserLogs";
 	public final static String VIEW_USER_MODALITIES	= "viewUserModalities";
 	public final static String VIEW_USER_PRATICIP	= "viewUserParticipations";
+
+	public static final String EDIT_FILES = "viewProtocolableFiles";
 }

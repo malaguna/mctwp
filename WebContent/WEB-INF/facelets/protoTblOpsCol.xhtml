@@ -75,7 +75,7 @@ Components Attribute:
 			actionListener="${actLstnBean[actLstnName]}">
 			<h:graphicImage 
 				id="${id}ExploreIcon"
-				value="/jsp/icons/folder_explore.png"
+				value="/jsp/icons/zoom.png"
 				alt="${msgs['jsf.actions.Explore']}"
 				title="${msgs['jsf.actions.Explore']}"/>  
 		</h:commandLink>
@@ -97,6 +97,24 @@ Components Attribute:
 	</td>
 	</c:if>
 	
+	<!-- File management commandLink -->
+	<td class="tdBotonera">		
+		<h:commandLink
+			id="${id}FileManagementCommand"
+			action="#{filesProtocolableBean.accViewFiles}"
+			actionListener="${actLstnBean[actLstnName]}">
+			<h:graphicImage 
+				id="${id}FileManagementIcon"
+				value="/jsp/icons/folder_explore.png"
+				alt="${msgs['jsf.actions.FileManagement']}"
+				title="${msgs['jsf.actions.FileManagement']}"/>  
+			<f:setPropertyActionListener 
+				id="${id}FileSPAL"
+				value="#{row}"
+				target="#{filesProtocolableBean.source}" />
+		</h:commandLink>
+	</td>
+
 	<!-- Manage Protocol commandLink -->
 	<td class="tdBotonera">		
 		<h:commandLink
