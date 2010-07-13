@@ -44,8 +44,4 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<tag-name>protoTblOpsCol</tag-name>
 		<source>protoTblOpsCol.xhtml</source>
 	</tag>
-	<tag>
-		<tag-name>protoTblDelCol</tag-name>
-		<source>protoTblDelCol.xhtml</source>
-	</tag>
 </facelet-taglib>

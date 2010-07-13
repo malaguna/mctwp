@@ -20,6 +20,7 @@ package es.urjc.mctwp.service;
 
 public class BeanNames {
 	public final static String ACTION_DAO = "ActionDAO";
+	public static final String FILE_DAO = "FileDAO";
 	public final static String GROUP_DAO = "GroupDAO";
 	public final static String IMAGE_DATA_DAO = "ImageDataDAO";
 	public final static String LOG_DAO = "LogDAO";

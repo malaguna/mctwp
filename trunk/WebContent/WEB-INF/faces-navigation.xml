@@ -98,6 +98,10 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<from-outcome>addProcess</from-outcome>
 			<to-view-id>/jsp/research/protocol/addProcess.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>viewProtocolableFiles</from-outcome>
+			<to-view-id>/jsp/research/files/viewFiles.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>

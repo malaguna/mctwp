@@ -25,28 +25,35 @@ public class Process extends DomainObject {
 	private Protocolable source = null;
 	private Integer daysToDo = null;
 	private User owner = null;
-	
+
 	public ProcessDef getProcessDef() {
 		return processDef;
 	}
+
 	public void setProcessDef(ProcessDef processDef) {
 		this.processDef = processDef;
 	}
+
 	public void setSource(Protocolable source) {
 		this.source = source;
 	}
+
 	public Protocolable getSource() {
 		return source;
 	}
+
 	public User getOwner() {
 		return owner;
 	}
+
 	public void setOwner(User owner) {
 		this.owner = owner;
 	}
+
 	public Integer getDaysToDo() {
 		return daysToDo;
 	}
+
 	public void setDaysToDo(Integer daysToDo) {
 		this.daysToDo = daysToDo;
 	}

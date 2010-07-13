@@ -46,6 +46,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<list>
 				<value>es/urjc/mctwp/modelo/Log.hbm.xml</value>
 				<value>es/urjc/mctwp/modelo/Rol.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/File.hbm.xml</value>
 				<value>es/urjc/mctwp/modelo/Menu.hbm.xml</value>
 				<value>es/urjc/mctwp/modelo/Task.hbm.xml</value>
 				<value>es/urjc/mctwp/modelo/User.hbm.xml</value>
@@ -155,6 +156,10 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	</bean>
 
 	<bean id="UserDAO" class="es.urjc.mctwp.dao.UserDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
+	<bean id="FileDAO" class="es.urjc.mctwp.dao.FileDAO">
 		<property name="hibernateTemplate" ref="HiberTemplate"/>
 	</bean>
 

@@ -20,6 +20,7 @@ package es.urjc.mctwp.service;
 
 public class ActionNames {
 
+	public static final String ADD_FILE_PRT 		= "addFileProtocolable";
 	public final static String ADD_PROCESS_PRT		= "addProcessProtocolable";
 	public final static String ADD_ROL_AUTH			= "addRolAuthorization";
 	public final static String ADD_TRIAL_PART		= "addTrialParticipation";
@@ -52,6 +53,7 @@ public class ActionNames {
 	public final static String FIND_RESULTS_TASK	= "findResultsByTask";
 	public final static String FIND_ROL				= "findRol";
 	public final static String FIND_STUDIES_PATIENT = "findStudiesByPatient";
+	public static final String FIND_TASKS 			= "searchTasks";
 	public final static String FIND_TASKS_IMAGE		= "findTasksOfImage";
 	public final static String FIND_TASKS_USER		= "findTasksOfUser";
 	public final static String FIND_TRIAL			= "findTrial";
@@ -80,6 +82,7 @@ public class ActionNames {
 	
 	public final static String PERSIST_IMAGES		= "persistImages";
 	
+	public final static String REMOVE_FILE_PRT 		= "removeFileProtocolable";
 	public final static String REMOVE_PROCESS_PRT 	= "removeProcessProtocolable";
 	public final static String REMOVE_ROL_AUTH		= "removeRolAuthorization";
 	public final static String REMOVE_TRIAL_PART	= "removeTrialParticipation";
@@ -101,5 +104,4 @@ public class ActionNames {
 	public final static String SEND_IMAGES			= "sendImages";
 	
 	public final static String STORE_TEMP_IMAGES	= "storeTemporalImages";
-	public static final String FIND_TASKS 			= "searchTasks";
 }

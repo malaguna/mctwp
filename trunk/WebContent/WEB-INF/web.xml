@@ -144,17 +144,17 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<filter-name>CustomCharacterEncodingFilter</filter-name>
 		<filter-class>es.urjc.mctwp.bbeans.filters.CustomCharacterEncodingFilter</filter-class>
 	</filter>
-
+	
 	<filter-mapping>
 		<filter-name>sessionFilter</filter-name>
-		<url-pattern>*.jsf</url-pattern>
+		<servlet-name>Faces Servlet</servlet-name>
 	</filter-mapping>	
 
 	<filter-mapping>
 	    <filter-name>extensionsFilter</filter-name>
 		<servlet-name>Faces Servlet</servlet-name>
 	</filter-mapping>
-
+	 
 	<filter-mapping>
 	    <filter-name>extensionsFilter</filter-name>
 		<url-pattern>/faces/*</url-pattern>
@@ -162,9 +162,9 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	 
 	<filter-mapping>
 		<filter-name>CustomCharacterEncodingFilter</filter-name>
-		<url-pattern>/*</url-pattern>
+		<servlet-name>Faces Servlet</servlet-name>
 	</filter-mapping>	
-		
+
 	<listener>
 		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
 	</listener>
