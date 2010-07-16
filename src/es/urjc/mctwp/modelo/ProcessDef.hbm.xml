@@ -36,7 +36,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
                 <comment></comment>
             </column>
         </property>
-        <property name="name" type="string">
+        <property name="name" length="25" type="string">
             <column name="nombre" not-null="true">
                 <comment></comment>
             </column>

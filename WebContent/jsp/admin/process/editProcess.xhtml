@@ -55,19 +55,19 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<t:message id="codeError" for="code" />
 			
 			<h:outputLabel value="#{msgs['jsf.generic.Name']}" styleClass="frmLabel" for="name" />
-			<h:inputText styleClass="frmInput" id="name" value="#{processDefBean.FEdcObject.name}" />
+			<h:inputText styleClass="frmInput" id="name" value="#{processDefBean.FEdcObject.name}" required="true" />
 			<t:message id="nameError" for="name" />
 
 			<h:outputLabel value="#{msgs['jsf.generic.Help']}" styleClass="frmLabel" for="help" />
-			<h:inputTextarea styleClass="frmInput" id="help" value="#{processDefBean.FEdcObject.help}" />
+			<h:inputTextarea styleClass="frmInput" id="help" value="#{processDefBean.FEdcObject.help}"  required="true" />
 			<t:message id="helpError" for="help" />
 
 			<h:outputLabel value="#{msgs['jsf.generic.Description']}" styleClass="frmLabel" for="desc" />
-			<h:inputTextarea styleClass="frmInput" id="desc" value="#{processDefBean.FEdcObject.description}" />
+			<h:inputTextarea styleClass="frmInput" id="desc" value="#{processDefBean.FEdcObject.description}"  required="true" />
 			<t:message id="descError" for="desc" />
 
 			<h:outputLabel value="#{msgs['jsf.generic.TimeToDo']}" styleClass="frmLabel" for="time" />
-			<h:inputText styleClass="frmInput" id="time" value="#{processDefBean.FEdcObject.daysToDo}" size="2"/>
+			<h:inputText styleClass="frmInput" id="time" value="#{processDefBean.FEdcObject.daysToDo}" size="2" required="true" />
 			<t:message id="timeError" for="time" />
 
 			<f:facet name="footer">
