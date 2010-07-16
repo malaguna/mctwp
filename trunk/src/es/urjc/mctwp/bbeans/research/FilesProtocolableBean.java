@@ -21,6 +21,7 @@ package es.urjc.mctwp.bbeans.research;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,9 +46,9 @@ import es.urjc.mctwp.service.commands.researchCmds.RemoveFile;
  */
 public class FilesProtocolableBean extends GenericDownloadBean {
 	private Protocolable source = new Protocolable();
-	private List<File> files = null;
+	private List<FileItem> files = null;
 	private UploadedFile upFile = null; 
-	private File file = new File();
+	private FileItem file = new FileItem();
 	
 	public void setSource(Protocolable source) {
 		this.source = source;
@@ -57,11 +58,11 @@ public class FilesProtocolableBean extends GenericDownloadBean {
 		return source;
 	}
 	
-	public void setFiles(List<File> files) {
+	public void setFiles(List<FileItem> files) {
 		this.files = files;
 	}
 
-	public List<File> getFiles() {
+	public List<FileItem> getFiles() {
 		return files;
 	}
 
@@ -73,11 +74,11 @@ public class FilesProtocolableBean extends GenericDownloadBean {
 		return upFile;
 	}
 
-	public void setFile(File file) {
+	public void setFile(FileItem file) {
 		this.file = file;
 	}
 
-	public File getFile() {
+	public FileItem getFile() {
 		return file;
 	}
 
@@ -93,8 +94,14 @@ public class FilesProtocolableBean extends GenericDownloadBean {
 		((LoadProtocolableAttachments)cmd).setSource(source);
 		cmd = runCommand(cmd);
 		
-		if(cmd != null)
-			files = ((LoadProtocolableAttachments)cmd).getResult();
+		if(cmd != null){
+			List<File> auxFiles = ((LoadProtocolableAttachments)cmd).getResult();
+			if(auxFiles != null){
+				files = new ArrayList<FileItem>();
+				for(File file : auxFiles)
+					files.add(new FileItem(file));
+			}
+		}
 		
 		return ActionBeanNames.EDIT_FILES;
 	}
@@ -106,7 +113,7 @@ public class FilesProtocolableBean extends GenericDownloadBean {
 	 */
 	public String accDelFile(){
 		Command cmd = getCommand(RemoveFile.class);
-		((RemoveFile)cmd).setFile(file);
+		((RemoveFile)cmd).setFileId(file.getCode());
 		runCommand(cmd);
 
 		return accViewFiles();

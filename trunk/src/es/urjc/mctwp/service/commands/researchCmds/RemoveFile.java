@@ -28,7 +28,7 @@ import es.urjc.mctwp.service.Command;
 
 public class RemoveFile extends Command {
 	private FileDAO fileDao = null;
-	private File file = null;
+	private Integer fileId = null;
 
 	public RemoveFile(BeanFactory bf) {
 		super(bf);
@@ -37,22 +37,23 @@ public class RemoveFile extends Command {
 		setReadOnly(false);
 	}
 
-	public File getFile() {
-		return file;
+	public Integer getFileId() {
+		return fileId;
 	}
 
-	public void setFile(File file) {
-		this.file = file;
+	public void setFileId(Integer fileId) {
+		this.fileId = fileId;
 	}
 
 	@Override
 	public boolean isValidCommand() {
 		return super.isValidCommand() && 
-				file != null;
+				fileId != null;
 	}
 
 	@Override
 	public Command runCommand() {
+		File file = fileDao.findById(fileId);
 		fileDao.delete(file);
 		
 		createLogComment("audit.removeFileProtocolable", file
