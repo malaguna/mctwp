@@ -184,6 +184,7 @@ public class TaskBean extends TaskAbstractBean{
 		
 		getSession().setTask(null);
 		
-		return ActionBeanNames.LIST_TASKS;
+		TasksBean bean = (TasksBean) getBackBeanReference("tasksBean");
+		return bean.accListTasks();
 	}
 }

@@ -195,22 +195,20 @@ public class TasksBean extends TaskAbstractBean{
 	private void populateTasks(){
 		List<Task> aux = null;
 		
-		if(tasks == null){
-			if(taskListMode.equals(TASK_MODE_USR)){
-				Command cmd = getCommand(FindTasksByUser.class);
-				cmd = runCommand(cmd);
-				aux = ((FindTasksByUser)cmd).getResult();
-				
-			}else if(taskListMode.equals(TASK_MODE_IMG)){
-				Command cmd = getCommand(FindTasksByImage.class);
-				((FindTasksByImage)cmd).setImage(getSession().getImage());
-				cmd = runCommand(cmd);
-				aux = ((FindTasksByImage)cmd).getResult();
-			}
+		if(taskListMode.equals(TASK_MODE_USR)){
+			Command cmd = getCommand(FindTasksByUser.class);
+			cmd = runCommand(cmd);
+			aux = ((FindTasksByUser)cmd).getResult();
 			
-			if(aux != null)
-				tasks = createTaskItems(aux);
+		}else if(taskListMode.equals(TASK_MODE_IMG)){
+			Command cmd = getCommand(FindTasksByImage.class);
+			((FindTasksByImage)cmd).setImage(getSession().getImage());
+			cmd = runCommand(cmd);
+			aux = ((FindTasksByImage)cmd).getResult();
 		}
+		
+		if(aux != null)
+			tasks = createTaskItems(aux);
 	}	
 	
 	/**
