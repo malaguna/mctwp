@@ -49,7 +49,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 						value="Imágenes del estudio #{sessionInv.study.code} [#{sessionInv.study.hospitalId}]" />
 					<h:commandLink 
 						style="vertical-align:  bottom;"
-						action="#{downloadBean.accDownloadAllImages}">
+						action="#{downloadBean.accDownloadStudyImages}">
 		                <h:graphicImage 
 		                	url="/jsp/icons/picture_save_all.png" 
 		                	alt="#{msgs['jsf.actions.DownloadAll']}" 
