@@ -43,9 +43,17 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<tr>
 			<td colspan="2" style="text-align: center;">
 				<h3>
-					<h:outputText
-						value="Imágenes de la tarea #{sessionInv.task.code}" 
-						/>
+					<h:outputText 
+						style="margin-right: 10px;"
+						value="Imágenes de la tarea #{sessionInv.task.code}" />
+					<h:commandLink 
+						style="vertical-align:  bottom;"
+						action="#{downloadBean.accDownloadTaskImages}">
+		                <h:graphicImage 
+		                	url="/jsp/icons/picture_save_all.png" 
+		                	alt="#{msgs['jsf.actions.DownloadAll']}" 
+		                	title="#{msgs['jsf.actions.DownloadAll']}"/>
+					</h:commandLink>
 				</h3>
 			</td>
 		</tr>

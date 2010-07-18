@@ -20,6 +20,7 @@ package es.urjc.mctwp.bbeans.research.image;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -31,8 +32,10 @@ import es.urjc.mctwp.image.objects.SeriesImage;
 import es.urjc.mctwp.image.objects.SingleImage;
 import es.urjc.mctwp.modelo.ImageData;
 import es.urjc.mctwp.modelo.Study;
+import es.urjc.mctwp.modelo.Task;
 import es.urjc.mctwp.modelo.Trial;
 import es.urjc.mctwp.service.commands.imageCmds.FindImagesByStudy;
+import es.urjc.mctwp.service.commands.imageCmds.FindImagesByTask;
 import es.urjc.mctwp.service.commands.imageCmds.LoadImage;
 
 public class DownloadBean extends GenericDownloadBean {
@@ -84,49 +87,68 @@ public class DownloadBean extends GenericDownloadBean {
 		return null;
 	}
 	
-	public String accDownloadAllImages(){
+	public String accDownloadStudyImages(){
 		Study std = getSession().getStudy();
 		
 		if(std != null){
+			//Get Images of Study
+			FindImagesByStudy cmd = (FindImagesByStudy) getCommand(FindImagesByStudy.class);
+			cmd.setStudy(std);
+			cmd = (FindImagesByStudy)runCommand(cmd);
+
+			downloadImages(cmd.getResult(), std.getDescription(), std.getCode().toString());
+		}
+		
+		return null;
+	}
+	
+	public String accDownloadTaskImages(){
+		Task tsk = getSession().getTask();
+		
+		if(tsk != null){
+			//Get Images of Task
+			FindImagesByTask cmd = (FindImagesByTask) getCommand(FindImagesByTask.class);
+			cmd.setTask(tsk);
+			cmd = (FindImagesByTask)runCommand(cmd);
+
+			downloadImages(cmd.getResult(), "Task-" + tsk.getCode().toString(), tsk.getCode().toString());
+		}
+		
+		return null;
+	}
+	
+	private void downloadImages(List<ImageData> images, String cntDesc, String cntCode){
+
+		if(images != null && !images.isEmpty()){
 			
 			try{
 				HttpServletResponse response = prepareResponse();  
 	
-				//Get Images of Study
-				FindImagesByStudy cmd1 = (FindImagesByStudy) getCommand(FindImagesByStudy.class);
-				cmd1.setStudy(std);
-				cmd1 = (FindImagesByStudy)runCommand(cmd1);
+				//Get file name without parents and prepare header
+				String fileName = cntDesc + "." + contentType;
+				configResponseHeader(response, contentType, fileName);
+
+				//Prepare ZipOutputStream and writes files into
+				ZipOutputStream zos = null;
+				zos = new ZipOutputStream(response.getOutputStream());
 				
-				if(cmd1 != null && !cmd1.getResult().isEmpty()){
-	
-					//Get file name without parents and prepare header
-					String fileName = std.getDescription() + "." + contentType;
-					configResponseHeader(response, contentType, fileName);
-	
-					//Prepare ZipOutputStream and writes files into
-					ZipOutputStream zos = null;
-					zos = new ZipOutputStream(response.getOutputStream());
+				for(ImageData imdt : images){
+					LoadImage cmd = (LoadImage) getCommand(LoadImage.class);
+					cmd.setCollection(getSession().getTrial().getCollection());
+					cmd.setImageId(imdt.getImageId());
+					cmd = (LoadImage)runCommand(cmd);
 					
-					for(ImageData imdt : cmd1.getResult()){
-						LoadImage cmd2 = (LoadImage) getCommand(LoadImage.class);
-						cmd2.setCollection(getSession().getTrial().getCollection());
-						cmd2.setImageId(imdt.getImageId());
-						cmd2 = (LoadImage)runCommand(cmd2);
-						
-						if(cmd2 != null && cmd2.getResult() != null)
-							addImageToZos(zos, cmd2.getResult(), std.getCode().toString());
-					}
-					
-					zos.close();
-					completeResponse();
+					if(cmd != null && cmd.getResult() != null)
+						addImageToZos(zos, cmd.getResult(), cntCode);
 				}
+				
+				zos.close();
+				completeResponse();
 			} catch (Exception e) {
 				setErrorMessage(e.getLocalizedMessage());
 				e.printStackTrace();
 			}
 		}
-		
-		return null;
 	}
 	
 	private void addImageToZos(ZipOutputStream zos, Image img, String path) throws IOException{
