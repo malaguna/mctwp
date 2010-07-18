@@ -134,7 +134,7 @@ public class TaskBean extends TaskAbstractBean{
 		
 		if(auxList != null)
 			for(ProcessDef process : auxList)
-				processes.add(new SelectItem(process.getCode(), process.getDescription()));
+				processes.add(new SelectItem(process.getCode(), process.getName()));
 
 		return ActionBeanNames.CREATE_TASK;
 	}
