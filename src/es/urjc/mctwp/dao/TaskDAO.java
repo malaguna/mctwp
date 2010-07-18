@@ -26,7 +26,7 @@ import es.urjc.mctwp.modelo.User;
 public class TaskDAO extends GenericDAO<Task, Integer> {
 	
 	/**
-	 * Get all task of a user
+	 * Get all task of an user
 	 * 
 	 * @param image
 	 * @return
