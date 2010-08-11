@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import es.urjc.mctwp.service.blogic.ImageContainerTypeVisitor;
 import es.urjc.mctwp.service.blogic.PersistImagesVisitor;
 
 public class Result extends ImageContainer implements java.io.Serializable {
@@ -89,6 +90,11 @@ public class Result extends ImageContainer implements java.io.Serializable {
 		piv.visit(this, imagesId, tempCol);
 	}
 	
+	@Override
+	public Class<? extends ImageContainer> accept(ImageContainerTypeVisitor imcv) {
+		return imcv.visit(this);
+	}	
+
 	@Override
 	public Set<ImageData> getAllImages(){
 		return getImages();

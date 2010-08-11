@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
+import es.urjc.mctwp.service.blogic.ImageContainerTypeVisitor;
 import es.urjc.mctwp.service.blogic.PersistImagesVisitor;
 
 public class Study extends Protocolable implements java.io.Serializable {
@@ -79,6 +80,11 @@ public class Study extends Protocolable implements java.io.Serializable {
 		piv.visit(this, imagesId, tempCol);
 	}	
 	
+	@Override
+	public Class<? extends ImageContainer> accept(ImageContainerTypeVisitor imcv) {
+		return imcv.visit(this);
+	}	
+
 	@Override
 	public String getDescription(){
 		String resultado = null;

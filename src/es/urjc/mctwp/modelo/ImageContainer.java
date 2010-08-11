@@ -21,6 +21,7 @@ package es.urjc.mctwp.modelo;
 import java.util.List;
 import java.util.Set;
 
+import es.urjc.mctwp.service.blogic.ImageContainerTypeVisitor;
 import es.urjc.mctwp.service.blogic.PersistImagesVisitor;
 
 /**
@@ -34,6 +35,7 @@ public abstract class ImageContainer extends DomainObject {
 	private static final long serialVersionUID = 7432967495288899879L;
 	
 	public abstract void accept(PersistImagesVisitor piv, List<String> imagesId, String tempCol) throws Exception;
+	public abstract Class<? extends ImageContainer> accept(ImageContainerTypeVisitor imcv);
 	public abstract Set<ImageData> getAllImages();
 	public abstract String getDescription();
 	public abstract String getCollection();
