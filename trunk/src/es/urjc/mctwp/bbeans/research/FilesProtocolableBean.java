@@ -45,7 +45,7 @@ import es.urjc.mctwp.service.commands.researchCmds.RemoveFile;
  *
  */
 public class FilesProtocolableBean extends GenericDownloadBean {
-	private Protocolable source = new Protocolable();
+	private Protocolable source = null;
 	private List<FileItem> files = null;
 	private UploadedFile upFile = null; 
 	private FileItem file = new FileItem();

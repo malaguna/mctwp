@@ -23,9 +23,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import es.urjc.mctwp.service.blogic.ImageContainerTypeVisitor;
 import es.urjc.mctwp.service.blogic.PersistImagesVisitor;
 
-public class Protocolable extends ImageContainer{
+public abstract class Protocolable extends ImageContainer{
 	private static final long serialVersionUID = 2489697617033960034L;
 	private Set<Process> processes = null;
 	private Set<Task> tasks = null;
@@ -101,9 +102,10 @@ public class Protocolable extends ImageContainer{
 	}
 
 	@Override
-	public void accept(PersistImagesVisitor piv, List<String> imagesId,	String tempCol) throws Exception {
-		//do nothing
-	}
+	public abstract void accept(PersistImagesVisitor piv, List<String> imagesId,	String tempCol) throws Exception;
+
+	@Override
+	public abstract Class<? extends ImageContainer> accept(ImageContainerTypeVisitor imcv);
 	
 	@Override
 	public Set<ImageData> getAllImages(){
@@ -123,5 +125,5 @@ public class Protocolable extends ImageContainer{
 	@Override
 	public String getType(){
 		return null;
-	}	
+	}
 }

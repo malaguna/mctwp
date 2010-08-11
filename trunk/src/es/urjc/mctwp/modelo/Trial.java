@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import es.urjc.mctwp.service.blogic.ImageContainerTypeVisitor;
 import es.urjc.mctwp.service.blogic.PersistImagesVisitor;
 
 public class Trial extends Protocolable implements java.io.Serializable {
@@ -142,6 +143,11 @@ public class Trial extends Protocolable implements java.io.Serializable {
 	public void accept(PersistImagesVisitor piv, List<String> imagesId,	String tempCol) throws Exception {
 		piv.visit(this, imagesId, tempCol);
 	}
+
+	@Override
+	public Class<? extends ImageContainer> accept(ImageContainerTypeVisitor imcv) {
+		return imcv.visit(this);
+	}	
 
 	@Override
 	public String getType(){

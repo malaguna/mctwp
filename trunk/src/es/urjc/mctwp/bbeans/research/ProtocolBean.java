@@ -45,7 +45,7 @@ import es.urjc.mctwp.service.commands.researchCmds.RemoveProcessToProtocolable;
 public class ProtocolBean extends RequestInvAbstractBean{
 	private List<SelectItem> notAssignedProcesses = new ArrayList<SelectItem>();
 	private List<SelectItem> possibleUsers = new ArrayList<SelectItem>();
-	private Protocolable source = new Protocolable();
+	private Protocolable source = null;
 	private Integer idProcessDefSelected = null;
 	private Integer idProcessSelected = null;
 	private Integer days = null;

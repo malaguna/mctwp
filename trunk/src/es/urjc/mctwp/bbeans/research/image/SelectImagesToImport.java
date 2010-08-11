@@ -30,7 +30,10 @@ import es.urjc.mctwp.bbeans.ActionBeanNames;
 import es.urjc.mctwp.bbeans.RequestInvAbstractBean;
 import es.urjc.mctwp.image.objects.ThumbNail;
 import es.urjc.mctwp.modelo.ImageContainer;
+import es.urjc.mctwp.modelo.Patient;
+import es.urjc.mctwp.modelo.Study;
 import es.urjc.mctwp.service.Command;
+import es.urjc.mctwp.service.blogic.ImageContainerTypeVisitor;
 import es.urjc.mctwp.service.commands.imageCmds.LoadThumbsOfTemporalImages;
 import es.urjc.mctwp.service.commands.imageCmds.PersistImages;
 
@@ -41,8 +44,12 @@ import es.urjc.mctwp.service.commands.imageCmds.PersistImages;
  */
 public class SelectImagesToImport extends RequestInvAbstractBean {
 	private List<ThumbSelectItem> thumbs = null;
-	private ImageContainer container = null;
 	private String folder = null;
+	
+	@SuppressWarnings("unused")
+	private boolean containerAPatient = false;
+	@SuppressWarnings("unused")
+	private boolean containerAStudy = false;
 	
 	@Override
 	public void init(){}
@@ -63,12 +70,36 @@ public class SelectImagesToImport extends RequestInvAbstractBean {
 		this.folder = folder;
 	}
 
-	public void setContainer(ImageContainer container) {
-		this.container = container;
+	public boolean isContainerAPatient(){
+		ImageContainer container = getProperContainer();
+
+		return container != null && container.accept(ImageContainerTypeVisitor.getInstance())
+			.equals(Patient.class);
 	}
 
-	public ImageContainer getContainer() {
-		return container;
+	public boolean isContainerAStudy(){
+		ImageContainer container = getProperContainer();
+
+		return container != null && container.accept(ImageContainerTypeVisitor.getInstance())
+			.equals(Study.class);
+	}
+	
+	public Patient getPatientCont(){
+		Patient result = null;
+		
+		if(isContainerAPatient())
+			result = (Patient)getProperContainer();
+			
+		return result;
+	}
+
+	public Study getStudyCont(){
+		Study result = null;
+		
+		if(isContainerAStudy())
+			result = (Study)getProperContainer();
+			
+		return result;
 	}
 
 	/**
@@ -106,15 +137,7 @@ public class SelectImagesToImport extends RequestInvAbstractBean {
 				}
 			}
 			
-			//Get appropriate container to persist images
-			if(getSession().getResult() != null)
-				container = getSession().getResult();
-			else if(getSession().getStudy() != null)
-				container = getSession().getStudy();
-			else if(getSession().getPatient() != null)
-				container = getSession().getPatient();
-			else 
-				container = getSession().getGroup();
+			ImageContainer container = getProperContainer();
 			
 			//Always reattach trial
 			//getFacadeService().cleanReattach(getSession().getTrial());
@@ -170,5 +193,21 @@ public class SelectImagesToImport extends RequestInvAbstractBean {
 				}
 			}
 		}
+	}
+	
+	private ImageContainer getProperContainer(){
+		ImageContainer container = null;
+		
+		//Get appropriate container to persist images
+		if(getSession().getResult() != null)
+			container = getSession().getResult();
+		else if(getSession().getStudy() != null)
+			container = getSession().getStudy();
+		else if(getSession().getPatient() != null)
+			container = getSession().getPatient();
+		else 
+			container = getSession().getGroup();
+
+		return container;
 	}
 }

@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import es.urjc.mctwp.service.blogic.ImageContainerTypeVisitor;
 import es.urjc.mctwp.service.blogic.PersistImagesVisitor;
 
 public class Patient extends Protocolable {
@@ -92,6 +93,11 @@ public class Patient extends Protocolable {
 		piv.visit(this, imagesId, tempCol);
 	}
 	
+	@Override
+	public Class<? extends ImageContainer> accept(ImageContainerTypeVisitor imcv) {
+		return imcv.visit(this);
+	}	
+
 	@Override
 	public String getDescription(){
 		return completeName;

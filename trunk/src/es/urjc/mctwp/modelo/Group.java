@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import es.urjc.mctwp.service.blogic.ImageContainerTypeVisitor;
 import es.urjc.mctwp.service.blogic.PersistImagesVisitor;
 
 public class Group extends Protocolable implements java.io.Serializable {
@@ -96,6 +97,11 @@ public class Group extends Protocolable implements java.io.Serializable {
 	}
 
 	@Override
+	public Class<? extends ImageContainer> accept(ImageContainerTypeVisitor imcv) {
+		return imcv.visit(this);
+	}	
+
+	@Override
 	public String getType(){
 		return "Group";
 	}
@@ -114,5 +120,5 @@ public class Group extends Protocolable implements java.io.Serializable {
 				auxSet.addAll(patient.getAllImages());
 		
 		return auxSet;
-	}	
+	}
 }
