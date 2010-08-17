@@ -33,6 +33,10 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<source>protoTbl.xhtml</source>
 	</tag>
 	<tag>
+		<tag-name>protoTblSel</tag-name>
+		<source>protoTblSel.xhtml</source>
+	</tag>
+	<tag>
 		<tag-name>protoTblCol</tag-name>
 		<source>protoTblCol.xhtml</source>
 	</tag>
