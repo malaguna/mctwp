@@ -1,4 +1,5 @@
-<%@ page session="true" %>
+
+<%@page import="org.apache.commons.io.FileUtils"%><%@ page session="true" %>
 <%@ page import="java.io.*" %>
 <%@ page import="java.util.*" %>
 <%@ page import="es.urjc.mctwp.service.BeanNames"%>
@@ -46,7 +47,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		response.setContentType("text/plain");
 		
 		//Get path parameters and variables
-		int ourMaxMemorySize  = 10000000;
+		int ourMaxMemorySize  = 10000;
 		int ourMaxRequestSize = 2000000000;
 		String base = sessionBean.getAbsoluteThumbDir();
 		String user = sessionBean.getUser().getLogin();
@@ -106,40 +107,59 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			        //at the end of the file, where N is the chunk number.
 			        boolean isPart = numChunk > 0;
 					uploadedFilename += ( isPart ? ".part" + numChunk : "");
-			        		        
-			        //write file
-					fout = new File(FilenameUtils.concat(base, uploadedFilename));
-					fileItem.write(fout);
-					
-					if(!isPart) files.add(fout);
-					
-					//Chunk management: if it was the last chunk, let's
-					//recover the complete file by concatenating all chunk parts.
-					if (bLastChunk) {	        
+			        
+			        if(isPart){
+			        	fout = new File(FilenameUtils.concat(base, uploadedFilename));
+			        	fileItem.write(fout);
+			        }
+			        
+			        else if(!isPart || (isPart && bLastChunk)){
+			        	
+			        	//Create temp file whitout overwrite existing
+						fout = new File(FilenameUtils.concat(base, uploadedFilename));
+				        if(fout.exists()){
+					        int i = 0;
 	
-						//First: construct the final filename.
-						fout = new File(FilenameUtils.concat(base, fileItem.getName()));
-						FileOutputStream fos = new FileOutputStream(fout);
-						byte[] byteBuff = new byte[1024];int nbBytes;
-						
-						//Add to the final file each chunk
-						for (int i=1; i<=numChunk; i++) {
-							String filename = fileItem.getName() + ".part" + i;
-							File fpart = new File(FilenameUtils.concat(base, filename));
-							FileInputStream fis = new FileInputStream(fpart);
-							
-							//write the part to the file
-							while ( (nbBytes = fis.read(byteBuff)) >= 0)
-								fos.write(byteBuff, 0, nbBytes);
-							
-							fis.close();
-							fpart.delete();
-						}
-						fos.close();
-						files.add(fout);
-					}
+					        while(fout.exists()){
+					        	File tempDir = new File(FilenameUtils.concat(base, Integer.toString(i++)));
+					        	if(!tempDir.exists())
+					        		tempDir.mkdir();
+					        	
+					        	fout = new File(FilenameUtils.concat(tempDir.getAbsolutePath(), uploadedFilename));
+					        }
+				        }
 					
-					fileItem.delete();
+						//Chunk management: if it was the last chunk, let's
+						//recover the complete file by concatenating all chunk parts.
+						if (isPart && bLastChunk) {
+							FileOutputStream fos = new FileOutputStream(fout);
+							byte[] byteBuff = new byte[1024];int nbBytes;
+							
+							//Add to the final file each chunk
+							for (int i=1; i<=numChunk; i++) {
+								String filename = fileItem.getName() + ".part" + i;
+								File fpart = new File(FilenameUtils.concat(base, filename));
+								FileInputStream fis = new FileInputStream(fpart);
+								
+								//write the part to the file
+								while ( (nbBytes = fis.read(byteBuff)) >= 0)
+									fos.write(byteBuff, 0, nbBytes);
+								
+								fis.close();
+								fpart.delete();
+							}
+							
+							fos.close();
+						}
+						
+						if(!isPart){
+							fileItem.write(fout);
+			       		}
+				        
+						files.add(fout);
+			        }
+
+			        fileItem.delete();
 				}	    
 			}
 			
@@ -159,5 +179,6 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	} else result = "ERROR: unknown user session";
 		
 	out.println(result);
+
 %>
         
