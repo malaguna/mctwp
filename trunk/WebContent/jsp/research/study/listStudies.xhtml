@@ -81,10 +81,10 @@ along with Multiclinical Trial Web-PACS.  If not, see
 </ui:define>
 
 <ui:define name="tableContent">
-	<mine:protoTbl
+	<mine:protoTblSel
 		id="studyList"
 		rows="10"
-		selectionColumn="#{true}"
+		selectionMode="multiple"
 		selection="#{studyBean.selection}"
 		value="#{studyBean.studies}">
 		
@@ -120,7 +120,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 				addImage="${true}" />
 				
 		</ui:define>
-	</mine:protoTbl>
+	</mine:protoTblSel>
 </ui:define>
 
 <ui:define name="buttonsForm">
