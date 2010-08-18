@@ -171,12 +171,13 @@ public class ImageXMLCollectionExistImpl extends ImageXMLCollection {
 				
 				xml = imng.obtainNode(image);
 				
-		    	Collection col = getCollection(collection);
-		
-		        document = (XMLResource)col.createResource(image.getId(), "XMLResource");
-		        document.setContentAsDOM(xml);
-		        col.storeResource(document);
-		        
+				if(xml != null){
+			    	Collection col = getCollection(collection);
+			
+			        document = (XMLResource)col.createResource(image.getId(), "XMLResource");
+			        document.setContentAsDOM(xml);
+			        col.storeResource(document);
+				}
 			}catch(Exception e){
 				logger.error(e.getMessage());
 				throw new ImageCollectionException(e);
