@@ -30,7 +30,7 @@ import es.urjc.mctwp.image.objects.SeriesImage;
  */
 public class SeriesImageDicomImpl extends SeriesImage {
 	private static final long serialVersionUID = 4989462241770033068L;
-	public static final String DCM_EXT = "dcm";
+	public static final String DCM_EXT = SingleImageDicomImpl.DCM_EXT;
 
 	public SeriesImageDicomImpl(){
 		super();
