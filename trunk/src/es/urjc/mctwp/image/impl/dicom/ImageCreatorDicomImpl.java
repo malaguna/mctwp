@@ -58,10 +58,9 @@ public class ImageCreatorDicomImpl extends ImageCreatorDefaultImpl {
 					StringUtils.substringBeforeLast(file.getName(), "."):
 					file.getName();
 
-					//Create single image
+			//Create single image
 			aux = new SingleImageDicomImpl();
 			aux.setContent(file);
-			//aux.setId(getUniqueImageId());
 			aux.setId(name);
 			
 			//Create series image, first get prop series id
