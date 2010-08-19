@@ -163,11 +163,12 @@ public class ImageCreatorDicomImpl extends ImageCreatorDefaultImpl {
 			dcmObj = new BasicDicomObject();
 			dis.readDicomObject(dcmObj, -1);
 			result = dcmObj.getString(Tag.SeriesInstanceUID);
+			dis.close();
+			dcmObj.clear();
 		}catch(IOException ioe){
 			result = null;
 		}	
 		
 		return result;
-	}
-	
+	}	
 }
