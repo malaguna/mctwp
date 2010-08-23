@@ -21,20 +21,19 @@ package es.urjc.mctwp.image.impl.dicom;
 import java.util.ArrayList;
 
 import es.urjc.mctwp.image.objects.Image;
-import es.urjc.mctwp.image.objects.SeriesImage;
+import es.urjc.mctwp.image.objects.MultipleImage;
 
 /**
  * 
  * @author miguel
  *
  */
-public class SeriesImageDicomImpl extends SeriesImage {
+public class SeriesImageDicomImpl extends MultipleImage {
 	private static final long serialVersionUID = 4989462241770033068L;
-	public static final String DCM_EXT = SingleImageDicomImpl.DCM_EXT;
 
 	public SeriesImageDicomImpl(){
 		super();
-		this.setType(DCM_EXT);
+		this.setType(SingleImageDicomImpl.DCM_EXT);
 	}
 	
 
@@ -42,7 +41,7 @@ public class SeriesImageDicomImpl extends SeriesImage {
 	public void addImage(Image image) {
 		
 		//Check correct type of image to add
-		if(image.getType().equals(DCM_EXT)) {
+		if(image.getType().equals(SingleImageDicomImpl.DCM_EXT)) {
 			
 			//Avoid null pointer exception
 			if(this.getImages() == null){
@@ -58,7 +57,7 @@ public class SeriesImageDicomImpl extends SeriesImage {
 	public void delImage(Image image) {
 
 		//Check correct type of image to delete
-		if(image.getType().equals(DCM_EXT)) {
+		if(image.getType().equals(SingleImageDicomImpl.DCM_EXT)) {
 			
 			//Avoid null pointer exception
 			if(this.getImages() != null){
