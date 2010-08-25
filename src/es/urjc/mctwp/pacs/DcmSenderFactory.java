@@ -18,12 +18,12 @@
 
 package es.urjc.mctwp.pacs;
 
-import es.urjc.mctwp.image.management.ImageManager;
+import es.urjc.mctwp.image.management.ImagePluginManager;
 
 public class DcmSenderFactory {
 	private DcmSender sampleObjSender = null;
 	private String tempDirectory = null;
-	private ImageManager imng = null;
+	private ImagePluginManager imng = null;
 	private String hostname = null;
 	private String aeTitle = null;
 	private String thrName = null;
@@ -72,7 +72,7 @@ public class DcmSenderFactory {
 		this.rspDelay = rspDelay;
 	}
 
-	public void setImageManager(ImageManager imng) {
+	public void setImageManager(ImagePluginManager imng) {
 		this.imng = imng;
 	}
 	public void setSampleObjSender(DcmSender sampleObjSender) {

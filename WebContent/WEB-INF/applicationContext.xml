@@ -167,23 +167,15 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<property name="dao" ref="MapSeriesIdDAO" />
 	</bean>
 
-	<bean id="DicomCreator" class="es.urjc.mctwp.image.impl.dicom.ImageCreatorDicomImpl">
+	<bean id="DicomPlugin" class="es.urjc.mctwp.image.impl.dicom.DicomImagePlugin">
+		<property name="medconPath" value="/usr/bin/medcon" />
 		<property name="mapper" ref="MapSeriesId" />
 	</bean>
 
-	<bean id="DicomConversor" class="es.urjc.mctwp.image.impl.dicom.ImageConversorDicomImpl">
-		<property name="medconPath" value="/usr/bin/medcon" />
-	</bean>
-
-	<bean id="ImageManager" class="es.urjc.mctwp.image.impl.management.ImageManagerLocalImpl">
-		<property name="creators">
+	<bean id="ImagePluginManager" class="es.urjc.mctwp.image.management.ImagePluginManager">
+		<property name="plugins">
 			<list>
-				<ref bean="DicomCreator"/>
-			</list>
-		</property>
-		<property name="conversors">
-			<list>
-				<ref bean="DicomConversor"/>
+				<ref bean="DicomPlugin"/>
 			</list>
 		</property>
 	</bean>
@@ -193,17 +185,15 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<property name="prefix" value="/db/mctwp" />
 		<property name="user"   value="mctwp" />
 		<property name="pass"   value="password" />
-		<property name="imageManager" ref="ImageManager" />
 	</bean>
 	
 	<bean id="FSImageColl" class="es.urjc.mctwp.image.impl.collection.fs.ImageContentCollectionFSImpl">
 		<property name="fsBaseDirPath" value="/opt/DICOM" />
 		<property name="fsTmpCollDir" value="temporal" />
-		<property name="imageManager" ref="ImageManager" />
 	</bean>
 
-	<bean id="ImageCollectionManager" class="es.urjc.mctwp.image.impl.collection.ImageCollectionManagerLocalImpl">
-		<property name="imageManager" ref="ImageManager" />
+	<bean id="ImageCollectionManager" class="es.urjc.mctwp.image.management.ImageCollectionManager">
+		<property name="imagePluginManager" ref="ImagePluginManager" />
 		<property name="imageXMLCollection" ref="XmlImageColl" />
 		<property name="imageContentCollection" ref="FSImageColl" />
 	</bean>
@@ -216,7 +206,6 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<property name="thrName" value="SERVER" />
 		<property name="bufferSize" value="256" />
 		<property name="rspDelay" value="0" />
-		<property name="imageManager" ref="ImageManager" />
 		<property name="imageCollectionManager" ref="ImageCollectionManager" />
 	</bean>
 
@@ -230,7 +219,6 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<property name="thrName" value="SENDER" />
 		<property name="bufferSize" value="256" />
 		<property name="rspDelay" value="0" />
-		<property name="imageManager" ref="ImageManager" />
 		<property name="sampleObjSender" ref="SampleObjSender" />
 	</bean>
 
@@ -248,7 +236,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<property name="studyDao"	ref="StudyDAO" />
 		<property name="resultDao"	ref="ResultDAO" />
 		<property name="patientDao"	ref="PatientDAO" />
-		<property name="imageManager" 	 ref="ImageManager"/>
+		<property name="imageManager" 	 ref="ImagePluginManager"/>
 		<property name="imageDataDao"	 ref="ImageDataDAO" />
 		<property name="imageColManager" ref="ImageCollectionManager" />
 	</bean>

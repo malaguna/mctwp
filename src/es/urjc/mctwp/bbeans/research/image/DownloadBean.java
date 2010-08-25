@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import es.urjc.mctwp.bbeans.GenericDownloadBean;
 import es.urjc.mctwp.image.objects.Image;
-import es.urjc.mctwp.image.objects.SeriesImage;
+import es.urjc.mctwp.image.objects.MultipleImage;
 import es.urjc.mctwp.image.objects.SingleImage;
 import es.urjc.mctwp.modelo.ImageData;
 import es.urjc.mctwp.modelo.Study;
@@ -160,8 +160,8 @@ public class DownloadBean extends GenericDownloadBean {
 			if(img instanceof SingleImage)
 				addSingleImageToZos(zos, (SingleImage) img, path);
 			
-			else if(img instanceof SeriesImage){
-				SeriesImage serie = (SeriesImage)img;
+			else if(img instanceof MultipleImage){
+				MultipleImage serie = (MultipleImage)img;
 				
 				if(serie.getImages() != null)
 					for(Image i : serie.getImages())

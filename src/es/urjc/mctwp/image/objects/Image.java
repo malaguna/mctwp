@@ -21,13 +21,12 @@ package es.urjc.mctwp.image.objects;
 import java.io.Serializable;
 
 /**
- * Represent an image
+ * Represent an abstract image
  * 
- * @author miguel
- *
+ * @author Miguel Ángel Laguna Lobato.
+ * 
  */
-public abstract class Image implements Serializable{
-
+public abstract class Image implements Serializable {
 	private static final long serialVersionUID = -832795093102982240L;
 	private String id;
 	private String type;
@@ -35,23 +34,27 @@ public abstract class Image implements Serializable{
 	public String getId() {
 		return id;
 	}
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 	public String getType() {
 		return type;
 	}
+
 	public void setType(String type) {
 		this.type = type;
 	}
-	
-	public boolean equals(Object obj){
+
+	public boolean equals(Object obj) {
 		boolean res = false;
-		
-		if(obj != null)
-			if(obj instanceof Image)				
-				res = this.getType().equals(((Image)obj).getType());
-		
+
+		if (obj != null)
+			if (obj instanceof Image)
+				if(this.getType().equals(((Image) obj).getType()))
+					res = this.getId().equals(((Image) obj).getId());
+
 		return res;
 	}
 }

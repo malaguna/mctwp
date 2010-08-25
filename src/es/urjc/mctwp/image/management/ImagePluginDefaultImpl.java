@@ -19,26 +19,40 @@
 package es.urjc.mctwp.image.management;
 
 import java.io.File;
+import java.util.List;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.w3c.dom.Node;
 
 import es.urjc.mctwp.image.exception.ImageException;
 import es.urjc.mctwp.image.objects.Image;
+import es.urjc.mctwp.image.objects.PatientInfo;
 
-public abstract class ImageCreatorDefaultImpl implements ImageCreator{
+/**
+ * This class implements basic commons aspects that must be presents
+ * in every image plugin. For example, it has logging facilities, a 
+ * series mapper, and convenience methods to get file extensión, and 
+ * so on.
+ * 
+ * It is not necessary to specialize this class.
+ * 
+ * @author Miguel Ángel Laguna Lobato
+ *
+ */
+public abstract class ImagePluginDefaultImpl implements ImagePlugin {
 	protected Logger logger = Logger.getLogger(this.getClass()); 
 	private SeriesIdMapper mapper = null;
 
-	public SeriesIdMapper getMapper(){return mapper;}
+	public SeriesIdMapper getMapper(){
+		return mapper;
+	}
+	
 	public void setMapper(SeriesIdMapper mapper){
 		this.mapper = mapper;
 	}
-	
-	public abstract Image createImage(File file) throws ImageException; 
-	public abstract Image loadImage(File file) throws ImageException; 
-	
+
 	/**
 	 * Generates an unique image identifier along all collections
 	 * 
@@ -52,19 +66,45 @@ public abstract class ImageCreatorDefaultImpl implements ImageCreator{
 	
 	/**
 	 * Try to get the file extension. If there is no extension it returns 
-	 * null, that is because some ImageCreator can process images without
+	 * null, that is because some ImagePlugins can process images without
 	 * extension.
 	 * 
 	 * @param file
 	 * @return file extension
-	 * @throws ImageException if it is not possible to determine the extension
 	 */
-	protected String getFileExtension(File file) throws ImageException{
-		
+	protected String getFileExtension(File file){		
 		String ext  = StringUtils.substringAfterLast(file.getName(), ".");
 		if( (ext == null) || (ext.equals("")) )
 			ext = null;
 		
 		return ext;
 	}
+
+	/**
+	 * Try to get the file name.
+	 * 
+	 * @param file
+	 * @return file name
+	 */
+	protected String getFileName(File file){		
+		return StringUtils.substringBeforeLast(file.getName(), ".");
+	}
+
+	@Override
+	public abstract Image createImage(File file) throws ImageException; 
+
+	@Override
+	public abstract Image loadImage(File file) throws ImageException; 
+
+	@Override
+	public abstract PatientInfo getPatientInfo(Image image) throws ImageException;
+
+	@Override
+	public abstract List<File> toDicom(Image image, File outputDir) throws ImageException ;
+
+	@Override
+	public abstract File toPng(Image image) throws ImageException;
+	
+	@Override
+	public abstract Node toXml(Image image) throws ImageException;
 }

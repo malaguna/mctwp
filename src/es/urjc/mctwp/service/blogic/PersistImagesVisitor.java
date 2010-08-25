@@ -20,7 +20,6 @@ package es.urjc.mctwp.service.blogic;
 
 import java.util.List;
 
-import es.urjc.mctwp.dao.GenericDAO;
 import es.urjc.mctwp.dao.ProtocolableDAO;
 import es.urjc.mctwp.dao.ResultDAO;
 import es.urjc.mctwp.modelo.Group;
@@ -66,18 +65,18 @@ public class PersistImagesVisitor {
 	}
 
 	public void visit(Trial imgcon, List<String> imagesId, String tempColl) throws Exception{
-		protocolableDao.reattach(imgcon, GenericDAO.DIRTY_IGNORE);
-		utils.persistImagesTrial(tempColl, imgcon, imagesId);
+		Protocolable aux = protocolableDao.findById(imgcon.getCode());
+		utils.persistImagesTrial(tempColl, (Trial)aux, imagesId);
 	}
 
 	public void visit(Group imgcon, List<String> imagesId, String tempColl) throws Exception{
-		protocolableDao.reattach(imgcon, GenericDAO.DIRTY_IGNORE);
-		utils.persistImagesGroup(tempColl, imgcon, imagesId);
+		Protocolable aux = protocolableDao.findById(imgcon.getCode());
+		utils.persistImagesGroup(tempColl, (Group)aux, imagesId);
 	}
 
 	public void visit(Patient imgcon, List<String> imagesId, String tempColl) throws Exception{
-		protocolableDao.reattach(imgcon, GenericDAO.DIRTY_IGNORE);
-		utils.persistImagesPatient(tempColl, imgcon, imagesId);
+		Protocolable aux = protocolableDao.findById(imgcon.getCode());
+		utils.persistImagesPatient(tempColl, (Patient)aux, imagesId);
 	}
 	
 	public void visit(Study imgcon, List<String> imagesId, String tempColl) throws Exception{

@@ -20,6 +20,7 @@ package es.urjc.mctwp.service.blogic;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,10 +35,10 @@ import es.urjc.mctwp.dao.PatientDAO;
 import es.urjc.mctwp.dao.ResultDAO;
 import es.urjc.mctwp.dao.StudyDAO;
 import es.urjc.mctwp.dao.TaskDAO;
-import es.urjc.mctwp.image.collection.ImageCollectionManager;
 import es.urjc.mctwp.image.exception.ImageCollectionException;
 import es.urjc.mctwp.image.exception.ImageException;
-import es.urjc.mctwp.image.management.ImageManager;
+import es.urjc.mctwp.image.management.ImageCollectionManager;
+import es.urjc.mctwp.image.management.ImagePluginManager;
 import es.urjc.mctwp.image.objects.Image;
 import es.urjc.mctwp.image.objects.PatientInfo;
 import es.urjc.mctwp.image.objects.ThumbNail;
@@ -63,7 +64,7 @@ public class ImageUtils extends AbstractBLogic{
 	private PatientDAO patientDao = null;
 	
 	//Other business objects
-	private ImageManager imgManager = null;
+	private ImagePluginManager imgManager = null;
 	private ImageDataDAO imageDataDao = null;
 	private DcmSenderFactory senderFactory = null;
 	private ImageCollectionManager imgColManager = null;
@@ -92,10 +93,10 @@ public class ImageUtils extends AbstractBLogic{
 	public PatientDAO getPatientDao() {
 		return patientDao;
 	}
-	public void setImageManager(ImageManager imgManager) {
+	public void setImageManager(ImagePluginManager imgManager) {
 		this.imgManager = imgManager;
 	}
-	public ImageManager getImageManager() {
+	public ImagePluginManager getImageManager() {
 		return imgManager;
 	}
 	public void setImageDataDao(ImageDataDAO imageDataDao) {
@@ -117,12 +118,9 @@ public class ImageUtils extends AbstractBLogic{
 		return imgColManager;
 	}
 
-	public void storeTemporalImages(User user, List<File> files) throws ImageCollectionException, ImageException{
-		List<Image> images = null;
-		
+	public void storeTemporalImages(User user, List<File> files) throws ImageCollectionException, ImageException, IOException{
 		if(files != null){
-			images = imgManager.createImages(files);
-			imgColManager.storeTemporalImages(user.getLogin(), images);
+			imgColManager.storeTemporalImages(user.getLogin(), files);
 			
 			for(File file : files)
 				file.delete();
@@ -146,7 +144,7 @@ public class ImageUtils extends AbstractBLogic{
 			images = new ArrayList<Image>();
 			
 			for(String id : imagesId){
-				Image image = imgColManager.getImage(col, id);
+				Image image = imgColManager.getImage(col, id, false);
 				images.add(image);
 			}
 			
@@ -190,7 +188,7 @@ public class ImageUtils extends AbstractBLogic{
 		
 		//Check all images has patient and study info
 		for(String idImage: imagesId){
-			Image auxImg = imgColManager.getTemporalImage(tempColl, idImage);
+			Image auxImg = imgColManager.getImage(tempColl, idImage, true);
 			PatientInfo auxInf = getImageManager().obtainPatientStudyInfo(auxImg);
 			
 			if( (auxImg == null) || (auxInf == null) || 
@@ -237,7 +235,7 @@ public class ImageUtils extends AbstractBLogic{
 
 		//Check all images has patient and study info
 		for(String idImage: imagesId){
-			Image auxImg = imgColManager.getTemporalImage(tempColl, idImage);
+			Image auxImg = imgColManager.getImage(tempColl, idImage, true);
 			PatientInfo auxInf = getImageManager().obtainPatientStudyInfo(auxImg);
 			
 			if( (auxImg == null) || (auxInf == null) || 
@@ -286,12 +284,12 @@ public class ImageUtils extends AbstractBLogic{
 			result.addImage(imageData);
 			
 			//Obtain thumbnail
-			ThumbNail tn = imgColManager.getTemporalThumbNail(tempColl, idImage);
+			ThumbNail tn = imgColManager.getThumbNail(tempColl, idImage, true);
 			imageData.setThumbanilContent(new FileInputStream(tn.getContent()));
 			
 			try{
 				imageDataDao.persist(imageData);
-				imgColManager.persistImage(tempColl, collection, idImage);
+				imgColManager.acceptTemporalImage(tempColl, collection, idImage);
 			}catch (RuntimeException re){
 				
 				//Means, image inserted already exist into DB, but new images have been added to collection
@@ -351,7 +349,7 @@ public class ImageUtils extends AbstractBLogic{
 			imageData.setImageType("");
 
 			//Obtain thumbnail
-			ThumbNail tn = imgColManager.getTemporalThumbNail(tempColl, idImage);
+			ThumbNail tn = imgColManager.getThumbNail(tempColl, idImage, true);
 			imageData.setThumbanilContent(new FileInputStream(tn.getContent()));
 		}
 		
@@ -360,7 +358,7 @@ public class ImageUtils extends AbstractBLogic{
 				imageDataDao.persist(imageData);
 				createTasks(imageData, source);
 			}
-			imgColManager.persistImage(tempColl, defColl, idImage);
+			imgColManager.acceptTemporalImage(tempColl, defColl, idImage);
 		}catch (RuntimeException re){
 			
 			//Means, image inserted already exist into DB, but new images have been added to collection

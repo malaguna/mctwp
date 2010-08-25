@@ -20,14 +20,12 @@ package es.urjc.mctwp.pacs;
 
 import org.apache.naming.factory.BeanFactory;
 
-import es.urjc.mctwp.image.collection.ImageCollectionManager;
-import es.urjc.mctwp.image.management.ImageManager;
+import es.urjc.mctwp.image.management.ImageCollectionManager;
 import es.urjc.mctwp.service.ServiceDelegate;
 
 public interface DcmStorageServer {
 	
 	public void setImageCollectionManager(ImageCollectionManager imc);
-	public void setImageManager(ImageManager im);
 	public void setService(ServiceDelegate service);
 	public void setBf(BeanFactory bf);
 

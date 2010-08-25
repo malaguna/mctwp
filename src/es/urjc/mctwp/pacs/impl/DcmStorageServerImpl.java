@@ -27,7 +27,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
@@ -50,9 +49,7 @@ import org.dcm4che2.net.TransferCapability;
 import org.dcm4che2.net.service.StorageService;
 import org.dcm4che2.net.service.VerificationService;
 
-import es.urjc.mctwp.image.collection.ImageCollectionManager;
-import es.urjc.mctwp.image.management.ImageManager;
-import es.urjc.mctwp.image.objects.Image;
+import es.urjc.mctwp.image.management.ImageCollectionManager;
 import es.urjc.mctwp.pacs.DcmException;
 import es.urjc.mctwp.pacs.DcmStorageServer;
 import es.urjc.mctwp.service.Command;
@@ -68,7 +65,6 @@ public class DcmStorageServerImpl extends StorageService implements DcmStorageSe
 	private NetworkConnection localConn = null;
 	private ImageCollectionManager imc = null;
 	private Executor executor = null;
-	private ImageManager im = null;
 	private Device device = null;
 	private Logger logger = null;
 
@@ -215,10 +211,6 @@ public class DcmStorageServerImpl extends StorageService implements DcmStorageSe
 		this.thrName = thrName;
 	}
 	@Override
-	public void setImageManager(ImageManager im) {
-		this.im = im;
-	}
-	@Override
 	public void setImageCollectionManager(ImageCollectionManager imc) {
 		this.imc = imc;
 	}
@@ -338,8 +330,7 @@ public class DcmStorageServerImpl extends StorageService implements DcmStorageSe
 				//Store into persistent space
 				ArrayList<File> files = new ArrayList<File>();
 				files.add(file);
-				List<Image> images = im.createImages(files);
-				imc.storeTemporalImages(as.getCallingAET(), images);
+				imc.storeTemporalImages(as.getCallingAET(), files);
 				file.delete();
 			}catch (Exception e){
 				throw new DicomServiceException(rq, Status.ProcessingFailure, e.getMessage());

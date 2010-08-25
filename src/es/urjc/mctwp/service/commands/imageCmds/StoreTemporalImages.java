@@ -19,6 +19,7 @@
 package es.urjc.mctwp.service.commands.imageCmds;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.BeanFactory;
@@ -55,7 +56,7 @@ public class StoreTemporalImages extends Command {
 	}
 
 	@Override
-	public Command runCommand() throws ImageCollectionException, ImageException{
+	public Command runCommand() throws ImageCollectionException, ImageException, IOException{
 		imageUtils.storeTemporalImages(getUser(), files);
 		createLogComment("audit.storeTempImages", files.size(), getUser().getLogin());
 		return null;
