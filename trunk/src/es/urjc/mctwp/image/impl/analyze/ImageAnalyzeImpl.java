@@ -16,19 +16,35 @@
 //along with Multiclinical Trial Web-PACS.  If not, see 
 //<http://www.gnu.org/licenses/>.
 
-package es.urjc.mctwp.image.management;
+package es.urjc.mctwp.image.impl.analyze;
 
 import java.io.File;
 
-import es.urjc.mctwp.image.exception.ImageException;
-import es.urjc.mctwp.image.objects.Image;
+import es.urjc.mctwp.image.objects.SingleImage;
 
 /**
  * 
  * @author miguel
  *
  */
-public interface ImageCreator {
-	public Image createImage(File file) throws ImageException;
-	public Image loadImage(File file) throws ImageException;
+public class ImageAnalyzeImpl extends SingleImage {
+	private static final long serialVersionUID = -5107678169621767292L;
+	public static final String ANALYZE_TYPE = "ana75";
+	public static final String ANALYZE_HDR_EXT = "hdr";
+	public static final String ANALYZE_IMG_EXT = "img";
+	
+	private File header;
+
+	public ImageAnalyzeImpl(){
+		super();
+		this.setType(ANALYZE_TYPE);
+	}
+
+	public void setHeader(File header) {
+		this.header = header;
+	}
+
+	public File getHeader() {
+		return header;
+	}
 }

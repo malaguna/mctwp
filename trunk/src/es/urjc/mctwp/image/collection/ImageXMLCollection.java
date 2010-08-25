@@ -20,29 +20,24 @@ package es.urjc.mctwp.image.collection;
 
 import java.util.List;
 
+import org.w3c.dom.Node;
+
 import es.urjc.mctwp.image.exception.ImageCollectionException;
-import es.urjc.mctwp.image.management.ImageManager;
 import es.urjc.mctwp.image.objects.Attribute;
-import es.urjc.mctwp.image.objects.Image;
 
 /**
  * 
  * @author Miguel Ángel Laguna
  *
  */
-public abstract class ImageXMLCollection {
-	protected ImageManager imng = null;
-
-	public void setImageManager(ImageManager imng){
-		this.imng = imng;
-	}
+public interface ImageXMLCollection {
 
 	//Collection operations
 	public abstract void createCollection(String collection) throws ImageCollectionException;
 	public abstract void deleteCollection(String collection) throws ImageCollectionException;
 	
 	//Image Operations
-	public abstract void storeImage(String collection, Image image) throws ImageCollectionException;
-	public abstract void deleteImage(String collection, String idImage) throws ImageCollectionException; 
-	public abstract List<String> findImages(String collection, List<Attribute> criteria);
+	public abstract void storeNode(String collection, String idNode, Node node) throws ImageCollectionException;
+	public abstract void deleteNode(String collection, String idNode) throws ImageCollectionException; 
+	public abstract List<String> findNodes(String collection, List<Attribute> criteria);
 }

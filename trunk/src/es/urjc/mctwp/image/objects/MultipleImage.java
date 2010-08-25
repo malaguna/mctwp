@@ -20,17 +20,25 @@ package es.urjc.mctwp.image.objects;
 
 import java.util.List;
 
-public abstract class SeriesImage extends Image {
-
+/**
+ * This class represents an image that is formed from multiple files,
+ * for example DICOM Series, Analyze header and image, and so on.
+ * 
+ * @author Miguel Ángel Laguna Lobato.
+ *
+ */
+public abstract class MultipleImage extends Image {
 	private static final long serialVersionUID = 8174220288804624821L;
 	private List<Image> images = null;
 
 	public List<Image> getImages() {
 		return images;
 	}
+
 	public void setImages(List<Image> images) {
 		this.images = images;
 	}
+
 	public abstract void addImage(Image image);
 	public abstract void delImage(Image image);
 }

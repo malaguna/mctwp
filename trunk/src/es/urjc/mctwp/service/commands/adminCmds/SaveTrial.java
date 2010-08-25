@@ -24,8 +24,8 @@ import org.springframework.beans.factory.BeanFactory;
 
 import es.urjc.mctwp.dao.GenericDAO;
 import es.urjc.mctwp.dao.TrialDAO;
-import es.urjc.mctwp.image.collection.ImageCollectionManager;
 import es.urjc.mctwp.image.exception.ImageCollectionException;
+import es.urjc.mctwp.image.management.ImageCollectionManager;
 import es.urjc.mctwp.modelo.Trial;
 import es.urjc.mctwp.service.ActionNames;
 import es.urjc.mctwp.service.BeanNames;

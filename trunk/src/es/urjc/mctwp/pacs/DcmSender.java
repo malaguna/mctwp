@@ -21,7 +21,7 @@ package es.urjc.mctwp.pacs;
 import java.io.File;
 import java.util.List;
 
-import es.urjc.mctwp.image.management.ImageManager;
+import es.urjc.mctwp.image.management.ImagePluginManager;
 import es.urjc.mctwp.image.objects.Image;
 
 /**
@@ -31,7 +31,7 @@ import es.urjc.mctwp.image.objects.Image;
  *
  */
 public abstract class DcmSender {
-	protected ImageManager imng = null;
+	protected ImagePluginManager imng = null;
 	protected File tempDirectory = null;
 	protected String hostname = null;
 	protected String aeTitle = null;
@@ -74,10 +74,10 @@ public abstract class DcmSender {
 		this.rspDelay = rspDelay;
 	}
 
-	public void setImng(ImageManager imng) {
+	public void setImng(ImagePluginManager imng) {
 		this.imng = imng;
 	}
-	protected ImageManager getImng(){
+	protected ImagePluginManager getImng(){
 		return imng;
 	}
 

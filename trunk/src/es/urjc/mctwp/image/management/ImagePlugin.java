@@ -28,11 +28,38 @@ import es.urjc.mctwp.image.objects.Image;
 import es.urjc.mctwp.image.objects.PatientInfo;
 
 /**
+ * This interface specifies methods to be implemented in order
+ * to add a new standard or file format.
  * 
- * @author Miguel Ángel Laguna
+ * It also necessary to implement new image type specializing 
+ * Image, SingleImage or MultipleImage 
+ * 
+ * @author Miguel Ángel Laguna Lobato
  *
  */
-public interface ImageConversor {
+public interface ImagePlugin {
+	
+	/**
+	 * This method must create an appropriate Image object from
+	 * a single file or a directory. The files to build the image
+	 * must remain referenced for the lifetime of the image.
+	 * 
+	 * @param file
+	 * @return Image
+	 * @throws ImageException
+	 */
+	public Image createImage(File file) throws ImageException;
+
+	/**
+	 * This method is the same as createImage, but in this case,
+	 * it is not necessary to create new image identifier, it must
+	 * be read from file.
+	 * 
+	 * @param file
+	 * @return Image
+	 * @throws ImageException
+	 */
+	public Image loadImage(File file) throws ImageException;
 	
 	/**
 	 * Obtains a XML Node that represent header information of Image
@@ -69,4 +96,7 @@ public interface ImageConversor {
 	 * @throws ImageException
 	 */
 	public PatientInfo getPatientInfo(Image image) throws ImageException;
+	
+	public String[] getSupportedExtensions();
+	public boolean getSupportNoExtension();
 }

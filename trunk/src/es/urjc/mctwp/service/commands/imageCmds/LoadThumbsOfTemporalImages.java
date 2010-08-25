@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.BeanFactory;
 
-import es.urjc.mctwp.image.collection.ImageCollectionManager;
 import es.urjc.mctwp.image.exception.ImageCollectionException;
 import es.urjc.mctwp.image.exception.ImageException;
+import es.urjc.mctwp.image.management.ImageCollectionManager;
 import es.urjc.mctwp.image.objects.ThumbNail;
 import es.urjc.mctwp.service.ActionNames;
 import es.urjc.mctwp.service.BeanNames;
@@ -56,7 +56,7 @@ public class LoadThumbsOfTemporalImages extends ResultCommand<List<ThumbNail>> {
 
 	@Override
 	public ResultCommand<List<ThumbNail>> runCommand() throws ImageException, ImageCollectionException{
-		this.setResult(imcm.getThumbNailsTemporalImages(tempColl));
+		this.setResult(imcm.getThumbNails(tempColl, true));
 		return this;
 	}
 }

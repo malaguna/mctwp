@@ -20,7 +20,7 @@ package es.urjc.mctwp.service.commands.imageCmds;
 
 import org.springframework.beans.factory.BeanFactory;
 
-import es.urjc.mctwp.image.collection.ImageCollectionManager;
+import es.urjc.mctwp.image.management.ImageCollectionManager;
 import es.urjc.mctwp.image.objects.Image;
 import es.urjc.mctwp.service.ActionNames;
 import es.urjc.mctwp.service.BeanNames;
@@ -60,7 +60,7 @@ public class LoadImage extends ResultCommand<Image> {
 
 	@Override
 	public ResultCommand<Image> runCommand() throws Exception {
-		this.setResult(imageManager.getImage(collection, imageId));
+		this.setResult(imageManager.getImage(collection, imageId, false));
 		return this;
 	}
 }
