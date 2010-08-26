@@ -36,17 +36,17 @@ import es.urjc.mctwp.image.exception.ImageCollectionException;
  * File system broker to manage dicom fila storage
  * 
  * @author Miguel Ángel Laguna Lobato
- *
+ * 
  */
-public class ImageContentCollectionFSImpl implements ImageContentCollection{
+public class ImageContentCollectionFSImpl implements ImageContentCollection {
 	private FileFilter icff;
-	private String 	fsBaseDirPath;
-	private String  fsTmpCollDir;
-	private File 	basedir;
-	private File 	tmpcoll;
-	private Logger  logger;
-	
-	public ImageContentCollectionFSImpl(){
+	private String fsBaseDirPath;
+	private String fsTmpCollDir;
+	private File basedir;
+	private File tmpcoll;
+	private Logger logger;
+
+	public ImageContentCollectionFSImpl() {
 		logger = Logger.getLogger(this.getClass());
 		icff = new ImageContentFileFilter();
 	}
@@ -56,220 +56,236 @@ public class ImageContentCollectionFSImpl implements ImageContentCollection{
 	 * 
 	 * @param fspath
 	 */
-	public void setFsBaseDirPath(String fspath){
-		
-		if( (fspath != null) && (fspath.length() > 0) ){
+	public void setFsBaseDirPath(String fspath) {
+
+		if ((fspath != null) && (fspath.length() > 0)) {
 			this.fsBaseDirPath = fspath;
-			
+
 			basedir = new File(fsBaseDirPath);
-			if(!basedir.exists()){
-				String error = fspath + " doesn't exist. Can't manage image storage.";
+			if (!basedir.exists()) {
+				String error = fspath
+						+ " doesn't exist. Can't manage image storage.";
 				logger.error(error);
 				throw new RuntimeException(error);
 			}
-		}else{
+		} else {
 			String error = "given path is null or empty";
 			logger.error(error);
 			throw new RuntimeException(error);
 		}
 
-		//Is not sure the order to set basedir and tempcoll
-		if(fsTmpCollDir != null)
+		// Is not sure the order to set basedir and tempcoll
+		if (fsTmpCollDir != null)
 			createTempCollection();
 	}
-	
+
 	/**
 	 * Sets and checks the base path for storing temporal images
 	 * 
 	 * @param fspath
 	 */
-	public void setFsTmpCollDir(String name){
-		if( (name != null) && (name.length() > 0) ){
+	public void setFsTmpCollDir(String name) {
+		if ((name != null) && (name.length() > 0)) {
 			this.fsTmpCollDir = name;
-		}else
+		} else
 			throw new RuntimeException("Invalid temporary collection name");
-		
-		//Is not sure the order to set basedir and tempcoll
-		if(fsBaseDirPath != null)
+
+		// Is not sure the order to set basedir and tempcoll
+		if (fsBaseDirPath != null)
 			createTempCollection();
 	}
-	
+
 	/**
 	 * Create a subdirectory for store dicom files
 	 * 
 	 * @param name
 	 */
-	public void createCollection(String name) throws ImageCollectionException{
-		
-		if( (name != null) && (name.length() > 0) ){		
-			File temp = new File(FilenameUtils.concat(basedir.getAbsolutePath(), name));
-			
-			if(temp.exists()){
+	public void createCollection(String name) throws ImageCollectionException {
+
+		if ((name != null) && (name.length() > 0)) {
+			File temp = new File(FilenameUtils.concat(
+					basedir.getAbsolutePath(), name));
+
+			if (temp.exists()) {
 				String error = "Collection [" + name + "] already exists";
 				logger.error(error);
 				throw new ImageCollectionException(error);
-			}else{
-				try{
+			} else {
+				try {
 					temp.mkdir();
-				}catch (Exception e){
+				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new ImageCollectionException(e);
 				}
 			}
-		}else{
+		} else {
 			String error = "Can't create collection, given name is null or empty";
 			logger.error(error);
 			throw new ImageCollectionException(error);
 		}
 	}
-	
+
 	/**
 	 * Don't delete anything
 	 */
-	public void deleteCollection(String name) throws ImageCollectionException{
-		//do nothing
+	public void deleteCollection(String name) throws ImageCollectionException {
+		// do nothing
 	}
-	
+
 	/**
 	 * Retrieve a file from any collection
 	 * 
 	 * @param collection
-	 * @param id of image
-	 * @param temporal boolean that indicates wheter collection is temporal or not
+	 * @param id
+	 *            of image
+	 * @param temporal
+	 *            boolean that indicates wheter collection is temporal or not
 	 * @return dcm file
 	 */
 	@Override
-	public File loadContent(String collection, String idImage, boolean temporal) throws ImageCollectionException{
+	public File loadContent(String collection, String idImage, boolean temporal)
+			throws ImageCollectionException {
 		File result = null;
-		
-		if( (collection != null) && (idImage != null) &&
-			(collection.length() > 0) && (idImage.length() > 0) ){
-			
+
+		if ((collection != null) && (idImage != null)
+				&& (collection.length() > 0) && (idImage.length() > 0)) {
+
 			File temp = getProperCollection(collection, temporal);
-			
-			if(!temp.exists()){
-				String error = (temporal ? "Temp collection" : "Collection") + " [" + collection + "] doesn't exists";
+
+			if (!temp.exists()) {
+				String error = (temporal ? "Temp collection" : "Collection")
+						+ " [" + collection + "] doesn't exists";
 				throw new ImageCollectionException(error);
-			}else{
+			} else {
 				result = findContent(temp, idImage);
-				if(result == null){
-					String error = "File [" + idImage + "] is wrong or doesn't exists";
+				if (result == null) {
+					String error = "File [" + idImage
+							+ "] is wrong or doesn't exists";
 					throw new ImageCollectionException(error);
 				}
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
-	 * Retrieve all contents in the collection, except thumbnails 
-	 * files. See file filter implementation.
+	 * Retrieve all contents in the collection, except thumbnails files. See
+	 * file filter implementation.
 	 */
 	@Override
-	public List<File> loadAllContents(String collection, boolean temporal) throws ImageCollectionException{
+	public List<File> loadAllContents(String collection, boolean temporal)
+			throws ImageCollectionException {
 		List<File> result = null;
-		
-		if( (collection != null) && (collection.length() > 0) ){		
+
+		if ((collection != null) && (collection.length() > 0)) {
 			File temp = getProperCollection(collection, temporal);
-			
-			if(!temp.exists()){
-				String error = (temporal ? "Temp collection" : "Collection") + " [" + collection + "] doesn't exists";
+
+			if (!temp.exists()) {
+				String error = (temporal ? "Temp collection" : "Collection")
+						+ " [" + collection + "] doesn't exists";
 				logger.error(error);
 				throw new ImageCollectionException(error);
-			}else{
-				try{
+			} else {
+				try {
 					result = Arrays.asList(temp.listFiles(icff));
-				}catch (Exception e){
+				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new ImageCollectionException(e);
 				}
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
-	 * Store any content into a collection. If the collection does not exist
-	 * an it is not temporal an exception is thrown. If collection does not 
-	 * exist, but it is temporal, then collection is created.
+	 * Store any content into a collection. If the collection does not exist an
+	 * it is not temporal an exception is thrown. If collection does not exist,
+	 * but it is temporal, then collection is created.
 	 * 
 	 * @param collection
 	 * @param dcm
 	 */
 	@Override
-	public void storeContent(String collection, File content, boolean temporal) throws ImageCollectionException{
-		
-		if( (collection != null) && (content != null) && (collection.length() > 0) ){		
+	public void storeContent(String collection, File content, boolean temporal)
+			throws ImageCollectionException {
+
+		if ((collection != null) && (content != null)
+				&& (collection.length() > 0)) {
 
 			File temp = getProperCollection(collection, temporal);
 
-			if(!temp.exists()){
-				if(temporal){
+			if (!temp.exists()) {
+				if (temporal) {
 					temp.mkdir();
-				}else{
-					String error = "Collection [" + collection + "] doesn't exists";
+				} else {
+					String error = "Collection [" + collection
+							+ "] doesn't exists";
 					throw new ImageCollectionException(error);
 				}
 			}
-			
-			try{				
-				if(content.isFile())
+
+			try {
+				if (content.isFile())
 					storeFile(temp, content);
-				else if(content.isDirectory())
+				else if (content.isDirectory())
 					storeDirectory(temp, content);
 				else
-					throw new ImageCollectionException("Can not manage file : " + content.getName());
-			}catch (Exception e){
+					throw new ImageCollectionException("Can not manage file : "
+							+ content.getName());
+			} catch (Exception e) {
 				logger.error(e.getMessage());
 				throw new ImageCollectionException(e);
 			}
 		}
-	}	
+	}
 
 	/**
 	 * delete any content
 	 */
 	@Override
-	public void deleteContent(String collection, String idContent, boolean temporal) throws ImageCollectionException{
+	public void deleteContent(String collection, String idContent,
+			boolean temporal) throws ImageCollectionException {
 
-		if( (collection != null) && (idContent != null) &&
-			(collection.length() > 0) && (idContent.length() > 0) ){		
+		if ((collection != null) && (idContent != null)
+				&& (collection.length() > 0) && (idContent.length() > 0)) {
 
 			File temp = getProperCollection(collection, temporal);
 			File file = null;
-			
-			if(!temp.exists()){
-				String error = (temporal ? "Temp collection" : "Collection") + " [" + collection + "] doesn't exists";
+
+			if (!temp.exists()) {
+				String error = (temporal ? "Temp collection" : "Collection")
+						+ " [" + collection + "] doesn't exists";
 				throw new ImageCollectionException(error);
-			}else{
+			} else {
 				file = findContent(temp, idContent);
-				if(file == null){
+				if (file == null) {
 					String error = "Content [" + idContent + "] doesn't exists";
 					throw new ImageCollectionException(error);
 				}
-				
-				try{
-					if(file.isFile())
+
+				try {
+					if (file.isFile())
 						file.delete();
-					else if(file.isDirectory())
+					else if (file.isDirectory())
 						FileUtils.deleteDirectory(file);
-				}catch (Exception e){
+				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new ImageCollectionException(e);
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Once both path for temporal and persistent images are specified, it is
 	 * created temporal collection
 	 */
-	private void createTempCollection(){
+	private void createTempCollection() {
 		tmpcoll = new File(FilenameUtils.concat(fsBaseDirPath, fsTmpCollDir));
-		if(!tmpcoll.exists()) tmpcoll.mkdir();
+		if (!tmpcoll.exists())
+			tmpcoll.mkdir();
 	}
 
 	/**
@@ -279,10 +295,9 @@ public class ImageContentCollectionFSImpl implements ImageContentCollection{
 	 * @param temporal
 	 * @return
 	 */
-	private File getProperCollection(String colName, boolean temporal){
-		String basePath = temporal ? 
-				tmpcoll.getAbsolutePath() : 
-				basedir.getAbsolutePath();
+	private File getProperCollection(String colName, boolean temporal) {
+		String basePath = temporal ? tmpcoll.getAbsolutePath() : basedir
+				.getAbsolutePath();
 		return new File(FilenameUtils.concat(basePath, colName));
 	}
 
@@ -294,11 +309,13 @@ public class ImageContentCollectionFSImpl implements ImageContentCollection{
 	 * @throws ImageCollectionException
 	 * @throws IOException
 	 */
-	private void storeFile(File collection, File file) throws ImageCollectionException, IOException{
-		File dest = new File(FilenameUtils.concat(collection.getAbsolutePath(), file.getName()));
+	private void storeFile(File collection, File file)
+			throws ImageCollectionException, IOException {
+		File dest = new File(FilenameUtils.concat(collection.getAbsolutePath(),
+				file.getName()));
 		FileUtils.copyFile(file, dest);
 	}
-	
+
 	/**
 	 * It stores properly a directory, in a recursive way
 	 * 
@@ -307,22 +324,26 @@ public class ImageContentCollectionFSImpl implements ImageContentCollection{
 	 * @throws ImageCollectionException
 	 * @throws IOException
 	 */
-	private void storeDirectory(File collection, File directory) throws ImageCollectionException, IOException{
-		File dest = new File(FilenameUtils.concat(collection.getAbsolutePath(), directory.getName()));
-		if(!dest.exists()) dest.mkdir();
-		
-		if(directory.listFiles() != null){
-			for(File file : directory.listFiles()){
-				if(file.isFile())
+	private void storeDirectory(File collection, File directory)
+			throws ImageCollectionException, IOException {
+		File dest = new File(FilenameUtils.concat(collection.getAbsolutePath(),
+				directory.getName()));
+		if (!dest.exists())
+			dest.mkdir();
+
+		if (directory.listFiles() != null) {
+			for (File file : directory.listFiles()) {
+				if (file.isFile())
 					storeFile(dest, file);
-				else if(file.isDirectory())
+				else if (file.isDirectory())
 					storeDirectory(dest, file);
 				else
-					throw new ImageCollectionException("Can not manage file : " + file.getName());
+					throw new ImageCollectionException("Can not manage file : "
+							+ file.getName());
 			}
 		}
 	}
-	
+
 	/**
 	 * Finds any content into a collection
 	 * 
@@ -330,15 +351,22 @@ public class ImageContentCollectionFSImpl implements ImageContentCollection{
 	 * @param imageId
 	 * @return file content
 	 */
-	private File findContent(File collection, String imageId){
+	private File findContent(File collection, String imageId) {
 		File result = null;
-		
-		for(File file : collection.listFiles()){
-			String id = (file.isFile())?StringUtils.substringBeforeLast(file.getName(), "."):file.getName();
-			if(id.equals(imageId))
-				result = file;
+
+		File[] auxLst = collection.listFiles();
+		if (auxLst != null) {
+			for (File file : auxLst) {
+				String id = (file.isFile()) ? StringUtils.substringBeforeLast(
+						file.getName(), ".") : file.getName();
+
+				if (id.equals(imageId)) {
+					result = file;
+					break;
+				}
+			}
 		}
-		
+
 		return result;
 	}
 }
