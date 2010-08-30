@@ -18,9 +18,6 @@
 
 package es.urjc.mctwp.image.impl.dicom;
 
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -28,7 +25,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerFactory;
@@ -50,7 +46,7 @@ import org.w3c.dom.Node;
 import es.urjc.mctwp.image.exception.ImageException;
 import es.urjc.mctwp.image.management.ImagePluginDefaultImpl;
 import es.urjc.mctwp.image.objects.Image;
-import es.urjc.mctwp.image.objects.MultipleImage;
+import es.urjc.mctwp.image.objects.SeriesImage;
 import es.urjc.mctwp.image.objects.PatientInfo;
 import es.urjc.mctwp.image.objects.SingleImage;
 
@@ -74,8 +70,8 @@ public class DicomImagePlugin extends ImagePluginDefaultImpl {
 	@Override
 	public Image createImage(File file) throws ImageException {
 		SeriesImageDicomImpl res = null;
+		SingleImageDicomImpl aux = null;
 		String seriesUid = null;
-		SingleImage aux = null;
 
 		seriesUid = getSeriesUID(file);
 
@@ -114,7 +110,7 @@ public class DicomImagePlugin extends ImagePluginDefaultImpl {
 		else if (image instanceof SingleImageDicomImpl)
 			sidi = (SingleImageDicomImpl) image;
 
-		// Retrive demographic dicom file information
+		// Retrieve demographic dicom file information
 		try {
 			if(sidi != null){
 				dis = new DicomInputStream(sidi.getContent());
@@ -234,7 +230,7 @@ public class DicomImagePlugin extends ImagePluginDefaultImpl {
 	 * @throws ImageException
 	 */
 	private SingleImage loadSingleImage(File file) throws ImageException {
-		SingleImage result = null;
+		SingleImageDicomImpl result = null;
 		String seriesUid = null;
 
 		seriesUid = getSeriesUID(file);
@@ -259,17 +255,17 @@ public class DicomImagePlugin extends ImagePluginDefaultImpl {
 	 * @return
 	 * @throws ImageException
 	 */
-	private MultipleImage loadSeriesImage(File file) throws ImageException {
-		MultipleImage result = new SeriesImageDicomImpl();
+	private SeriesImage loadSeriesImage(File file) throws ImageException {
+		SeriesImage result = new SeriesImageDicomImpl();
 
-		result.setId(file.getName());
+		result.setId(getFileName(file));
 
 		// Add every single image directory has
 		for (File f : Arrays.asList(file.listFiles())) {
 			SingleImage singleImage = loadSingleImage(f);
 			if (singleImage != null) {
 
-				// Is it neccesary to check wheter image has same seriesUid?
+				//TODO Is it neccesary to check wheter image has same seriesUid?
 				result.addImage(singleImage);
 			}
 		}
@@ -343,7 +339,7 @@ public class DicomImagePlugin extends ImagePluginDefaultImpl {
 			// Prepare output file
 			source = single.getContent();
 			String base = source.getParent();
-			String pre = StringUtils.substringBeforeLast(source.getName(), ".");
+			String pre = getFileName(source);
 			result = new File(FilenameUtils.concat(base, pre + ".png"));
 
 			// Check if thumbnails exists. Like a cache of thumbnails
@@ -476,6 +472,7 @@ public class DicomImagePlugin extends ImagePluginDefaultImpl {
 		try {
 
 			String ext = StringUtils.substringAfterLast(content.getName(), ".");
+			if(ext == null) ext = SingleImageDicomImpl.DCM_EXT;
 			File dest = new File(FilenameUtils.concat(outputDir
 					.getAbsolutePath(), single.getId() + "." + ext));
 			FileUtils.copyFile(content, dest);
@@ -487,72 +484,6 @@ public class DicomImagePlugin extends ImagePluginDefaultImpl {
 		}
 
 		return result;
-	}
-
-	/**
-	 * Invoke command line xmedcon program to transfor images
-	 * 
-	 * @param command
-	 *            to exec into the server
-	 * @param wait
-	 *            time to waoit
-	 * @return true if all is ok
-	 */
-	private static void exec(String command, boolean wait) throws Exception {
-		Process p = Runtime.getRuntime().exec(command);
-		if (wait)
-			p.waitFor();
-	}
-
-	/**
-	 * Scale a non null png image to 128 x 128 png file
-	 * 
-	 * @param file
-	 *            original file to scale
-	 * @throws Exception
-	 */
-	private void scaleThumbnail(File file) throws Exception {
-		BufferedImage pngImage = null;
-		BufferedImage thumbImage = null;
-		Graphics2D graphics2D = null;
-
-		try {
-			if (file != null) {
-
-				pngImage = ImageIO.read(file);
-
-				// Set dimensions
-				int thumbWidth = 128;
-				int thumbHeight = 128;
-				int imageWidth = pngImage.getWidth(null);
-				int imageHeight = pngImage.getHeight(null);
-
-				// Obtain ratios
-				double thumbRatio = (double) thumbWidth / (double) thumbHeight;
-				double imageRatio = (double) imageWidth / (double) imageHeight;
-
-				if (thumbRatio < imageRatio) {
-					thumbHeight = (int) (thumbWidth / imageRatio);
-				} else {
-					thumbWidth = (int) (thumbHeight * imageRatio);
-				}
-
-				// Draw original image to thumbnail and scale it
-				thumbImage = new BufferedImage(thumbWidth, thumbHeight,
-						BufferedImage.TYPE_INT_RGB);
-				graphics2D = thumbImage.createGraphics();
-				graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-						RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-				graphics2D.drawImage(pngImage, 0, 0, thumbWidth, thumbHeight,
-						null);
-
-				// Save thumbnail image to OUTFILE
-				ImageIO.write(thumbImage, "png", file);
-			}
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			throw new ImageException(e);
-		}
 	}
 
 	/**

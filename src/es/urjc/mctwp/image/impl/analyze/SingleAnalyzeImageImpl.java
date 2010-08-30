@@ -16,29 +16,37 @@
 //along with Multiclinical Trial Web-PACS.  If not, see 
 //<http://www.gnu.org/licenses/>.
 
-package es.urjc.mctwp.image.objects;
+package es.urjc.mctwp.image.impl.analyze;
 
-import java.util.List;
+import java.io.File;
+
+import es.urjc.mctwp.image.objects.SingleImage;
 
 /**
- * This class represents an image that is formed from multiple files,
- * for example DICOM Series, Analyze header and image, and so on.
+ * This class supports Analyze 7.5 and Nifti 1 standards. It is specialized
+ * in images that contains header and data into one file.
  * 
- * @author Miguel Ángel Laguna Lobato.
+ * @author Miguel Ángel Laguna Lobato
  *
  */
-public abstract class MultipleImage extends Image {
-	private static final long serialVersionUID = 8174220288804624821L;
-	private List<Image> images = null;
+public class SingleAnalyzeImageImpl extends SingleImage {
+	private static final long serialVersionUID = -4198599872411965208L;
+	public static final String NIFIT_EXT = "nii";
+	public static final String ANALYZE_TYPE  = "ana-nif";
+	
+	private File content = null;
 
-	public List<Image> getImages() {
-		return images;
+	public SingleAnalyzeImageImpl(){
+		super();
+		this.setType(ANALYZE_TYPE);
 	}
-
-	public void setImages(List<Image> images) {
-		this.images = images;
+	
+	@Override
+	public File getContent() {
+		return content;
 	}
-
-	public abstract void addImage(Image image);
-	public abstract void delImage(Image image);
+	
+	public void setContent(File content){
+		this.content = content;
+	}
 }

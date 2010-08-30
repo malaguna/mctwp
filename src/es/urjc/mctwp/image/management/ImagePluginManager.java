@@ -245,7 +245,7 @@ public class ImagePluginManager {
 		return result;
 	}
 
-	private String normalizeExtension(String extension) {
+	public static String normalizeExtension(String extension) {
 		String result = "";
 
 		if (extension != null)
