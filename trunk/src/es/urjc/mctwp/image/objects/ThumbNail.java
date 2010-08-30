@@ -18,11 +18,23 @@
 
 package es.urjc.mctwp.image.objects;
 
-public class ThumbNail extends SingleImage {
+import java.io.File;
 
+public class ThumbNail extends SingleImage {
 	private static final long serialVersionUID = -692355198454080975L;
 	public static final String TBN_EXT = "png";
 	private PatientInfo patInfo = null;
+
+	private File content = null;
+	
+	@Override
+	public File getContent() {
+		return content;
+	}
+
+	public void setContent(File content) {
+		this.content = content;
+	}
 
 	public ThumbNail(){
 		super();

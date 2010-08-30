@@ -28,14 +28,6 @@ import java.io.File;
  */
 public abstract class SingleImage extends Image {
 	private static final long serialVersionUID = 1617270518355445407L;
-	private File content;
 
-
-	public File getContent() {
-		return content;
-	}
-
-	public void setContent(File content) {
-		this.content = content;
-	}
+	public abstract File getContent();
 }

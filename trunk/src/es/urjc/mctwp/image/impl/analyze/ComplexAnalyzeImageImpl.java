@@ -19,25 +19,29 @@
 package es.urjc.mctwp.image.impl.analyze;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
-import es.urjc.mctwp.image.objects.SingleImage;
+import es.urjc.mctwp.image.objects.ComplexImage;
 
 /**
+ * This class supports Analyze 7.5 and Nifti 1 standards. It is specialized
+ * in images where header and data are contained into several files.
  * 
- * @author miguel
+ * @author Miguel Ángel Laguna Lobato
  *
  */
-public class ImageAnalyzeImpl extends SingleImage {
+public class ComplexAnalyzeImageImpl extends ComplexImage {
 	private static final long serialVersionUID = -5107678169621767292L;
-	public static final String ANALYZE_TYPE = "ana75";
 	public static final String ANALYZE_HDR_EXT = "hdr";
 	public static final String ANALYZE_IMG_EXT = "img";
 	
-	private File header;
+	private File header = null;
+	private File data = null;
 
-	public ImageAnalyzeImpl(){
+	public ComplexAnalyzeImageImpl(){
 		super();
-		this.setType(ANALYZE_TYPE);
+		this.setType(SingleAnalyzeImageImpl.ANALYZE_TYPE);
 	}
 
 	public void setHeader(File header) {
@@ -46,5 +50,26 @@ public class ImageAnalyzeImpl extends SingleImage {
 
 	public File getHeader() {
 		return header;
+	}
+
+	public void setData(File data) {
+		this.data = data;
+	}
+
+	public File getData() {
+		return data;
+	}
+
+	@Override
+	public List<File> getContent() {
+		List<File> aux = null;
+		
+		if(header != null && data != null){
+			aux = new ArrayList<File>();
+			aux.add(header);
+			aux.add(data);
+		}
+		
+		return aux;
 	}
 }

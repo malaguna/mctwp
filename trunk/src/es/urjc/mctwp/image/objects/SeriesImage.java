@@ -16,34 +16,21 @@
 //along with Multiclinical Trial Web-PACS.  If not, see 
 //<http://www.gnu.org/licenses/>.
 
-package es.urjc.mctwp.image.impl.dicom;
+package es.urjc.mctwp.image.objects;
 
-import java.io.File;
-
-import es.urjc.mctwp.image.objects.SingleImage;
+import java.util.List;
 
 /**
+ * This class represents an image that is formed from multiple files,
+ * for example DICOM Series, Analyze header and image, and so on.
  * 
- * @author miguel
+ * @author Miguel Ángel Laguna Lobato.
  *
  */
-public class SingleImageDicomImpl extends SingleImage {
-	private static final long serialVersionUID = -5107678169621767292L;
-	public static final String DCM_EXT = "dcm";
+public abstract class SeriesImage extends Image {
+	private static final long serialVersionUID = 8174220288804624821L;
 
-	private File content = null;
-	
-	@Override
-	public File getContent() {
-		return content;
-	}
-
-	public void setContent(File content) {
-		this.content = content;
-	}
-
-	public SingleImageDicomImpl(){
-		super();
-		this.setType(DCM_EXT);
-	}
+	public abstract List<Image> getImages();
+	public abstract void addImage(Image image);
+	public abstract void delImage(Image image);
 }

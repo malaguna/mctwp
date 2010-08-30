@@ -31,8 +31,9 @@ import es.urjc.mctwp.image.collection.ImageXMLCollection;
 import es.urjc.mctwp.image.exception.ImageCollectionException;
 import es.urjc.mctwp.image.exception.ImageException;
 import es.urjc.mctwp.image.objects.Attribute;
+import es.urjc.mctwp.image.objects.ComplexImage;
 import es.urjc.mctwp.image.objects.Image;
-import es.urjc.mctwp.image.objects.MultipleImage;
+import es.urjc.mctwp.image.objects.SeriesImage;
 import es.urjc.mctwp.image.objects.SingleImage;
 import es.urjc.mctwp.image.objects.ThumbNail;
 
@@ -131,6 +132,15 @@ public class ImageCollectionManager {
 		return result;
 	}
 
+	/**
+	 * It parses and stores temporarily, a list of files.
+	 * 
+	 * @param colName
+	 * @param files
+	 * @throws ImageCollectionException
+	 * @throws ImageException
+	 * @throws IOException
+	 */
 	public void storeTemporalImages(String colName, List<File> files)
 			throws ImageCollectionException, ImageException, IOException {
 
@@ -139,26 +149,37 @@ public class ImageCollectionManager {
 
 			if (image != null) {
 				if (image instanceof SingleImage) {
-					imcc.storeContent(colName, ((SingleImage) image)
-							.getContent(), true);
-				} else if (image instanceof MultipleImage) {
-
-					List<Image> images = ((MultipleImage) image).getImages();
-					if (images != null && !images.isEmpty()) {
-
-						File tmpDir = new File(FilenameUtils.concat(sysTempDir
-								.getAbsolutePath(), image.getId()));
-						if (tmpDir.exists())
-							FileUtils.deleteDirectory(tmpDir);
-						tmpDir.mkdir();
-
-						for (Image img : images)
-							copyToDirectory(tmpDir, img);
-
-						imcc.storeContent(colName, tmpDir, true);
-						FileUtils.deleteDirectory(tmpDir);
-					}
+					imcc.storeContent(colName, ((SingleImage) image).getContent(), true);
+					
 				} else {
+
+					//Create temp directory where put all file content of Image
+					File tmpDir = new File(FilenameUtils.concat(sysTempDir.getAbsolutePath(), image.getId() + "." + image.getType()));
+					if (tmpDir.exists()) FileUtils.deleteDirectory(tmpDir);
+					tmpDir.mkdir();
+					
+					if (image instanceof SeriesImage) {
+	
+						List<Image> images = ((SeriesImage) image).getImages();
+						if (images != null && !images.isEmpty()) {
+	
+							for (Image img : images)
+								copyToDirectory(tmpDir, img);
+	
+						}
+					} else if (image instanceof ComplexImage) {
+						
+						List<File> auxFiles = ((ComplexImage)image).getContent();
+						if(auxFiles != null && !auxFiles.isEmpty()) {
+							
+							for(File auxFile : auxFiles)
+								copyToDirectory(tmpDir, auxFile);
+						}
+					}
+
+					//Store content and delete temporal directory
+					imcc.storeContent(colName, tmpDir, true);
+					FileUtils.deleteDirectory(tmpDir);
 				}
 			}
 		}
@@ -197,24 +218,65 @@ public class ImageCollectionManager {
 		}
 	}
 
-	private void copyToDirectory(File directory, Image image)
-			throws IOException {
+	/**
+	 * This function knows how to retrieve all files of any image and
+	 * puts all together under a temporal directory. It reproduces 
+	 * subdirectories when necessary.
+	 * 
+	 * @param directory
+	 * @param image
+	 * @throws IOException
+	 */
+	private void copyToDirectory(File directory, Image image) throws IOException {
+		
 		if (image instanceof SingleImage) {
-			FileUtils.copyFileToDirectory(((SingleImage) image)
-					.getContent(), directory);
-		} else if (image instanceof MultipleImage) {
-			List<Image> images = ((MultipleImage) image).getImages();
-			if (images != null && !images.isEmpty()) {
+			FileUtils.copyFileToDirectory(((SingleImage) image).getContent(), directory);
+			
+		} else {
+			
+			//Create temp directory where put all file content of Image
+			File tmpDir = new File(FilenameUtils.concat(directory.getAbsolutePath(), image.getId()));
+			if (tmpDir.exists()) tmpDir.mkdir();
 
-				File tmpDir = new File(FilenameUtils.concat(directory
-						.getAbsolutePath(), image.getId()));
-				if (tmpDir.exists())
-					FileUtils.deleteDirectory(tmpDir);
-				tmpDir.mkdir();
+			//Copy required files in case of Series Images
+			if (image instanceof SeriesImage) {
+				List<Image> images = ((SeriesImage) image).getImages();
+				if (images != null && !images.isEmpty())
+					for (Image img : images)
+						copyToDirectory(tmpDir, img);
 
-				for (Image img : images)
-					copyToDirectory(tmpDir, img);
+			//Copy required files in case of Complex Images
+			} else if (image instanceof ComplexImage) {
+				List<File> aux = ((ComplexImage) image).getContent();
+
+				if (aux != null)
+					for (File file : aux)
+						copyToDirectory(tmpDir, file);
 			}
+		}
+	}
+
+	/**
+	 * This is the same function as above, but it copies all content
+	 * from a directory instead of an image
+	 * 
+	 * @param directory
+	 * @param source
+	 * @throws IOException
+	 */
+	private void copyToDirectory(File directory, File source) throws IOException {
+		
+		if (source.isFile()) {
+			FileUtils.copyFileToDirectory(source, directory);
+		} else if (source.isDirectory()) {
+			
+			//Create temp directory where put all file content of Image
+			File tmpDir = new File(FilenameUtils.concat(directory.getAbsolutePath(), source.getName()));
+			if (!tmpDir.exists()) tmpDir.mkdir();
+
+			if (source.listFiles() != null)
+				for (File file : source.listFiles())
+					copyToDirectory(tmpDir, file);
 		}
 	}
 }
