@@ -16,7 +16,7 @@
 //along with Multiclinical Trial Web-PACS.  If not, see 
 //<http://www.gnu.org/licenses/>.
 
-package es.urjc.mctwp.image.impl.collection.fs;
+package es.urjc.mctwp.image.impl.analyze;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -24,14 +24,29 @@ import java.io.FileFilter;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 
-import es.urjc.mctwp.image.objects.ThumbNail;
+public class AnalyzeContentFileFilter implements FileFilter {
+	private String baseName = null;
+	
+	public void setBaseName(String baseName) {
+		this.baseName = baseName;
+	}
 
-public class ImageContentFileFilter implements FileFilter {
+	public String getBaseName() {
+		return baseName;
+	}
 
 	@Override
 	public boolean accept(File pathname) {
-		String ext = StringUtils.substringAfterLast(pathname.getName(), FilenameUtils.EXTENSION_SEPARATOR_STR);
-		return (ext==null)?false:(!ext.equals(ThumbNail.TBN_EXT));
+		boolean result = false;
+		
+		String name = StringUtils.substringBeforeLast(pathname.getName(), FilenameUtils.EXTENSION_SEPARATOR_STR);
+		if(baseName != null){
+			if(baseName.equalsIgnoreCase(name)){
+				String ext = StringUtils.substringAfterLast(pathname.getName(), FilenameUtils.EXTENSION_SEPARATOR_STR);
+				result = ComplexAnalyzeImageImpl.ANALYZE_IMG_EXT.equalsIgnoreCase(ext);
+			}
+		}
+		
+		return result;
 	}
-
 }

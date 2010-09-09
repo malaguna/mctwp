@@ -27,6 +27,7 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
@@ -76,7 +77,7 @@ public abstract class ImagePluginDefaultImpl implements ImagePlugin {
 	 * @return file extension
 	 */
 	protected String getFileExtension(File file) {
-		String ext = StringUtils.substringAfterLast(file.getName(), ".");
+		String ext = StringUtils.substringAfterLast(file.getName(), FilenameUtils.EXTENSION_SEPARATOR_STR);
 		return ImagePluginManager.normalizeExtension(ext);
 	}
 
@@ -87,7 +88,7 @@ public abstract class ImagePluginDefaultImpl implements ImagePlugin {
 	 * @return file name
 	 */
 	protected String getFileName(File file) {
-		return StringUtils.substringBeforeLast(file.getName(), ".");
+		return StringUtils.substringBeforeLast(file.getName(), FilenameUtils.EXTENSION_SEPARATOR_STR);
 	}
 
 	@Override

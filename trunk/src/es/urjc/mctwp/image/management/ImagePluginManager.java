@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
@@ -238,7 +239,7 @@ public class ImagePluginManager {
 		List<ImagePlugin> result = null;
 
 		if (file != null) {
-			String ext = StringUtils.substringAfterLast(file.getName(), ".");
+			String ext = StringUtils.substringAfterLast(file.getName(), FilenameUtils.EXTENSION_SEPARATOR_STR);
 			result = plugins.get(normalizeExtension(ext));
 		}
 

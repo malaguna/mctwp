@@ -24,6 +24,7 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.myfaces.custom.navmenu.NavigationMenuItem;
 
@@ -279,7 +280,7 @@ public class SessionInvBean extends SessionAbstractBean{
 		
 		//Obtain web context relative path for thumbnails
 		String aux = thumbDir.getAbsolutePath();
-		aux = aux.substring(getServletContext().getRealPath(".").length() - 1);
+		aux = aux.substring(getServletContext().getRealPath(FilenameUtils.EXTENSION_SEPARATOR_STR).length() - 1);
 		ctxThumbDir = new File(aux);
 	}
 	

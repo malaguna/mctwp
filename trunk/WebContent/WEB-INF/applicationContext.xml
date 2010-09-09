@@ -167,6 +167,11 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<property name="dao" ref="MapSeriesIdDAO" />
 	</bean>
 
+	<bean id="AnalyzePlugin" class="es.urjc.mctwp.image.impl.analyze.AnalyzeImagePlugin">
+		<property name="medconPath" value="/usr/bin/medcon" />
+		<property name="mapper" ref="MapSeriesId" />
+	</bean>
+
 	<bean id="DicomPlugin" class="es.urjc.mctwp.image.impl.dicom.DicomImagePlugin">
 		<property name="medconPath" value="/usr/bin/medcon" />
 		<property name="mapper" ref="MapSeriesId" />
@@ -175,6 +180,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	<bean id="ImagePluginManager" class="es.urjc.mctwp.image.management.ImagePluginManager">
 		<property name="plugins">
 			<list>
+				<ref bean="AnalyzePlugin"/>
 				<ref bean="DicomPlugin"/>
 			</list>
 		</property>
@@ -188,7 +194,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	</bean>
 	
 	<bean id="FSImageColl" class="es.urjc.mctwp.image.impl.collection.fs.ImageContentCollectionFSImpl">
-		<property name="fsBaseDirPath" value="/opt/DICOM" />
+		<property name="fsBaseDirPath" value="/var/lib/imgdb" />
 		<property name="fsTmpCollDir" value="temporal" />
 	</bean>
 
