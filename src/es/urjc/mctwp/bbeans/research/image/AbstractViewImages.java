@@ -110,7 +110,7 @@ public class AbstractViewImages extends RequestInvAbstractBean {
 	 */
 	protected ThumbSelectItem getThumbnailContent(ImageData image) throws IOException, SQLException, FileNotFoundException{
 		String base = getSession().getAbsoluteThumbDir();
-		String name = image.getImageId() + "." + ThumbNail.TBN_EXT;
+		String name = image.getImageId() + FilenameUtils.EXTENSION_SEPARATOR_STR + ThumbNail.TBN_EXT;
 		int length  = image.getThumbnailSize();
 		
 		//Create file for thumbnail and get output stream to write it

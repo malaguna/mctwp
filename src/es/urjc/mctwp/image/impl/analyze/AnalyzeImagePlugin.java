@@ -39,9 +39,19 @@ import es.urjc.mctwp.image.objects.PatientInfo;
  *
  */
 public class AnalyzeImagePlugin extends ImagePluginDefaultImpl {
+	private AnalyzeContentFileFilter filter = new AnalyzeContentFileFilter();
 	private final static String PNG_FORMAT_OPT = "png";
 	private final static String DCM_FORMAT_OPT = "dicom";
+	private String medconPath = "/usr/bin/medcon";
 	
+	public String getMedconPath() {
+		return medconPath;
+	}
+
+	public void setMedconPath(String medconPath) {
+		this.medconPath = medconPath;
+	}
+
 	@Override
 	public Image createImage(File file) throws ImageException {
 		Image res = null;
@@ -69,8 +79,11 @@ public class AnalyzeImagePlugin extends ImagePluginDefaultImpl {
 								throw new ImageException(error);
 							}
 						}else{
-							File data = new File(name + "." + ComplexAnalyzeImageImpl.ANALYZE_IMG_EXT);
-							if(data.exists()){
+							filter.setBaseName(name);
+							File[] list = file.getParentFile().listFiles(filter);
+							
+							if(list != null && list.length == 1){
+								File data = list[0];
 								ComplexAnalyzeImageImpl aux = new ComplexAnalyzeImageImpl();
 								aux.setHeader(file);
 								aux.setData(data);
@@ -98,40 +111,38 @@ public class AnalyzeImagePlugin extends ImagePluginDefaultImpl {
 		
 		if(file != null){
 			try {
-				if(checkFormat(file)){
-					String name = getFileName(file);
+				String name = getFileName(file);
+				
+				if(file.isDirectory()){
+					File header = null;
+					File data = null;
 					
-					if(file.isDirectory()){
-						File header = null;
-						File data = null;
-						
-						//Get header and data files into directory
-						File[] list = file.listFiles();
-						if(list != null)
-							for(File auxFile : list){
-								String ext = getFileExtension(auxFile);
-								if(ComplexAnalyzeImageImpl.ANALYZE_HDR_EXT.equals(ext))
-									header = auxFile;
-								if(ComplexAnalyzeImageImpl.ANALYZE_IMG_EXT.equals(ext))
-									data = auxFile;
-							}
-						
-						if(header != null && data != null){
-							if(checkFormat(header)){
-								ComplexAnalyzeImageImpl aux = new ComplexAnalyzeImageImpl();
-								aux.setHeader(header);
-								aux.setData(data);
-								aux.setId(name);
-								result = aux;
-							}
-						}	
-					}else if (file.isFile()){
-						if(checkFormat(file) && isNifti(file)){
-							SingleAnalyzeImageImpl aux = new SingleAnalyzeImageImpl();
-							aux.setContent(file);
+					//Get header and data files into directory
+					File[] list = file.listFiles();
+					if(list != null)
+						for(File auxFile : list){
+							String ext = getFileExtension(auxFile);
+							if(ComplexAnalyzeImageImpl.ANALYZE_HDR_EXT.equals(ext))
+								header = auxFile;
+							if(ComplexAnalyzeImageImpl.ANALYZE_IMG_EXT.equals(ext))
+								data = auxFile;
+						}
+					
+					if(header != null && data != null){
+						if(checkFormat(header)){
+							ComplexAnalyzeImageImpl aux = new ComplexAnalyzeImageImpl();
+							aux.setHeader(header);
+							aux.setData(data);
 							aux.setId(name);
 							result = aux;
 						}
+					}	
+				}else if (file.isFile()){
+					if(checkFormat(file) && isNifti(file)){
+						SingleAnalyzeImageImpl aux = new SingleAnalyzeImageImpl();
+						aux.setContent(file);
+						aux.setId(name);
+						result = aux;
 					}
 				}
 			} catch (IOException e) {
@@ -160,7 +171,6 @@ public class AnalyzeImagePlugin extends ImagePluginDefaultImpl {
 	}
 
 	private File convert(Image image, String format) throws ImageException {
-		String medconPath = "/usr/bin/medcon";
 		String options = null;
 		File result = null;
 		File source = null;

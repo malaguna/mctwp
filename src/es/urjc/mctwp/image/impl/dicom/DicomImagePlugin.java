@@ -471,10 +471,10 @@ public class DicomImagePlugin extends ImagePluginDefaultImpl {
 
 		try {
 
-			String ext = StringUtils.substringAfterLast(content.getName(), ".");
+			String ext = StringUtils.substringAfterLast(content.getName(), FilenameUtils.EXTENSION_SEPARATOR_STR);
 			if(ext == null) ext = SingleImageDicomImpl.DCM_EXT;
 			File dest = new File(FilenameUtils.concat(outputDir
-					.getAbsolutePath(), single.getId() + "." + ext));
+					.getAbsolutePath(), single.getId() + FilenameUtils.EXTENSION_SEPARATOR_STR + ext));
 			FileUtils.copyFile(content, dest);
 			result.add(dest);
 

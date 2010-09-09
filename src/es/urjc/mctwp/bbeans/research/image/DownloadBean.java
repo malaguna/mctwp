@@ -26,6 +26,8 @@ import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FilenameUtils;
+
 import es.urjc.mctwp.bbeans.GenericDownloadBean;
 import es.urjc.mctwp.image.objects.Image;
 import es.urjc.mctwp.image.objects.SeriesImage;
@@ -67,7 +69,7 @@ public class DownloadBean extends GenericDownloadBean {
 					Image img = cmd.getResult();
 
 					//Get file name without parents and prepare header
-					String fileName = imageId + "." + contentType;
+					String fileName = imageId + FilenameUtils.EXTENSION_SEPARATOR_STR + contentType;
 					configResponseHeader(response, contentType, fileName);
 					
 					//Prepare ZipOutputStream and writes files into
@@ -125,7 +127,7 @@ public class DownloadBean extends GenericDownloadBean {
 				HttpServletResponse response = prepareResponse();  
 	
 				//Get file name without parents and prepare header
-				String fileName = cntDesc + "." + contentType;
+				String fileName = cntDesc + FilenameUtils.EXTENSION_SEPARATOR_STR + contentType;
 				configResponseHeader(response, contentType, fileName);
 
 				//Prepare ZipOutputStream and writes files into

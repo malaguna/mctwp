@@ -38,8 +38,7 @@ import es.urjc.mctwp.image.objects.SingleImage;
 import es.urjc.mctwp.image.objects.ThumbNail;
 
 public class ImageCollectionManager {
-	private final File sysTempDir = new File(System
-			.getProperty("java.io.tmpdir"));
+	private final File sysTempDir = new File(System.getProperty("java.io.tmpdir"));
 	private ImageContentCollection imcc = null;
 	private ImageXMLCollection imxc = null;
 	private ImagePluginManager impm = null;
@@ -125,8 +124,11 @@ public class ImageCollectionManager {
 		if (files != null) {
 			result = new ArrayList<ThumbNail>();
 
-			for (File file : files)
-				result.add(impm.obtainThumb(impm.loadImage(file)));
+			for (File file : files){
+				ThumbNail thumb = impm.obtainThumb(impm.loadImage(file));
+				if(thumb != null)
+					result.add(thumb);
+			}
 		}
 
 		return result;
@@ -154,7 +156,7 @@ public class ImageCollectionManager {
 				} else {
 
 					//Create temp directory where put all file content of Image
-					File tmpDir = new File(FilenameUtils.concat(sysTempDir.getAbsolutePath(), image.getId() + "." + image.getType()));
+					File tmpDir = new File(FilenameUtils.concat(sysTempDir.getAbsolutePath(), image.getId() + FilenameUtils.EXTENSION_SEPARATOR_STR + image.getType()));
 					if (tmpDir.exists()) FileUtils.deleteDirectory(tmpDir);
 					tmpDir.mkdir();
 					

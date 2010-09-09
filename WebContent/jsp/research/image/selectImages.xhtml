@@ -61,36 +61,36 @@ along with Multiclinical Trial Web-PACS.  If not, see
 					<h:column styleClass="topAligned">
 						<h:panelGrid 
 							columns="1">
+							<h:panelGroup>
+								<h:selectBooleanCheckbox value="#{fimag.selected}" />
+								<h:outputText value="Importar"/>
+							</h:panelGroup>
 							<h:graphicImage 
 								url="#{fimag.path}" 
 								alt="#{fimag.thumbId}" 
 								title="#{fimag.thumbId}"/>
 							<h:outputText
 								value="#{fimag.patName}"
-								rendered="#{!selectImages.containerAPatient and !selectImages.containerAStudy}"/>
+								rendered="#{!selectImages.containerAPatient and !selectImages.containerAStudy and !(empty fimag.patCode)}"/>
 							<h:outputText
 								value="#{fimag.patName}"
 								style="background-color: green;"
-								rendered="#{(selectImages.containerAPatient and (fimag.patCode == selectImages.patientCont.hospitalId)) or (selectImages.containerAStudy and fimag.patCode == selectImages.studyCont.patient.hospitalId)}"/>
+								rendered="#{(selectImages.containerAPatient and !(empty fimag.patCode) and (fimag.patCode == selectImages.patientCont.hospitalId)) or (selectImages.containerAStudy and fimag.patCode == selectImages.studyCont.patient.hospitalId)}"/>
 							<h:outputText
 								value="#{fimag.patName}"
 								style="background-color: red;"
-								rendered="#{(selectImages.containerAPatient and (fimag.patCode != selectImages.patientCont.hospitalId)) or (selectImages.containerAStudy and fimag.patCode != selectImages.studyCont.patient.hospitalId)}"/>
+								rendered="#{(selectImages.containerAPatient and !(empty fimag.patCode) and (fimag.patCode != selectImages.patientCont.hospitalId)) or (selectImages.containerAStudy and fimag.patCode != selectImages.studyCont.patient.hospitalId)}"/>
 							<h:outputText
 								value="Study [#{fimag.stdCode}]"
-								rendered="#{!selectImages.containerAStudy}"/>
+								rendered="#{!selectImages.containerAStudy and !(empty fimag.stdCode)}"/>
 							<h:outputText
 								value="Study [#{fimag.stdCode}]"
 								style="background-color: green;"
-								rendered="#{selectImages.containerAStudy and (fimag.stdCode == selectImages.studyCont.hospitalId) and (fimag.patCode == selectImages.studyCont.patient.hospitalId)}"/>
+								rendered="#{selectImages.containerAStudy and !(empty fimag.stdCode) and (fimag.stdCode == selectImages.studyCont.hospitalId) and (fimag.patCode == selectImages.studyCont.patient.hospitalId)}"/>
 							<h:outputText
 								value="Study [#{fimag.stdCode}]"
 								style="background-color: red;"
-								rendered="#{selectImages.containerAStudy and ((fimag.stdCode != selectImages.studyCont.hospitalId) or (fimag.patCode != selectImages.studyCont.patient.hospitalId))}"/>
-							<h:panelGroup>
-								<h:selectBooleanCheckbox value="#{fimag.selected}" />
-								<h:outputText value="Importar"/>
-							</h:panelGroup>
+								rendered="#{selectImages.containerAStudy and !(empty fimag.stdCode) and ((fimag.stdCode != selectImages.studyCont.hospitalId) or (fimag.patCode != selectImages.studyCont.patient.hospitalId))}"/>
 						</h:panelGrid>
 					</h:column>
 				</t:dataTable>

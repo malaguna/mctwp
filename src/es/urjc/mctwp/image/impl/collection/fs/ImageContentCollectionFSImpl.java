@@ -354,11 +354,10 @@ public class ImageContentCollectionFSImpl implements ImageContentCollection {
 	private File findContent(File collection, String imageId) {
 		File result = null;
 
-		File[] auxLst = collection.listFiles();
+		File[] auxLst = collection.listFiles(icff);
 		if (auxLst != null) {
 			for (File file : auxLst) {
-				String id = (file.isFile()) ? StringUtils.substringBeforeLast(
-						file.getName(), ".") : file.getName();
+				String id = StringUtils.substringBeforeLast(file.getName(), FilenameUtils.EXTENSION_SEPARATOR_STR);
 
 				if (id.equals(imageId)) {
 					result = file;
