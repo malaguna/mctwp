@@ -27,8 +27,6 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
@@ -67,28 +65,6 @@ public abstract class ImagePluginDefaultImpl implements ImagePlugin {
 		UUID uiid = UUID.randomUUID();
 
 		return uiid.toString();
-	}
-
-	/**
-	 * Try to get the file extension. If there is no extension it returns null,
-	 * that is because some ImagePlugins can process images without extension.
-	 * 
-	 * @param file
-	 * @return file extension
-	 */
-	protected String getFileExtension(File file) {
-		String ext = StringUtils.substringAfterLast(file.getName(), FilenameUtils.EXTENSION_SEPARATOR_STR);
-		return ImagePluginManager.normalizeExtension(ext);
-	}
-
-	/**
-	 * Try to get the file name.
-	 * 
-	 * @param file
-	 * @return file name
-	 */
-	protected String getFileName(File file) {
-		return StringUtils.substringBeforeLast(file.getName(), FilenameUtils.EXTENSION_SEPARATOR_STR);
 	}
 
 	@Override

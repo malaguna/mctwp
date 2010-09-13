@@ -28,6 +28,7 @@ import java.util.List;
 import org.apache.commons.io.FilenameUtils;
 import org.w3c.dom.Node;
 
+import es.urjc.mctwp.image.ImageUtils;
 import es.urjc.mctwp.image.exception.ImageException;
 import es.urjc.mctwp.image.management.ImagePluginDefaultImpl;
 import es.urjc.mctwp.image.objects.Image;
@@ -57,10 +58,10 @@ public class AnalyzeImagePlugin extends ImagePluginDefaultImpl {
 		Image res = null;
 
 		//Check extension and image. It can not be null
-		String ext = getFileExtension(file);
+		String ext = ImageUtils.getFileExtension(file);
 		
 		if(ext != null && !ext.isEmpty()){
-			String name = getFileName(file);
+			String name = ImageUtils.getFileName(file);
 			boolean isSingle  = ext.equals(SingleAnalyzeImageImpl.NIFIT_EXT);
 			boolean isComplex = ext.equals(ComplexAnalyzeImageImpl.ANALYZE_HDR_EXT);
 			
@@ -111,7 +112,7 @@ public class AnalyzeImagePlugin extends ImagePluginDefaultImpl {
 		
 		if(file != null){
 			try {
-				String name = getFileName(file);
+				String name = ImageUtils.getFileName(file);
 				
 				if(file.isDirectory()){
 					File header = null;
@@ -121,7 +122,7 @@ public class AnalyzeImagePlugin extends ImagePluginDefaultImpl {
 					File[] list = file.listFiles();
 					if(list != null)
 						for(File auxFile : list){
-							String ext = getFileExtension(auxFile);
+							String ext = ImageUtils.getFileExtension(auxFile);
 							if(ComplexAnalyzeImageImpl.ANALYZE_HDR_EXT.equals(ext))
 								header = auxFile;
 							if(ComplexAnalyzeImageImpl.ANALYZE_IMG_EXT.equals(ext))
@@ -186,7 +187,7 @@ public class AnalyzeImagePlugin extends ImagePluginDefaultImpl {
 			}
 			
 			String base = source.getParent();
-			String pre = getFileName(source);
+			String pre = ImageUtils.getFileName(source);
 			result = new File(FilenameUtils.concat(base, pre + ".png"));
 
 			// Check if thumbnails exists. Like a cache of thumbnails

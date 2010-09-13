@@ -29,6 +29,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.w3c.dom.Node;
 
+import es.urjc.mctwp.image.ImageUtils;
 import es.urjc.mctwp.image.exception.ImageException;
 import es.urjc.mctwp.image.objects.Image;
 import es.urjc.mctwp.image.objects.PatientInfo;
@@ -214,7 +215,7 @@ public class ImagePluginManager {
 	}
 
 	private void addPluginExtension(String extension, ImagePlugin plugin) {
-		List<ImagePlugin> auxLst = plugins.get(normalizeExtension(extension));
+		List<ImagePlugin> auxLst = plugins.get(ImageUtils.normalizeExtension(extension));
 
 		if (auxLst == null) {
 			auxLst = new ArrayList<ImagePlugin>();
@@ -229,7 +230,7 @@ public class ImagePluginManager {
 		List<ImagePlugin> result = null;
 
 		if (image != null) {
-			result = plugins.get(normalizeExtension(image.getType()));
+			result = plugins.get(ImageUtils.normalizeExtension(image.getType()));
 		}
 
 		return result;
@@ -240,17 +241,8 @@ public class ImagePluginManager {
 
 		if (file != null) {
 			String ext = StringUtils.substringAfterLast(file.getName(), FilenameUtils.EXTENSION_SEPARATOR_STR);
-			result = plugins.get(normalizeExtension(ext));
+			result = plugins.get(ImageUtils.normalizeExtension(ext));
 		}
-
-		return result;
-	}
-
-	public static String normalizeExtension(String extension) {
-		String result = "";
-
-		if (extension != null)
-			result = StringUtils.lowerCase(extension);
 
 		return result;
 	}

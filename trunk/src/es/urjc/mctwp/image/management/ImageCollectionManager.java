@@ -26,6 +26,7 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
+import es.urjc.mctwp.image.ImageUtils;
 import es.urjc.mctwp.image.collection.ImageContentCollection;
 import es.urjc.mctwp.image.collection.ImageXMLCollection;
 import es.urjc.mctwp.image.exception.ImageCollectionException;
@@ -151,8 +152,15 @@ public class ImageCollectionManager {
 
 			if (image != null) {
 				if (image instanceof SingleImage) {
-					imcc.storeContent(colName, ((SingleImage) image).getContent(), true);
+					SingleImage simg = (SingleImage) image;
 					
+					String ext = ImageUtils.getFileExtension(simg.getContent());
+					File tmpFile = new File(FilenameUtils.concat(sysTempDir.getAbsolutePath(), image.getId() + FilenameUtils.EXTENSION_SEPARATOR_STR + ext));
+					if (tmpFile.exists()) tmpFile.delete();
+					FileUtils.copyFile(simg.getContent(), tmpFile);
+
+					imcc.storeContent(colName, tmpFile, true);
+					tmpFile.delete();
 				} else {
 
 					//Create temp directory where put all file content of Image
