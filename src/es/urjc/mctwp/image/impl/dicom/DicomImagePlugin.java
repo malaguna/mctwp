@@ -43,6 +43,7 @@ import org.dcm4che2.io.DicomInputStream;
 import org.dcm4che2.io.SAXWriter;
 import org.w3c.dom.Node;
 
+import es.urjc.mctwp.image.ImageUtils;
 import es.urjc.mctwp.image.exception.ImageException;
 import es.urjc.mctwp.image.management.ImagePluginDefaultImpl;
 import es.urjc.mctwp.image.objects.Image;
@@ -77,7 +78,7 @@ public class DicomImagePlugin extends ImagePluginDefaultImpl {
 
 		// If there is a seriesUid, Image is DICOM.
 		if (seriesUid != null) {
-			String name = getFileName(file);
+			String name = ImageUtils.getFileName(file);
 
 			// Create single image
 			aux = new SingleImageDicomImpl();
@@ -236,7 +237,7 @@ public class DicomImagePlugin extends ImagePluginDefaultImpl {
 		seriesUid = getSeriesUID(file);
 
 		if (seriesUid != null) {
-			String name = getFileName(file);
+			String name = ImageUtils.getFileName(file);
 
 			// Create image
 			result = new SingleImageDicomImpl();
@@ -258,7 +259,7 @@ public class DicomImagePlugin extends ImagePluginDefaultImpl {
 	private SeriesImage loadSeriesImage(File file) throws ImageException {
 		SeriesImage result = new SeriesImageDicomImpl();
 
-		result.setId(getFileName(file));
+		result.setId(ImageUtils.getFileName(file));
 
 		// Add every single image directory has
 		for (File f : Arrays.asList(file.listFiles())) {
@@ -339,7 +340,7 @@ public class DicomImagePlugin extends ImagePluginDefaultImpl {
 			// Prepare output file
 			source = single.getContent();
 			String base = source.getParent();
-			String pre = getFileName(source);
+			String pre = ImageUtils.getFileName(source);
 			result = new File(FilenameUtils.concat(base, pre + ".png"));
 
 			// Check if thumbnails exists. Like a cache of thumbnails

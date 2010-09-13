@@ -21,6 +21,7 @@ package es.urjc.mctwp.dao;
 import java.util.List;
 
 import es.urjc.mctwp.modelo.ImageData;
+import es.urjc.mctwp.modelo.Patient;
 import es.urjc.mctwp.modelo.Result;
 import es.urjc.mctwp.modelo.Study;
 
@@ -42,6 +43,28 @@ public class ImageDataDAO extends GenericDAO<ImageData, Integer> {
 			result = this.getHibernateTemplate().find(query, study);
 		}catch(RuntimeException re){
 			logErrMsg("findImagesByStudy", re);
+			throw re;
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Get all images of a patient, it does not retrieve 
+	 * result images
+	 * 
+	 * @param study
+	 * @return
+	 */
+	@SuppressWarnings ("unchecked")
+	public List<ImageData> findImagesByPatient(Patient patient){
+		List<ImageData> result = null;
+		String query = "FROM ImageData i WHERE i.study.patient=? AND i.result IS NULL ORDER BY i.code";
+		
+		try{
+			result = this.getHibernateTemplate().find(query, patient);
+		}catch(RuntimeException re){
+			logErrMsg("findImagesByPatient", re);
 			throw re;
 		}
 		
@@ -89,6 +112,30 @@ public class ImageDataDAO extends GenericDAO<ImageData, Integer> {
 				result = aux.get(0);
 		}catch(RuntimeException re){
 			logErrMsg("findImagesByStudy", re);
+			throw re;
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Retrieves an imageData by imageId
+	 * 
+	 * @param uid
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public ImageData findImageByUid(String uid){
+		ImageData result = null;
+		String query = "FROM ImageData i WHERE i.imageId = ?";
+		
+		try{
+			Object args[] = new Object[] {uid};
+			List<ImageData> aux = this.getHibernateTemplate().find(query, args);
+			if(aux != null && !aux.isEmpty())
+				result = aux.get(0);
+		}catch(RuntimeException re){
+			logErrMsg("findImagesByUid", re);
 			throw re;
 		}
 		

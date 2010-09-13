@@ -21,8 +21,7 @@ package es.urjc.mctwp.image.impl.analyze;
 import java.io.File;
 import java.io.FileFilter;
 
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.StringUtils;
+import es.urjc.mctwp.image.ImageUtils;
 
 public class AnalyzeContentFileFilter implements FileFilter {
 	private String baseName = null;
@@ -39,10 +38,10 @@ public class AnalyzeContentFileFilter implements FileFilter {
 	public boolean accept(File pathname) {
 		boolean result = false;
 		
-		String name = StringUtils.substringBeforeLast(pathname.getName(), FilenameUtils.EXTENSION_SEPARATOR_STR);
+		String name = ImageUtils.getFileName(pathname);
 		if(baseName != null){
 			if(baseName.equalsIgnoreCase(name)){
-				String ext = StringUtils.substringAfterLast(pathname.getName(), FilenameUtils.EXTENSION_SEPARATOR_STR);
+				String ext = ImageUtils.getFileExtension(pathname);
 				result = ComplexAnalyzeImageImpl.ANALYZE_IMG_EXT.equalsIgnoreCase(ext);
 			}
 		}

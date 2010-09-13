@@ -18,6 +18,7 @@
 
 package es.urjc.mctwp.bbeans.research.image;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
@@ -29,18 +30,24 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FilenameUtils;
 
 import es.urjc.mctwp.bbeans.GenericDownloadBean;
+import es.urjc.mctwp.image.objects.ComplexImage;
 import es.urjc.mctwp.image.objects.Image;
 import es.urjc.mctwp.image.objects.SeriesImage;
 import es.urjc.mctwp.image.objects.SingleImage;
 import es.urjc.mctwp.modelo.ImageData;
+import es.urjc.mctwp.modelo.Patient;
 import es.urjc.mctwp.modelo.Study;
 import es.urjc.mctwp.modelo.Task;
 import es.urjc.mctwp.modelo.Trial;
 import es.urjc.mctwp.service.commands.imageCmds.FindImagesByStudy;
 import es.urjc.mctwp.service.commands.imageCmds.FindImagesByTask;
 import es.urjc.mctwp.service.commands.imageCmds.LoadImage;
+import es.urjc.mctwp.service.commands.researchCmds.LoadPatient;
 
 public class DownloadBean extends GenericDownloadBean {
+	private final static String patientHeader = "Pat-";
+	private final static String studyHeader = "Std-";
+	private final static String taskHeader = "Tsk-";
 	private final static String contentType = "zip";
 	private String imageId = null;
 	
@@ -59,7 +66,7 @@ public class DownloadBean extends GenericDownloadBean {
 			
 			try{
 				if(trial != null){
-					HttpServletResponse response = prepareResponse();  
+					ZipOutputStream zos = prepareZOS(imageId);
 	
 					//Get Image
 					LoadImage cmd = (LoadImage) getCommand(LoadImage.class);
@@ -68,13 +75,6 @@ public class DownloadBean extends GenericDownloadBean {
 					cmd = (LoadImage)runCommand(cmd);
 					Image img = cmd.getResult();
 
-					//Get file name without parents and prepare header
-					String fileName = imageId + FilenameUtils.EXTENSION_SEPARATOR_STR + contentType;
-					configResponseHeader(response, contentType, fileName);
-					
-					//Prepare ZipOutputStream and writes files into
-					ZipOutputStream zos = null;
-					zos = new ZipOutputStream(response.getOutputStream());
 					addImageToZos(zos, img, null);
 					zos.close();
 					
@@ -90,15 +90,42 @@ public class DownloadBean extends GenericDownloadBean {
 	}
 	
 	public String accDownloadStudyImages(){
-		Study std = getSession().getStudy();
+		Study study = getSession().getStudy();
 		
-		if(std != null){
-			//Get Images of Study
-			FindImagesByStudy cmd = (FindImagesByStudy) getCommand(FindImagesByStudy.class);
-			cmd.setStudy(std);
-			cmd = (FindImagesByStudy)runCommand(cmd);
+		try {
+			if(study != null){
+				ZipOutputStream zos = prepareZOS(studyHeader + study.getDescription());
+				downloadStudyImages(study, zos, null);
+				if(zos != null) zos.close();
+				completeResponse();
+			}
+		} catch (IOException e) {
+			setErrorMessage(e.getLocalizedMessage());
+			e.printStackTrace();
+		}
 
-			downloadImages(cmd.getResult(), std.getDescription(), std.getCode().toString());
+		return null;
+	}
+	
+	public String accDownloadPatientImages(){
+		LoadPatient cmd = (LoadPatient)getCommand(LoadPatient.class);
+		cmd.setPatientId(getSession().getPatient().getCode());
+		cmd = (LoadPatient) runCommand(cmd);
+		
+		if(cmd != null && cmd.getResult() != null){
+			Patient patient = cmd.getResult();
+			
+			try {
+				if(patient.getStudies() != null){
+					ZipOutputStream zos = prepareZOS(patientHeader + patient.getCode());
+					downloadPatienImages(patient, zos, null);
+					if(zos != null) zos.close();
+					completeResponse();
+				}
+			} catch (IOException e) {
+				setErrorMessage(e.getLocalizedMessage());
+				e.printStackTrace();
+			}
 		}
 		
 		return null;
@@ -107,33 +134,60 @@ public class DownloadBean extends GenericDownloadBean {
 	public String accDownloadTaskImages(){
 		Task tsk = getSession().getTask();
 		
-		if(tsk != null){
-			//Get Images of Task
-			FindImagesByTask cmd = (FindImagesByTask) getCommand(FindImagesByTask.class);
-			cmd.setTask(tsk);
-			cmd = (FindImagesByTask)runCommand(cmd);
-
-			downloadImages(cmd.getResult(), "Task-" + tsk.getCode().toString(), tsk.getCode().toString());
+		try {
+			if(tsk != null){
+				
+				//Get images of task
+				FindImagesByTask cmd = (FindImagesByTask) getCommand(FindImagesByTask.class);
+				cmd.setTask(tsk);
+				cmd = (FindImagesByTask)runCommand(cmd);
+				
+				if(cmd != null && cmd.getResult() != null){
+					ZipOutputStream zos = prepareZOS(taskHeader + tsk.getCode());
+					downloadImages(cmd.getResult(), zos, taskHeader + tsk.getCode());
+					if(zos != null) zos.close();
+					completeResponse();
+				}
+			}
+		} catch (IOException e) {
+			setErrorMessage(e.getLocalizedMessage());
+			e.printStackTrace();
 		}
 		
 		return null;
 	}
 	
-	private void downloadImages(List<ImageData> images, String cntDesc, String cntCode){
-
-		if(images != null && !images.isEmpty()){
+	private void downloadPatienImages(Patient patient, ZipOutputStream zos, String path){
+		if(patient.getStudies() != null){
 			
-			try{
-				HttpServletResponse response = prepareResponse();  
-	
-				//Get file name without parents and prepare header
-				String fileName = cntDesc + FilenameUtils.EXTENSION_SEPARATOR_STR + contentType;
-				configResponseHeader(response, contentType, fileName);
+			if(path != null && !path.isEmpty())
+				path += File.separator + patientHeader + patient.getCode().toString();
+			else
+				path = patientHeader + patient.getCode().toString();
 
-				//Prepare ZipOutputStream and writes files into
-				ZipOutputStream zos = null;
-				zos = new ZipOutputStream(response.getOutputStream());
-				
+			for(Study study : patient.getStudies())
+				downloadStudyImages(study, zos, patientHeader + patient.getCode());
+		}
+	}
+	
+	private void downloadStudyImages(Study study, ZipOutputStream zos, String path){
+		FindImagesByStudy cmd = (FindImagesByStudy) getCommand(FindImagesByStudy.class);
+		cmd.setStudy(study);
+		cmd = (FindImagesByStudy)runCommand(cmd);
+		
+		if(path != null && !path.isEmpty())
+			path += File.separator + studyHeader + study.getCode().toString();
+		else
+			path = studyHeader + study.getCode().toString();
+		
+		downloadImages(cmd.getResult(), zos, path);
+	}
+	
+	private void downloadImages(List<ImageData> images, ZipOutputStream zos, String path){
+
+		if(images != null && zos != null && !images.isEmpty()){
+			
+			try{				
 				for(ImageData imdt : images){
 					LoadImage cmd = (LoadImage) getCommand(LoadImage.class);
 					cmd.setCollection(getSession().getTrial().getCollection());
@@ -141,11 +195,8 @@ public class DownloadBean extends GenericDownloadBean {
 					cmd = (LoadImage)runCommand(cmd);
 					
 					if(cmd != null && cmd.getResult() != null)
-						addImageToZos(zos, cmd.getResult(), cntCode);
+						addImageToZos(zos, cmd.getResult(), path);
 				}
-				
-				zos.close();
-				completeResponse();
 			} catch (Exception e) {
 				setErrorMessage(e.getLocalizedMessage());
 				e.printStackTrace();
@@ -156,30 +207,39 @@ public class DownloadBean extends GenericDownloadBean {
 	private void addImageToZos(ZipOutputStream zos, Image img, String path) throws IOException{
 		
 		if(img != null){
+			
 			if(path == null)
 				path = "";
 			
 			if(img instanceof SingleImage)
-				addSingleImageToZos(zos, (SingleImage) img, path);
+				addFileToZos(zos, ((SingleImage)img).getContent(), path);
 			
 			else if(img instanceof SeriesImage){
 				SeriesImage serie = (SeriesImage)img;
 				
 				if(serie.getImages() != null)
 					for(Image i : serie.getImages())
-						addImageToZos(zos, i, path + "/" + serie.getId());
+						addImageToZos(zos, i, path + File.separator + serie.getId());
+			}
+			
+			else if(img instanceof ComplexImage){
+				ComplexImage complex = (ComplexImage)img;
+				
+				if(complex.getContent() != null)
+					for(File file : complex.getContent())
+						addFileToZos(zos, file, path + File.separator + complex.getId());
 			}
 		}
 	}
 	
-	private void addSingleImageToZos(ZipOutputStream zos, SingleImage si, String path) throws IOException{
+	private void addFileToZos(ZipOutputStream zos, File file, String path) throws IOException{
 		
 		//Prepare entry path
 		String entry = null;		
 		if(path != null && !path.isEmpty())
-			entry = path + "/" + si.getContent().getName();
+			entry = path + "/" + file.getName();
 		else
-			entry = si.getContent().getName();
+			entry = file.getName();
 		
 		//Create zip entry
 		ZipEntry ze = new ZipEntry(entry);
@@ -187,10 +247,22 @@ public class DownloadBean extends GenericDownloadBean {
 
 		//Write zip entry
 		byte bytes[] = new byte[BUFFER_SIZE];
-		FileInputStream fileIS = new FileInputStream(si.getContent());;
+		FileInputStream fileIS = new FileInputStream(file);
 		while(fileIS.read(bytes) != -1)
 			zos.write(bytes);
 		
-		fileIS.close();
+		fileIS.close();		
 	}
+	
+	private ZipOutputStream prepareZOS(String cntDesc) throws IOException{
+		ZipOutputStream result = null;
+		HttpServletResponse response = prepareResponse();  
+		
+		//Get file name without parents and prepare header
+		String fileName = cntDesc + FilenameUtils.EXTENSION_SEPARATOR_STR + contentType;
+		configResponseHeader(response, contentType, fileName);
+		result = new ZipOutputStream(response.getOutputStream());
+		
+		return result;
+	}	
 }

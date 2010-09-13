@@ -38,6 +38,14 @@ along with Multiclinical Trial Web-PACS.  If not, see
 <ui:define name="title">
 	<h3>
 		<h:outputText value="#{msgs['jsf.headers.StudiesOfPatient']}"/>
+		<h:commandLink 
+			style="vertical-align:  bottom;"
+			action="#{downloadBean.accDownloadPatientImages}">
+               <h:graphicImage 
+               	url="/jsp/icons/picture_save_all.png" 
+               	alt="#{msgs['jsf.actions.DownloadAll']}" 
+               	title="#{msgs['jsf.actions.DownloadAll']}"/>
+		</h:commandLink>
 	</h3>
 </ui:define>
 
