@@ -28,7 +28,7 @@ import java.io.Serializable;
  * @author Miguel Ángel Laguna
  * 
  */
-public class ThumbSelectItem implements Serializable {
+public class ThumbSelectItem implements Serializable, Comparable<ThumbSelectItem> {
 
 	private static final long serialVersionUID = 994902447827732494L;
 	private Boolean selected = false;
@@ -105,5 +105,16 @@ public class ThumbSelectItem implements Serializable {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	@Override
+	public int compareTo(ThumbSelectItem tsi) {
+		int result = 0;
+		
+		if(tsi != null)
+			if(this.getPatName() != null)
+				return this.getPatName().compareTo(tsi.getPatName());
+		
+		return result;
 	}
 }
