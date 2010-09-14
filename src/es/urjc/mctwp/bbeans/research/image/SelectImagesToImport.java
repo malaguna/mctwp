@@ -35,6 +35,7 @@ import es.urjc.mctwp.modelo.Patient;
 import es.urjc.mctwp.modelo.Study;
 import es.urjc.mctwp.service.Command;
 import es.urjc.mctwp.service.blogic.ImageContainerTypeVisitor;
+import es.urjc.mctwp.service.commands.imageCmds.DeleteTemporalImages;
 import es.urjc.mctwp.service.commands.imageCmds.LoadThumbsOfTemporalImages;
 import es.urjc.mctwp.service.commands.imageCmds.PersistImages;
 
@@ -151,6 +152,35 @@ public class SelectImagesToImport extends RequestInvAbstractBean {
 		}
 
 		setInfoMessage(getMessage("jsf.messages.ImagesPersisted"));
+		
+		return accListFolder();
+	}
+	
+	
+	public String deleteImages(){
+		List<String> images = new ArrayList<String>();
+		
+		//It must be at least a group selected, in order
+		//to persist any temporal image.
+		if(thumbs != null){
+			
+			//Get id's of selected images
+			for(ThumbSelectItem tsi: thumbs){
+				if(tsi.getSelected()){
+					images.add(tsi.getThumbId());
+				}
+			}
+			
+			//Always reattach trial
+			//getFacadeService().cleanReattach(getSession().getTrial());
+			Command cmd = getCommand(DeleteTemporalImages.class);
+			((DeleteTemporalImages)cmd).setCollection(folder);
+			((DeleteTemporalImages)cmd).setImagesId(images);
+			
+			runCommand(cmd);	
+		}
+		
+		setInfoMessage(getMessage("jsf.messages.ImagesDeleted"));
 		
 		return accListFolder();
 	}

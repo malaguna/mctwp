@@ -227,6 +227,25 @@ public class ImageCollectionManager {
 			}
 		}
 	}
+	
+	/**
+	 * This functions only delete temporal images, although it is prepared 
+	 * to delete persistent images.
+	 * 
+	 * @param colName
+	 * @param imagesId
+	 * @param temporal
+	 * @throws ImageException
+	 * @throws ImageCollectionException
+	 */
+	public void deleteImages(String colName, List<String> imagesId,
+			boolean temporal) throws ImageException, ImageCollectionException {
+		
+		if(colName != null && imagesId != null && temporal){
+			for(String id : imagesId)
+				imcc.deleteContent(colName, id, temporal);
+		}
+	}	
 
 	/**
 	 * This function knows how to retrieve all files of any image and
