@@ -21,6 +21,7 @@ package es.urjc.mctwp.bbeans.research.image;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -192,6 +193,8 @@ public class SelectImagesToImport extends RequestInvAbstractBean {
 				} catch (IOException e) {
 				}
 			}
+			
+			Collections.sort(thumbs);
 		}
 	}
 	
