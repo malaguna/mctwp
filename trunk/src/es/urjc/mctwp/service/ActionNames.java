@@ -33,6 +33,7 @@ public class ActionNames {
 	public final static String DELETE_PATIENT		= "deletePatient";
 	public final static String DELETE_STUDY			= "deleteStudy";
 	public final static String DELETE_TASK			= "deleteTask";
+	public static final String DELETE_TEMP_IMAGES 	= "deleteTemporalImages";
 	
 	public final static String FIND_ALL_ACTIONS		= "findAllActions";
 	public final static String FIND_ALL_PROCESS		= "findAllProcesses";

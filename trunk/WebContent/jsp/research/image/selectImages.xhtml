@@ -63,7 +63,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 							columns="1">
 							<h:panelGroup>
 								<h:selectBooleanCheckbox value="#{fimag.selected}" />
-								<h:outputText value="Importar"/>
+								<h:outputText value="Select"/>
 							</h:panelGroup>
 							<h:graphicImage 
 								url="#{fimag.path}" 
@@ -126,7 +126,12 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			</td>
 			<td style="vertical-align: bottom;">
 				<h:commandButton 
-					id="new" 
+					id="delete" 
+					styleClass="frmButton" 
+					value="#{msgs['jsf.actions.Delete']}" 
+					action="#{selectImages.deleteImages}"/>
+				<h:commandButton 
+					id="importar" 
 					styleClass="frmButton" 
 					value="#{msgs['jsf.actions.Import']}" 
 					action="#{selectImages.importImages}"/>
