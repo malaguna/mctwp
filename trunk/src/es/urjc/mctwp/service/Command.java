@@ -34,14 +34,14 @@ import es.urjc.mctwp.service.blogic.UserUtils;
  * Implements business logic of a generic Command:
  * 
  * @author mall02
- *
+ * 
  */
 public abstract class Command {
-	//Transaction configuration values
+	// Transaction configuration values
 	public static final String ISOLATION_DEFAULT = "default";
 	public static final String PROPAGATION_REQUIRED = "required";
 
-	//Transaction configuration
+	// Transaction configuration
 	private boolean readOnly = true;
 	private String isolation = ISOLATION_DEFAULT;
 	private String propagation = PROPAGATION_REQUIRED;
@@ -54,123 +54,150 @@ public abstract class Command {
 	/**
 	 * BeanFactory to retrieve Service and DAO objects
 	 */
-	private BeanFactory factory = null;	
-	
+	private BeanFactory factory = null;
+
 	/**
-	 * User business logic 
+	 * User business logic
 	 */
 	private UserUtils userUtils = null;
-	
+
 	/**
 	 * Info that commands will offer to final user
 	 */
-	private String  userComment = null;
-	
+	private String userComment = null;
+
 	/**
 	 * Info that commands will store into application log
 	 */
-	private String  logComment = null;
-	
+	private String logComment = null;
+
 	/**
 	 * Who runs the command. If this is null, the command is not valid.
 	 */
 	private User user = null;
-	
+
 	/**
-	 * Trial where user is working, it helps to find role played by user.
-	 * If this attribute is null, the role of the user could be admin, 
-	 * otherwise the command is invalid. 
+	 * Trial where user is working, it helps to find role played by user. If
+	 * this attribute is null, the role of the user could be admin, otherwise
+	 * the command is invalid.
 	 */
 	private Trial trial = null;
-	
+
 	/**
 	 * The action name of this command
 	 */
 	private String actionName = null;
-	
+
 	/**
 	 * The action of the command, it is never manipulated by user
 	 */
 	private Action action = null;
-	
+
 	/**
 	 * Log of the command.
 	 */
-	private Log log = null;	
-	
+	private Log log = null;
+
 	/**
 	 * It creates a new command and retrieves user business logic
 	 * 
 	 * @param bf
 	 */
-	public Command(BeanFactory bf){
-		if(bf != null){
-			
-			//Get ResourceBundle
-			messages = ResourceBundle.getBundle("es.urjc.mctwp.resources.messages");
-			
-			try{
+	public Command(BeanFactory bf) {
+		if (bf != null) {
+
+			// Get ResourceBundle
+			messages = ResourceBundle
+					.getBundle("es.urjc.mctwp.resources.messages");
+
+			try {
 				factory = bf;
-				userUtils = (UserUtils)bf.getBean(BeanNames.USER_UTILS);
-			}catch(Exception e){}
+				userUtils = (UserUtils) bf.getBean(BeanNames.USER_UTILS);
+			} catch (Exception e) {
+			}
 		}
 	}
-	
-	protected BeanFactory getBeanFactory(){
+
+	protected BeanFactory getBeanFactory() {
 		return factory;
 	}
+
 	public boolean isReadOnly() {
 		return readOnly;
 	}
+
 	protected void setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;
 	}
+
 	public String getIsolation() {
 		return isolation;
 	}
+
 	protected void setIsolation(String isolation) {
 		this.isolation = isolation;
 	}
+
 	public String getPropagation() {
 		return propagation;
 	}
+
 	protected void setPropagation(String propagation) {
 		this.propagation = propagation;
 	}
+
 	protected UserUtils getUserUtils() {
 		return userUtils;
 	}
+
 	public String getUserComment() {
 		return userComment;
 	}
+
 	protected void setUserComment(String coment) {
 		this.userComment = coment;
 	}
+
 	protected String getLogComment() {
 		return logComment;
 	}
+
 	public User getUser() {
 		return user;
 	}
+
 	public void setUser(User user) {
 		this.user = user;
 	}
+
 	public void setTrial(Trial trial) {
 		this.trial = trial;
 	}
+
 	public Trial getTrial() {
 		return trial;
-	}	
-	public String getAction() {
+	}
+
+	public String getActionName() {
 		return actionName;
 	}
-	protected void setAction(String accion) {
+
+	protected void setActionName(String accion) {
 		this.actionName = accion;
 	}
-	protected Log getLogger(){
+
+	public Action getAction() {
+		return action;
+	}
+
+	public void setAction(Action action) {
+		this.action = action;
+	}
+
+	protected Log getLogger() {
 		return log;
 	}
-	
+
 	/**
 	 * This method get the appropriate message template and applies arguments to
 	 * generate a valid localized message.
@@ -178,7 +205,7 @@ public abstract class Command {
 	 * @param arguments
 	 * @param template
 	 */
-	protected void createLogComment(String template, Object ... arguments){
+	protected void createLogComment(String template, Object... arguments) {
 		MessageFormat formatter = new MessageFormat("");
 		formatter.applyPattern(messages.getString(template));
 		logComment = formatter.format(arguments);
@@ -186,63 +213,63 @@ public abstract class Command {
 
 	/**
 	 * Whether the user has permission to run the action of the command
+	 * 
 	 * @return
 	 */
-	public boolean isCommandAuthorized(){
+	public boolean isCommandAuthorized() {
 		action = userUtils.getActionIfAuthorized(user, trial, actionName);
 		return action != null;
 	}
-	
+
 	/**
-	 * Whether the command is well formed and ready to run. It must be
-	 * overwrite to add parameter's validation of specialized commands
+	 * Whether the command is well formed and ready to run. It must be overwrite
+	 * to add parameter's validation of specialized commands
+	 * 
 	 * @return
 	 */
-	public boolean isValidCommand(){
-		return 	actionName != null &&
-				userUtils != null &&
-				user != null && 
-				(user.getAdmin() || trial != null);
+	public boolean isValidCommand() {
+		return actionName != null && userUtils != null && user != null
+				&& (user.getAdmin() || trial != null);
 	}
-	
+
 	/**
 	 * Log that the user is trying to do something.
 	 */
-	public void initCommandLog(){
-		if( (action != null) && (action.isLogeable()) ){
+	public void initCommandLog() {
+		if ((action != null) && (action.isLogeable())) {
 			log = new Log();
 			log.setUser(user);
 			log.setStamp(new Date());
 			log.setComment("trying...");
-			
+
 			log = userUtils.logAction(log, action);
 		}
 	}
 
 	/**
-	 * Log the user do the action successfully. If there is no comment
-	 * it puts complete action
+	 * Log the user do the action successfully. If there is no comment it puts
+	 * complete action
 	 */
-	public void endsCommandLog(){
-		if( (action != null) && (log != null) ){
-			if(logComment == null)
+	public void endsCommandLog() {
+		if ((action != null) && (log != null)) {
+			if (logComment == null)
 				logComment = "complete";
-	
+
 			log.setComment(logComment);
 			userUtils.logAction(log);
 		}
 	}
-	
+
 	/**
-	 * It could be overwrite to do something before runCommand 
+	 * It could be overwrite to do something before runCommand
 	 */
-	public void preCommand(){
+	public void preCommand() {
 	}
 
 	/**
-	 * It could be overwrite to do something after runCommand 
+	 * It could be overwrite to do something after runCommand
 	 */
-	public void postCommand(){
+	public void postCommand() {
 	}
 
 	/**

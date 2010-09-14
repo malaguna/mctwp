@@ -38,7 +38,7 @@ public class RemoveUserParticipation extends Command {
 		super(bf);
 		partDao = (ParticipationDAO)bf.getBean(BeanNames.PARTICIPATION_DAO);
 		userDao = (UserDAO)bf.getBean(BeanNames.USER_DAO);
-		setAction(ActionNames.REMOVE_USER_PART);
+		setActionName(ActionNames.REMOVE_USER_PART);
 		setReadOnly(false);
 	}
 	

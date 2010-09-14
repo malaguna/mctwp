@@ -38,7 +38,7 @@ public class RemoveRolAuthorization extends Command {
 		super(bf);
 		actionDao = (ActionDAO)bf.getBean(BeanNames.ACTION_DAO);
 		rolDao = (RolDAO)bf.getBean(BeanNames.ROL_DAO);
-		setAction(ActionNames.REMOVE_ROL_AUTH);
+		setActionName(ActionNames.REMOVE_ROL_AUTH);
 		setReadOnly(false);
 	}
 	

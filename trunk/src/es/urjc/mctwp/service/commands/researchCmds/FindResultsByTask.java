@@ -36,7 +36,7 @@ public class FindResultsByTask extends ResultCommand<List<Result>> {
 	public FindResultsByTask(BeanFactory bf) {
 		super(bf);
 		resultDao = (ResultDAO)bf.getBean(BeanNames.RESULT_DAO);
-		setAction(ActionNames.FIND_PATIENTS_GROUP);
+		setActionName(ActionNames.FIND_PATIENTS_GROUP);
 	}
 	
 	public void setTask(Task task){

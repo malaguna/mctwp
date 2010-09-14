@@ -33,7 +33,7 @@ public class LoadStudy extends ResultCommand<Study> {
 	public LoadStudy(BeanFactory bf) {
 		super(bf);
 		studyDao = (StudyDAO)bf.getBean(BeanNames.STUDY_DAO);
-		setAction(ActionNames.LOAD_STUDY);
+		setActionName(ActionNames.LOAD_STUDY);
 	}
 
 	public void setStudyId(Integer id) {

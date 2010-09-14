@@ -34,7 +34,7 @@ public class LoadUser extends ResultCommand<User> {
 	public LoadUser(BeanFactory bf) {
 		super(bf);
 		userDao = (UserDAO)bf.getBean(BeanNames.USER_DAO);
-		setAction(ActionNames.LOAD_USER);
+		setActionName(ActionNames.LOAD_USER);
 	}
 	
 	public void setUserCode(Integer code) {

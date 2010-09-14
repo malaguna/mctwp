@@ -34,7 +34,7 @@ public class DoneTasks extends Command {
 	public DoneTasks(BeanFactory bf) {
 		super(bf);
 		taskUtils = (TaskUtils)bf.getBean(BeanNames.TASK_UTILS);
-		setAction(ActionNames.SAVE_TASK);
+		setActionName(ActionNames.SAVE_TASK);
 		setReadOnly(false);
 	}
 	

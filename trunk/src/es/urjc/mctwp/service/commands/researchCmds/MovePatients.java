@@ -21,7 +21,7 @@ public class MovePatients extends Command {
 	public MovePatients(BeanFactory bf) {
 		super(bf);
 		setReadOnly(false);
-		setAction(ActionNames.MOVE_PATIENT);
+		setActionName(ActionNames.MOVE_PATIENT);
 		groupDao = (GroupDAO) bf.getBean(BeanNames.GROUP_DAO);
 		patientDao = (PatientDAO) bf.getBean(BeanNames.PATIENT_DAO);
 	}

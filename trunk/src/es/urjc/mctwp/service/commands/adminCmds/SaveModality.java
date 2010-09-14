@@ -33,7 +33,7 @@ public class SaveModality extends Command {
 	public SaveModality(BeanFactory bf) {
 		super(bf);
 		modalityDao = (ModalityDAO)bf.getBean(BeanNames.MODALITY_DAO);
-		setAction(ActionNames.SAVE_MODALITY);
+		setActionName(ActionNames.SAVE_MODALITY);
 		setReadOnly(false);
 	}
 	

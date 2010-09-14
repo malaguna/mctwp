@@ -30,7 +30,7 @@ public class LoadMenuItems extends ResultCommand<List<Menu>> {
 
 	public LoadMenuItems(BeanFactory bf) {
 		super(bf);
-		setAction(ActionNames.LOAD_MENU_ITEMS);
+		setActionName(ActionNames.LOAD_MENU_ITEMS);
 	}
 	
 	@Override
@@ -41,7 +41,7 @@ public class LoadMenuItems extends ResultCommand<List<Menu>> {
 	@Override
 	public boolean isValidCommand(){
 		return  getUserUtils() != null &&
-				getAction() != null &&
+				getActionName() != null &&
 				getUser() != null;
 	}	
 	

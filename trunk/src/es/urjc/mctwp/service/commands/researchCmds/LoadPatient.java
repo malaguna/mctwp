@@ -33,7 +33,7 @@ public class LoadPatient extends ResultCommand<Patient> {
 	public LoadPatient(BeanFactory bf) {
 		super(bf);
 		patientDao = (PatientDAO)bf.getBean(BeanNames.PATIENT_DAO);
-		setAction(ActionNames.LOAD_PATIENT);
+		setActionName(ActionNames.LOAD_PATIENT);
 	}
 
 	public void setPatientId(Integer id) {

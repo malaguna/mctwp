@@ -37,7 +37,7 @@ public class StoreTemporalImages extends Command {
 
 	public StoreTemporalImages(BeanFactory bf) {
 		super(bf);
-		setAction(ActionNames.STORE_TEMP_IMAGES);
+		setActionName(ActionNames.STORE_TEMP_IMAGES);
 		imageUtils = (ImageUtils)bf.getBean(BeanNames.IMAGE_UTILS);
 		setReadOnly(false);
 	}
@@ -51,10 +51,18 @@ public class StoreTemporalImages extends Command {
 
 	@Override 
 	public boolean isValidCommand(){
-		return  super.isValidCommand() &&
-				imageUtils != null;
+		return 	getActionName() != null &&
+			getUserUtils() != null &&
+			getUser() != null &&
+			imageUtils != null;
 	}
 
+	@Override
+	public boolean isCommandAuthorized(){
+		setAction(getUserUtils().getActionDao().findActionByName(getActionName()));
+		return true;
+	}
+	
 	@Override
 	public Command runCommand() throws ImageCollectionException, ImageException, IOException{
 		imageUtils.storeTemporalImages(getUser(), files);

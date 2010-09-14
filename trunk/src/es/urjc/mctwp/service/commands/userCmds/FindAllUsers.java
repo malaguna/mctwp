@@ -33,7 +33,7 @@ public class FindAllUsers extends ResultCommand<List<User>> {
 
 	public FindAllUsers(BeanFactory bf) {
 		super(bf);
-		setAction(ActionNames.FIND_ALL_USERS);
+		setActionName(ActionNames.FIND_ALL_USERS);
 		userDao = (UserDAO)bf.getBean(BeanNames.USER_DAO);
 	}
 

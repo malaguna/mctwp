@@ -36,7 +36,7 @@ public class FindRol extends ResultCommand<List<Rol>> {
 	public FindRol(BeanFactory bf) {
 		super(bf);
 		rolDao = (RolDAO)bf.getBean(BeanNames.ROL_DAO);
-		setAction(ActionNames.FIND_ROL);
+		setActionName(ActionNames.FIND_ROL);
 	}
 	
 	public void setRol(Rol rol) {

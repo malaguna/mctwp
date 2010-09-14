@@ -40,7 +40,7 @@ public class SaveTrial extends Command {
 		super(bf);
 		trialDao = (TrialDAO)bf.getBean(BeanNames.TRIAL_DAO);
 		imcm = (ImageCollectionManager)bf.getBean(BeanNames.IMG_COL_MGR);
-		setAction(ActionNames.SAVE_TRIAL);
+		setActionName(ActionNames.SAVE_TRIAL);
 		setReadOnly(false);
 	}
 	

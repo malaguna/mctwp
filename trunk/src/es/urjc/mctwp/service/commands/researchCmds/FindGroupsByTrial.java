@@ -35,7 +35,7 @@ public class FindGroupsByTrial extends ResultCommand<List<Group>> {
 	public FindGroupsByTrial(BeanFactory bf) {
 		super(bf);
 		groupDao = (GroupDAO)bf.getBean(BeanNames.GROUP_DAO);
-		setAction(ActionNames.FIND_GROUPS_TRIAL);
+		setActionName(ActionNames.FIND_GROUPS_TRIAL);
 	}
 	
 	public void setFilter(Group filter) {

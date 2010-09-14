@@ -38,7 +38,7 @@ public class AddRolAuthorization extends Command {
 		super(bf);
 		actionDao = (ActionDAO)bf.getBean(BeanNames.ACTION_DAO);
 		rolDao = (RolDAO)bf.getBean(BeanNames.ROL_DAO);
-		setAction(ActionNames.ADD_ROL_AUTH);
+		setActionName(ActionNames.ADD_ROL_AUTH);
 		setReadOnly(false);
 	}
 	

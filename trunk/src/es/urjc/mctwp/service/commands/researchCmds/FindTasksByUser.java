@@ -34,7 +34,7 @@ public class FindTasksByUser extends ResultCommand<List<Task>> {
 	public FindTasksByUser(BeanFactory bf) {
 		super(bf);
 		taskDao = (TaskDAO)bf.getBean(BeanNames.TASK_DAO);
-		setAction(ActionNames.FIND_TASKS_IMAGE);
+		setActionName(ActionNames.FIND_TASKS_IMAGE);
 	}
 	
 	@Override

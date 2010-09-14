@@ -36,7 +36,7 @@ public class ReassignTasks extends Command {
 	public ReassignTasks(BeanFactory bf) {
 		super(bf);
 		taskUtils = (TaskUtils)bf.getBean(BeanNames.TASK_UTILS);
-		setAction(ActionNames.SAVE_TASK);
+		setActionName(ActionNames.SAVE_TASK);
 		setReadOnly(false);
 	}
 	

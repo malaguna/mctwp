@@ -40,7 +40,7 @@ public class FindNotAssignedProcesses extends ResultCommand<List<ProcessDef>> {
 		super(bf);
 		protocolableDao = (ProtocolableDAO)bf.getBean(BeanNames.PROTOCOLABLE_DAO);
 		processDao = (ProcessDefDAO)bf.getBean(BeanNames.PROCESS_DEF_DAO);
-		setAction(ActionNames.FIND_ALL_PROCESS);
+		setActionName(ActionNames.FIND_ALL_PROCESS);
 	}
 	
 	public void setSource(Protocolable source){

@@ -35,7 +35,7 @@ public class SavePatient extends Command {
 	public SavePatient(BeanFactory bf) {
 		super(bf);
 		patientDao = (PatientDAO)bf.getBean(BeanNames.PATIENT_DAO);
-		setAction(ActionNames.SAVE_PATIENT);
+		setActionName(ActionNames.SAVE_PATIENT);
 		setReadOnly(false);
 	}
 	

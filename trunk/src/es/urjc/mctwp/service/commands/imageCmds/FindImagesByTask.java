@@ -41,7 +41,7 @@ public class FindImagesByTask extends ResultCommand<List<ImageData>> {
 		super(bf);
 		imageDao = (ImageDataDAO)bf.getBean(BeanNames.IMAGE_DATA_DAO);
 		taskDao = (TaskDAO)bf.getBean(BeanNames.TASK_DAO);
-		setAction(ActionNames.FIND_IMAGES_STUDY);
+		setActionName(ActionNames.FIND_IMAGES_STUDY);
 	}
 	
 	public void setTask(Task task) {

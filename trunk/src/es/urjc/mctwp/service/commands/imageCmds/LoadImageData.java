@@ -34,7 +34,7 @@ public class LoadImageData extends ResultCommand<ImageData> {
 	public LoadImageData(BeanFactory bf) {
 		super(bf);
 		imageDao = (ImageDataDAO)bf.getBean(BeanNames.IMAGE_DATA_DAO);
-		setAction(ActionNames.LOAD_IMAGE_DATA);
+		setActionName(ActionNames.LOAD_IMAGE_DATA);
 	}
 	
 	public void setImageId(Integer image) {

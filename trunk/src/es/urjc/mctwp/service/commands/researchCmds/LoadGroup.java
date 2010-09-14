@@ -33,7 +33,7 @@ public class LoadGroup extends ResultCommand<Group> {
 	public LoadGroup(BeanFactory bf) {
 		super(bf);
 		groupDao = (GroupDAO)bf.getBean(BeanNames.GROUP_DAO);
-		setAction(ActionNames.LOAD_GROUP);
+		setActionName(ActionNames.LOAD_GROUP);
 	}
 
 	public void setGroupId(Integer id) {

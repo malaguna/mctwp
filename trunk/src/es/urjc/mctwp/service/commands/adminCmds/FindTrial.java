@@ -36,7 +36,7 @@ public class FindTrial extends ResultCommand<List<Trial>> {
 	public FindTrial(BeanFactory bf) {
 		super(bf);
 		trialDao = (TrialDAO)bf.getBean(BeanNames.TRIAL_DAO);
-		setAction(ActionNames.FIND_TRIAL);
+		setActionName(ActionNames.FIND_TRIAL);
 	}
 	
 	public void setTrial(Trial trial){

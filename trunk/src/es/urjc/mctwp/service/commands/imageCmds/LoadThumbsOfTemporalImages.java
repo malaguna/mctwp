@@ -37,7 +37,7 @@ public class LoadThumbsOfTemporalImages extends ResultCommand<List<ThumbNail>> {
 	public LoadThumbsOfTemporalImages(BeanFactory bf) {
 		super(bf);
 		imcm = (ImageCollectionManager)bf.getBean(BeanNames.IMG_COL_MGR);
-		setAction(ActionNames.STORE_TEMP_IMAGES);
+		setActionName(ActionNames.STORE_TEMP_IMAGES);
 	}
 	
 	public void setTempColl(String tempColl) {

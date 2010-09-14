@@ -42,7 +42,7 @@ public class FindNotAssignedUsers extends ResultCommand<List<User>> {
 		super(bf);
 		trialDao = (TrialDAO)bf.getBean(BeanNames.TRIAL_DAO);
 		userDao = (UserDAO)bf.getBean(BeanNames.USER_DAO);
-		setAction(ActionNames.FIND_NOT_ASGN_USERS);
+		setActionName(ActionNames.FIND_NOT_ASGN_USERS);
 	}
 
 	public void setTrialObj(Trial trialObj) {

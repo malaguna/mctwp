@@ -35,7 +35,7 @@ public class SendImages extends Command {
 
 	public SendImages(BeanFactory bf) {
 		super(bf);
-		setAction(ActionNames.SEND_IMAGES);
+		setActionName(ActionNames.SEND_IMAGES);
 		imageUtils = (ImageUtils)bf.getBean(BeanNames.IMAGE_UTILS);
 	}
 	

@@ -40,7 +40,7 @@ public class DeleteTask extends Command {
 		super(bf);
 		taskDao = (TaskDAO)bf.getBean(BeanNames.TASK_DAO);
 		imgDao = (ImageDataDAO)bf.getBean(BeanNames.IMAGE_DATA_DAO);
-		setAction(ActionNames.DELETE_TASK);
+		setActionName(ActionNames.DELETE_TASK);
 		setReadOnly(false);
 	}
 	

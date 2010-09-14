@@ -33,7 +33,7 @@ public class SaveUser extends Command {
 	public SaveUser(BeanFactory bf) {
 		super(bf);
 		userDao = (UserDAO)bf.getBean(BeanNames.USER_DAO);
-		setAction(ActionNames.SAVE_USER);
+		setActionName(ActionNames.SAVE_USER);
 		setReadOnly(false);
 	}
 	

@@ -33,7 +33,7 @@ public class LoadResult extends ResultCommand<Result> {
 	public LoadResult(BeanFactory bf) {
 		super(bf);
 		resultDao = (ResultDAO)bf.getBean(BeanNames.RESULT_DAO);
-		setAction(ActionNames.LOAD_RESULT);
+		setActionName(ActionNames.LOAD_RESULT);
 	}
 
 	public void setResultId(Integer id) {

@@ -33,7 +33,7 @@ public class FindImageByUid extends ResultCommand<ImageData> {
 	public FindImageByUid(BeanFactory bf) {
 		super(bf);
 		imageDao = (ImageDataDAO)bf.getBean(BeanNames.IMAGE_DATA_DAO);
-		setAction(ActionNames.LOAD_IMAGE_DATA);
+		setActionName(ActionNames.LOAD_IMAGE_DATA);
 	}
 	
 	public void setImageId(String imageId) {

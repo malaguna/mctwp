@@ -33,7 +33,7 @@ public class RemoveFile extends Command {
 	public RemoveFile(BeanFactory bf) {
 		super(bf);
 		fileDao = (FileDAO) bf.getBean(BeanNames.FILE_DAO);
-		setAction(ActionNames.REMOVE_FILE_PRT);
+		setActionName(ActionNames.REMOVE_FILE_PRT);
 		setReadOnly(false);
 	}
 

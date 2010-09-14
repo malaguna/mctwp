@@ -43,7 +43,7 @@ public class FindTasks extends ResultCommand<List<Task>> {
 	public FindTasks(BeanFactory bf) {
 		super(bf);
 		sf = (SessionFactory)bf.getBean(BeanNames.SESSION_FACTORY);
-		setAction(ActionNames.FIND_TASKS);
+		setActionName(ActionNames.FIND_TASKS);
 	}
 
 	public SessionFactory getSf() {

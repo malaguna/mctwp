@@ -33,7 +33,7 @@ public class LoadTask extends ResultCommand<Task> {
 	public LoadTask(BeanFactory bf) {
 		super(bf);
 		taskDao = (TaskDAO)bf.getBean(BeanNames.TASK_DAO);
-		setAction(ActionNames.LOAD_TASK);
+		setActionName(ActionNames.LOAD_TASK);
 	}
 
 	public void setTaskId(Integer taskId) {

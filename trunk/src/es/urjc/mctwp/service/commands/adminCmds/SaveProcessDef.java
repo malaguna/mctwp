@@ -33,7 +33,7 @@ public class SaveProcessDef extends Command {
 	public SaveProcessDef(BeanFactory bf) {
 		super(bf);
 		processDao = (ProcessDefDAO)bf.getBean(BeanNames.PROCESS_DEF_DAO);
-		setAction(ActionNames.SAVE_PROCESS_DEF);
+		setActionName(ActionNames.SAVE_PROCESS_DEF);
 		setReadOnly(false);
 	}
 	

@@ -35,7 +35,7 @@ public class LoadUserFolders extends ResultCommand<Set<Modality>> {
 	public LoadUserFolders(BeanFactory bf) {
 		super(bf);
 		userDao = (UserDAO)bf.getBean(BeanNames.USER_DAO);
-		setAction(ActionNames.LOAD_USER_FOLDERS);
+		setActionName(ActionNames.LOAD_USER_FOLDERS);
 	}
 	
 	@Override

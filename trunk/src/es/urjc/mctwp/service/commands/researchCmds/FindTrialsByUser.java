@@ -35,7 +35,7 @@ public class FindTrialsByUser extends ResultCommand<List<Trial>> {
 	public FindTrialsByUser(BeanFactory bf) {
 		super(bf);
 		trialDao = (TrialDAO)bf.getBean(BeanNames.TRIAL_DAO);
-		setAction(ActionNames.FIND_TRIALS_USER);
+		setActionName(ActionNames.FIND_TRIALS_USER);
 	}
 
 	public void setFilter(Trial filter) {

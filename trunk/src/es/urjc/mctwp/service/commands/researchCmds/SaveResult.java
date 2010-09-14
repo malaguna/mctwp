@@ -35,7 +35,7 @@ public class SaveResult extends Command {
 	public SaveResult(BeanFactory bf) {
 		super(bf);
 		resultDao = (ResultDAO)bf.getBean(BeanNames.RESULT_DAO);
-		setAction(ActionNames.SAVE_RESULT);
+		setActionName(ActionNames.SAVE_RESULT);
 		setReadOnly(false);
 	}
 	

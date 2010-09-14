@@ -38,7 +38,7 @@ public class AddFileToProtocolable extends Command {
 	public AddFileToProtocolable(BeanFactory bf) {
 		super(bf);
 		factory = (SessionFactory) bf.getBean(BeanNames.SESSION_FACTORY);
-		setAction(ActionNames.ADD_FILE_PRT);
+		setActionName(ActionNames.ADD_FILE_PRT);
 		setReadOnly(false);
 	}
 

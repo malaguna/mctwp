@@ -36,7 +36,7 @@ public class SaveGroup extends Command {
 		super(bf);
 		groupDao = (GroupDAO)bf.getBean(BeanNames.GROUP_DAO);
 		trialDao = (TrialDAO)bf.getBean(BeanNames.TRIAL_DAO);
-		setAction(ActionNames.SAVE_GROUP);
+		setActionName(ActionNames.SAVE_GROUP);
 		setReadOnly(false);
 	}
 	
