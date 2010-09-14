@@ -34,7 +34,7 @@ public class FindAllActions extends ResultCommand<List<Action>> {
 	public FindAllActions(BeanFactory bf) {
 		super(bf);
 		actionDao = (ActionDAO)bf.getBean(BeanNames.ACTION_DAO);
-		setAction(ActionNames.FIND_ALL_ACTIONS);
+		setActionName(ActionNames.FIND_ALL_ACTIONS);
 	}
 
 	@Override

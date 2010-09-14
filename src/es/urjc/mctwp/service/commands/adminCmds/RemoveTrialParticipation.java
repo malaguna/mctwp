@@ -38,7 +38,7 @@ public class RemoveTrialParticipation extends Command {
 		super(bf);
 		partDao = (ParticipationDAO)bf.getBean(BeanNames.PARTICIPATION_DAO);
 		trialDao = (TrialDAO)bf.getBean(BeanNames.TRIAL_DAO);
-		setAction(ActionNames.REMOVE_TRIAL_PART);
+		setActionName(ActionNames.REMOVE_TRIAL_PART);
 		setReadOnly(false);
 	}
 	

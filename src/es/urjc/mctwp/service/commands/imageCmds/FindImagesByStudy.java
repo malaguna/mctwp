@@ -36,7 +36,7 @@ public class FindImagesByStudy extends ResultCommand<List<ImageData>> {
 	public FindImagesByStudy(BeanFactory bf) {
 		super(bf);
 		imageDao = (ImageDataDAO)bf.getBean(BeanNames.IMAGE_DATA_DAO);
-		setAction(ActionNames.FIND_IMAGES_STUDY);
+		setActionName(ActionNames.FIND_IMAGES_STUDY);
 	}
 	
 	public void setStudy(Study study) {

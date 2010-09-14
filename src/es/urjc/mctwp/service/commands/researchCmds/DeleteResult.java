@@ -33,7 +33,7 @@ public class DeleteResult extends Command {
 	public DeleteResult(BeanFactory bf) {
 		super(bf);
 		resultDao = (ResultDAO)bf.getBean(BeanNames.RESULT_DAO);
-		setAction(ActionNames.DELETE_TASK);
+		setActionName(ActionNames.DELETE_TASK);
 		setReadOnly(false);
 	}
 	

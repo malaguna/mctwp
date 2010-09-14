@@ -18,7 +18,7 @@ public class LoadProtocolableAttachments extends ResultCommand<List<File>> {
 	public LoadProtocolableAttachments(BeanFactory bf) {
 		super(bf);
 		dao = (FileDAO) bf.getBean(BeanNames.FILE_DAO);
-		setAction(ActionNames.ADD_FILE_PRT);
+		setActionName(ActionNames.ADD_FILE_PRT);
 	}
 
 	public void setSource(Protocolable source) {

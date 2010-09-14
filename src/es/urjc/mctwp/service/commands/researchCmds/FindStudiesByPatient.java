@@ -37,7 +37,7 @@ public class FindStudiesByPatient extends ResultCommand<List<Study>> {
 	public FindStudiesByPatient(BeanFactory bf) {
 		super(bf);
 		studyDao = (StudyDAO) bf.getBean(BeanNames.STUDY_DAO);
-		setAction(ActionNames.FIND_STUDIES_PATIENT);
+		setActionName(ActionNames.FIND_STUDIES_PATIENT);
 	}
 
 	public void setFilter(Study filter) {

@@ -35,7 +35,7 @@ public class FindLogsByUser extends ResultCommand<List<Log>> {
 
 	public FindLogsByUser(BeanFactory bf) {
 		super(bf);
-		setAction(ActionNames.FIND_USER_LOGS);
+		setActionName(ActionNames.FIND_USER_LOGS);
 		logDao = (LogDAO)bf.getBean(BeanNames.LOG_DAO);
 	}
 

@@ -36,7 +36,7 @@ public class FindModality extends ResultCommand<List<Modality>> {
 	public FindModality(BeanFactory bf) {
 		super(bf);
 		modalityDao = (ModalityDAO)bf.getBean(BeanNames.MODALITY_DAO);
-		setAction(ActionNames.FIND_MODALITIES);
+		setActionName(ActionNames.FIND_MODALITIES);
 	}
 	
 	public void setModality(Modality modality) {

@@ -33,7 +33,7 @@ public class DeleteGroup extends Command {
 	public DeleteGroup(BeanFactory bf) {
 		super(bf);
 		groupDao = (GroupDAO)bf.getBean(BeanNames.GROUP_DAO);
-		setAction(ActionNames.DELETE_GROUP);
+		setActionName(ActionNames.DELETE_GROUP);
 		setReadOnly(false);
 	}
 	

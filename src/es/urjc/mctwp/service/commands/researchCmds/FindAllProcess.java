@@ -34,7 +34,7 @@ public class FindAllProcess extends ResultCommand<List<ProcessDef>> {
 	public FindAllProcess(BeanFactory bf) {
 		super(bf);
 		processDefDao = (ProcessDefDAO)bf.getBean(BeanNames.PROCESS_DEF_DAO);
-		setAction(ActionNames.FIND_ALL_PROCESS);
+		setActionName(ActionNames.FIND_ALL_PROCESS);
 	}
 	
 	@Override

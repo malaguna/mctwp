@@ -39,7 +39,7 @@ public class AddUserModality extends Command {
 		super(bf);
 		modalityDao = (ModalityDAO)bf.getBean(BeanNames.MODALITY_DAO);
 		userDao = (UserDAO)bf.getBean(BeanNames.USER_DAO);
-		setAction(ActionNames.ADD_USER_MODALITY);
+		setActionName(ActionNames.ADD_USER_MODALITY);
 		setReadOnly(false);
 	}
 

@@ -34,7 +34,7 @@ public class LoadTrial extends ResultCommand<Trial> {
 	public LoadTrial(BeanFactory bf) {
 		super(bf);
 		trialDao = (TrialDAO)bf.getBean(BeanNames.TRIAL_DAO);
-		setAction(ActionNames.LOAD_TRIAL);
+		setActionName(ActionNames.LOAD_TRIAL);
 	}
 	
 	public void setTrialCode(Integer code) {

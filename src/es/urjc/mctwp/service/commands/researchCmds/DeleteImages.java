@@ -20,7 +20,7 @@ public class DeleteImages extends ResultCommand<List<ImageData>> {
 
 	public DeleteImages(BeanFactory bf) {
 		super(bf);
-		setAction(ActionNames.DELETE_PATIENT);
+		setActionName(ActionNames.DELETE_PATIENT);
 		imageDao = (ImageDataDAO) bf.getBean(BeanNames.IMAGE_DATA_DAO);
 	}
 

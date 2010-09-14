@@ -33,7 +33,7 @@ public class LoadProtocolable extends ResultCommand<Protocolable> {
 	public LoadProtocolable(BeanFactory bf) {
 		super(bf);
 		protocolableDao = (ProtocolableDAO)bf.getBean(BeanNames.PROTOCOLABLE_DAO);
-		setAction(ActionNames.LOAD_PROTOCOLABLE);
+		setActionName(ActionNames.LOAD_PROTOCOLABLE);
 	}
 
 	public void setSourceId(Integer id) {

@@ -37,7 +37,7 @@ public class FindPatientsByGroup extends ResultCommand<List<Patient>> {
 	public FindPatientsByGroup(BeanFactory bf) {
 		super(bf);
 		patientDao = (PatientDAO) bf.getBean(BeanNames.PATIENT_DAO);
-		setAction(ActionNames.FIND_PATIENTS_GROUP);
+		setActionName(ActionNames.FIND_PATIENTS_GROUP);
 	}
 
 	public void setFilter(Patient filter) {

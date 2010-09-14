@@ -44,7 +44,7 @@ public class GetAttachmentStream extends ResultCommand<InputStream> {
 	public GetAttachmentStream(BeanFactory bf) {
 		super(bf);
 		fileDao = (FileDAO) bf.getBean(BeanNames.FILE_DAO);
-		setAction(ActionNames.ADD_FILE_PRT);
+		setActionName(ActionNames.ADD_FILE_PRT);
 	}
 
 	public FileDAO getFileDao() {

@@ -38,7 +38,7 @@ public class FindTasksByImage extends ResultCommand<List<Task>> {
 	public FindTasksByImage(BeanFactory bf) {
 		super(bf);
 		imageDao = (ImageDataDAO)bf.getBean(BeanNames.IMAGE_DATA_DAO);
-		setAction(ActionNames.FIND_TASKS_USER);
+		setActionName(ActionNames.FIND_TASKS_USER);
 	}
 
 	public void setImage(ImageData image) {

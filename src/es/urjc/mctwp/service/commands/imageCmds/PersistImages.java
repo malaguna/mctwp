@@ -37,7 +37,7 @@ public class PersistImages extends Command {
 	public PersistImages(BeanFactory bf) {
 		super(bf);
 		piv = (PersistImagesVisitor)bf.getBean(BeanNames.PERSIST_IMG_VISITOR);
-		setAction(ActionNames.PERSIST_IMAGES);
+		setActionName(ActionNames.PERSIST_IMAGES);
 		setReadOnly(false);
 	}
 	

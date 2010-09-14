@@ -34,7 +34,7 @@ public class LoadRol extends ResultCommand<Rol> {
 	public LoadRol(BeanFactory bf) {
 		super(bf);
 		rolDao = (RolDAO)bf.getBean(BeanNames.ROL_DAO);
-		setAction(ActionNames.LOAD_ROL);
+		setActionName(ActionNames.LOAD_ROL);
 	}
 	
 	public void setRolCode(Integer code) {

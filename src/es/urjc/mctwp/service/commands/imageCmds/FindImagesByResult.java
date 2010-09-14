@@ -36,7 +36,7 @@ public class FindImagesByResult extends ResultCommand<List<ImageData>> {
 	public FindImagesByResult(BeanFactory bf) {
 		super(bf);
 		imageDao = (ImageDataDAO)bf.getBean(BeanNames.IMAGE_DATA_DAO);
-		setAction(ActionNames.FIND_IMAGES_RESULT);
+		setActionName(ActionNames.FIND_IMAGES_RESULT);
 	}
 	
 	public void setResultObj(Result result) {

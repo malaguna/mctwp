@@ -56,7 +56,7 @@ public class ServiceDelegate {
 	}
 	
 	private void logMessage(Command cmd, String msg, Exception e){
-		String desc = "Command [" + cmd.getAction() + "], ";
+		String desc = "Command [" + cmd.getActionName() + "], ";
 		if(cmd.getUser() != null)
 			desc +=	"User [" + cmd.getUser().getLogin() + "], ";
 		desc += msg;
@@ -80,7 +80,7 @@ public class ServiceDelegate {
 		
 		try{
 			//Check user authorization
-			status = getTxStatus(cmd.getAction(), true, Command.ISOLATION_DEFAULT, Command.PROPAGATION_REQUIRED);
+			status = getTxStatus(cmd.getActionName(), true, Command.ISOLATION_DEFAULT, Command.PROPAGATION_REQUIRED);
 			result = cmd.isCommandAuthorized(); 
 		}catch(Exception e){
 			logMessage(cmd, "It is not possible to check user authorization", e);
@@ -103,7 +103,7 @@ public class ServiceDelegate {
 		boolean result = true;
 
 		try{
-			status = getTxStatus(cmd.getAction(), false, Command.ISOLATION_DEFAULT, Command.PROPAGATION_REQUIRED);
+			status = getTxStatus(cmd.getActionName(), false, Command.ISOLATION_DEFAULT, Command.PROPAGATION_REQUIRED);
 			cmd.initCommandLog();
 		}catch(Exception e){
 			logMessage(cmd, "It is not possible to log init command execution", e);
@@ -130,7 +130,7 @@ public class ServiceDelegate {
 
 		try{
 			//Log completion of the command
-			status = getTxStatus(cmd.getAction(), false, Command.ISOLATION_DEFAULT, Command.PROPAGATION_REQUIRED);
+			status = getTxStatus(cmd.getActionName(), false, Command.ISOLATION_DEFAULT, Command.PROPAGATION_REQUIRED);
 			cmd.endsCommandLog();
 		}catch(Exception e){
 			logMessage(cmd, "It is not possible to log end command execution", e);
@@ -161,7 +161,7 @@ public class ServiceDelegate {
 				if(initLogCommand(cmd)){
 					
 					try{
-						status = getTxStatus(cmd.getAction(), cmd.isReadOnly(), cmd.getIsolation(), cmd.getPropagation());
+						status = getTxStatus(cmd.getActionName(), cmd.isReadOnly(), cmd.getIsolation(), cmd.getPropagation());
 						result = cmd.runCommand();
 					}catch(Exception e){
 						String msg = "Command failed: " + e.getLocalizedMessage();
@@ -180,12 +180,12 @@ public class ServiceDelegate {
 					
 					endsLogCommand(cmd);
 				}else{
-					String msg = "User action [" + cmd.getAction() + "] can not be logged, execution aborted";
+					String msg = "User action [" + cmd.getActionName() + "] can not be logged, execution aborted";
 					logMessage(cmd, msg, null);
 					throw new CommandException(msg);
 				}
 			}else{
-				String msg = "User action [" + cmd.getAction() + "] can not be authorized, execution aborted";
+				String msg = "User action [" + cmd.getActionName() + "] can not be authorized, execution aborted";
 				logMessage(cmd, msg, null);
 				throw new CommandException(msg);
 			}

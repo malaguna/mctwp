@@ -33,7 +33,7 @@ public class SaveRol extends Command {
 	public SaveRol(BeanFactory bf) {
 		super(bf);
 		rolDao = (RolDAO)bf.getBean(BeanNames.ROL_DAO);
-		setAction(ActionNames.SAVE_ROL);
+		setActionName(ActionNames.SAVE_ROL);
 		setReadOnly(false);
 	}
 	

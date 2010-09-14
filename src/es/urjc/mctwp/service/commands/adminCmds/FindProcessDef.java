@@ -36,7 +36,7 @@ public class FindProcessDef extends ResultCommand<List<ProcessDef>> {
 	public FindProcessDef(BeanFactory bf) {
 		super(bf);
 		processDao = (ProcessDefDAO)bf.getBean(BeanNames.PROCESS_DEF_DAO);
-		setAction(ActionNames.FIND_PROCESS_DEF);
+		setActionName(ActionNames.FIND_PROCESS_DEF);
 	}
 	
 	public void setProcessDef(ProcessDef processDef) {

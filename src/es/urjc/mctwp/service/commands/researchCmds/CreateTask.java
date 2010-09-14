@@ -38,7 +38,7 @@ public class CreateTask extends Command {
 	public CreateTask(BeanFactory bf) {
 		super(bf);
 		taskUtils = (TaskUtils)bf.getBean(BeanNames.TASK_UTILS);
-		setAction(ActionNames.CREATE_TASK);
+		setActionName(ActionNames.CREATE_TASK);
 		setReadOnly(false);
 	}
 	

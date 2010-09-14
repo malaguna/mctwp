@@ -44,7 +44,7 @@ public class AddTrialParticipation extends Command {
 		trialDao = (TrialDAO)bf.getBean(BeanNames.TRIAL_DAO);
 		userDao = (UserDAO)bf.getBean(BeanNames.USER_DAO);
 		rolDao = (RolDAO)bf.getBean(BeanNames.ROL_DAO);
-		setAction(ActionNames.ADD_TRIAL_PART);
+		setActionName(ActionNames.ADD_TRIAL_PART);
 		setReadOnly(false);
 	}
 	

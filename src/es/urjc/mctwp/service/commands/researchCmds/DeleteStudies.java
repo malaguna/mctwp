@@ -21,7 +21,7 @@ public class DeleteStudies extends ResultCommand<List<Study>> {
 
 	public DeleteStudies(BeanFactory bf) {
 		super(bf);
-		setAction(ActionNames.DELETE_PATIENT);
+		setActionName(ActionNames.DELETE_PATIENT);
 		studyDao = (StudyDAO) bf.getBean(BeanNames.STUDY_DAO);
 	}
 

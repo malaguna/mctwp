@@ -22,7 +22,7 @@ public class DeletePatients extends ResultCommand<List<Patient>> {
 
 	public DeletePatients(BeanFactory bf) {
 		super(bf);
-		setAction(ActionNames.DELETE_PATIENT);
+		setActionName(ActionNames.DELETE_PATIENT);
 		patientDao = (PatientDAO) bf.getBean(BeanNames.PATIENT_DAO);
 	}
 

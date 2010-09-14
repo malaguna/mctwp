@@ -38,7 +38,7 @@ public class RemoveProcessToProtocolable extends Command {
 		super(bf);
 		protocolableDao = (ProtocolableDAO)bf.getBean(BeanNames.PROTOCOLABLE_DAO);
 		processDao = (ProcessDAO)bf.getBean(BeanNames.PROCESS_DAO);
-		setAction(ActionNames.REMOVE_PROCESS_PRT);
+		setActionName(ActionNames.REMOVE_PROCESS_PRT);
 		setReadOnly(false);
 	}
 	

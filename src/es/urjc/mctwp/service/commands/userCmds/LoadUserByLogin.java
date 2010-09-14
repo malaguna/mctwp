@@ -39,7 +39,7 @@ public class LoadUserByLogin extends ResultCommand<User> {
 
 	public LoadUserByLogin(BeanFactory bf) {
 		super(bf);
-		setAction(ActionNames.LOAD_USER_BY_LOGIN);
+		setActionName(ActionNames.LOAD_USER_BY_LOGIN);
 		userDao = (UserDAO)bf.getBean(BeanNames.USER_DAO);		
 	}
 

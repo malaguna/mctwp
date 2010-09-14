@@ -49,7 +49,7 @@ public class FindNotAssignedModalities extends ResultCommand<List<Modality>> {
 		super(bf);
 		modalityDao = (ModalityDAO)bf.getBean(BeanNames.MODALITY_DAO);
 		userDao = (UserDAO)bf.getBean(BeanNames.USER_DAO);
-		setAction(ActionNames.FIND_NOT_ASGN_MODALS);
+		setActionName(ActionNames.FIND_NOT_ASGN_MODALS);
 	}
 
 	@Override

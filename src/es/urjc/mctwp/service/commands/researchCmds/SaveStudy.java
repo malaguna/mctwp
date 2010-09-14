@@ -35,7 +35,7 @@ public class SaveStudy extends Command {
 	public SaveStudy(BeanFactory bf) {
 		super(bf);
 		studyDao = (StudyDAO)bf.getBean(BeanNames.STUDY_DAO);
-		setAction(ActionNames.SAVE_STUDY);
+		setActionName(ActionNames.SAVE_STUDY);
 		setReadOnly(false);
 	}
 	

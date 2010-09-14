@@ -34,7 +34,7 @@ public class LoadImage extends ResultCommand<Image> {
 	public LoadImage(BeanFactory bf) {
 		super(bf);
 		imageManager = (ImageCollectionManager)bf.getBean(BeanNames.IMG_COL_MGR);
-		setAction(ActionNames.LOAD_IMAGE);
+		setActionName(ActionNames.LOAD_IMAGE);
 	}
 	
 	public void setImageId(String id) {

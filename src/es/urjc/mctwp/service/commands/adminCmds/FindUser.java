@@ -36,7 +36,7 @@ public class FindUser extends ResultCommand<List<User>> {
 	public FindUser(BeanFactory bf) {
 		super(bf);
 		userDao = (UserDAO)bf.getBean(BeanNames.USER_DAO);
-		setAction(ActionNames.FIND_USER);
+		setActionName(ActionNames.FIND_USER);
 	}
 	
 	public void setUserObj(User userObj) {

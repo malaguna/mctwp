@@ -30,7 +30,7 @@ public class FindAllRoles extends ResultCommand<List<Rol>> {
 
 	public FindAllRoles(BeanFactory bf) {
 		super(bf);
-		setAction(ActionNames.FIND_ALL_ROLES);
+		setActionName(ActionNames.FIND_ALL_ROLES);
 	}
 
 	@Override

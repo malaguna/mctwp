@@ -48,7 +48,7 @@ public class AddProcessToProtocolable extends Command {
 		processDefDao = (ProcessDefDAO)bf.getBean(BeanNames.PROCESS_DEF_DAO);
 		processDao = (ProcessDAO)bf.getBean(BeanNames.PROCESS_DAO);
 		userDao = (UserDAO)bf.getBean(BeanNames.USER_DAO);
-		setAction(ActionNames.ADD_PROCESS_PRT);
+		setActionName(ActionNames.ADD_PROCESS_PRT);
 		setReadOnly(false);
 	}
 	

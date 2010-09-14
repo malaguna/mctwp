@@ -33,7 +33,7 @@ public class LoadParticipationsOfTrial extends ResultCommand<Iterator<Participat
 	public LoadParticipationsOfTrial(BeanFactory bf) {
 		super(bf);
 		trialDao = (TrialDAO)bf.getBean(BeanNames.TRIAL_DAO);
-		setAction(ActionNames.LOAD_TRIAL_PARTICPS);
+		setActionName(ActionNames.LOAD_TRIAL_PARTICPS);
 	}
 	
 	@Override
