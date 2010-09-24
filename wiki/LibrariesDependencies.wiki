@@ -4,7 +4,7 @@
 
 This project depends on several other projects:
 
- * MyFaces, Tomahawk, Facelets and PrimeFaces
+ * !MyFaces, !Tomahawk, !Facelets and !PrimeFaces
  * Spring
  * Hibernate
  * eXist
