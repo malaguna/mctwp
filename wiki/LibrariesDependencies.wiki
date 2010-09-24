@@ -4,12 +4,12 @@
 
 This project depends on several other projects:
 
- * !MyFaces, !Tomahawk, !Facelets and !PrimeFaces
+ * !MyFaces, Tomahawk, Facelets and !PrimeFaces
  * Spring
  * Hibernate
  * eXist
  * dcm4chee
- * (X)MedConv
+ * !(X)MedConv
  * Apache Commons
 
 So, there are too many library dependences that must be resolved to use it and to develop it. I would like to put here all these libraries, but I am not sure if I can distribute all of this.
