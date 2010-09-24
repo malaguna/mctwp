@@ -1,0 +1,24 @@
+IT IS NOT COMPLETE YET, DON'T FOLLOW THIS INSTRUCTIONS 
+
+= Introduction =
+
+This project is a Java web application that needs a Servlet Container to work. It has been tested in Tomcat 6.0.X, but it must work with any container. So this project is packaged as a WAR file, that must be deployed into container.
+
+It is supposed to work in any operating system supported by the Servlet Container, but it has only been tested into GNU/Linux Ubuntu Server >= 8.04.
+
+However, it needs some other prerequisites in order to work. It uses an external XML data base to store image header's metadata. One of the included plugins need (X)!MedCon program installed (until I can link it through JNI) and finally it needs a directory (or remote file system) to store images.
+
+This page gives you both, a minimal instructions to get project working, and a complete instructions set to build a server from scratch.
+
+= Details =
+
+== Minimal configuration ==
+
+If you already has a server with a Servlet Container, of course you could use it to deploy this application. So you only need to setup three elements:
+
+=== eXist Data Base ===
+
+You need an eXist data base instance running, but it doesn't matter where it runs. It can be into the same server as Servlet Container or another machine.
+
+
+== Complete configuration ==
