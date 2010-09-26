@@ -12,7 +12,7 @@ This project depends on several other projects:
 
 So, there are too many library dependences that must be resolved to use it and to develop it. I would like to put here all these libraries, but I am not sure if I can distribute all of this.
 
-It would be nice to use Ivy or similar to define dependencies, but it is not so easy as it appears and I give away this improvement. Any help is welcome.
+It would be nice to use Ivy or similar to define dependencies, but it is not so easy as it appears and I gave away this improvement. Any help is welcome.
 
 Again, it would be nice to update used libraries to more recent ones, but there is a lot of work to do, and few time.
 
