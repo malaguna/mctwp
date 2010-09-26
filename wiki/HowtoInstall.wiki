@@ -14,11 +14,14 @@ This page gives you both, a minimal instructions to get project working, and a c
 
 == Minimal configuration ==
 
-If you already has a server with a Servlet Container, of course you could use it to deploy this application. So you only need to setup three elements:
+If you already has a server with a Servlet Container, of course you could use it to deploy this application. Don't forget to download all required [LibrariesDependencies Libraries] and install it either _WEB-INF/lib_ or servlet container shared libs directory.
 
-=== eXist Data Base ===
+You need to setup three elements:
 
-You need an eXist data base instance running, but it doesn't matter where it runs. It can be into the same server as Servlet Container or another machine.
+ * *eXist XML Data Base*: You could install this data base in the same server machine or another one. Version required is 1.2. If you install eXist into a 64bit machine, you must be carefull with service script, because it ready for 32bit, and you must hack it. Follow this [InstalleXist instructions].
 
+ * *(X)MedCon*: Most distributions includes this software, so install version >= 0.10.4. If your distribution doe not include this software, download and compile, it is very easy.
+
+ * *Image Library Directory*: You need to create a directory where application will store images. 
 
 == Complete configuration ==
