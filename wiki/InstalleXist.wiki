@@ -1,6 +1,6 @@
 = Installing eXist =
 
-TO TRANSLATE
+TODO: TRANSLATE AND EXPLAIN HOW TO HACK FOR 64 MACHINES
 
  * crear el usuario xmldb:
 {{{
