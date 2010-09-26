@@ -20,7 +20,7 @@ You need to setup three elements:
 
  * *eXist XML Data Base*: You could install this data base in the same server machine or another one. Version required is 1.2. If you install eXist into a 64bit machine, you must be carefull with service script, because it ready for 32bit, and you must hack it. Follow this [InstalleXist instructions].
 
- * *(X)MedCon*: Most distributions includes this software, so install version >= 0.10.4. If your distribution doe not include this software, download and compile, it is very easy.
+ * *(X)!MedCon*: Most distributions includes this software, so install version >= 0.10.4. If your distribution doe not include this software, download and compile, it is very easy.
 
  * *Image Library Directory*: You need to create a directory where application will store images. 
 
