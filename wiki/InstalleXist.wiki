@@ -26,7 +26,7 @@ sudo chown -r xmldb:xmldb /var/lib/xmldb
 
 If your system is 64 bits, you must replace wrapper script, because default it is only 32 compliant. To do this, you have to download 64 version of wrapper, from [http://wrapper.tanukisoftware.com Tanuki Software]. Get community version, and unpack it.
 
-Go to _/var/lib/xmldb/tools/_ and substitute following files with the new ones:
+Go to _/var/lib/xmldb/tools/wrapper_ and substitute following files with the new ones:
 
  * lib/libwrapper.so 
  * lib/wrapper.jar
