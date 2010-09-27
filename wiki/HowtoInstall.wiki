@@ -17,8 +17,3 @@ Basically, you have to do three things:
   * If you want to build your server from scratch, here you have [InstallCompleteInstructions complete configuration].
  * Deploy application.
  * Configure application.
-
-= Details =
-
-
-== Complete configuration ==
