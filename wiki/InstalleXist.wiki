@@ -1,23 +1,26 @@
 = Installing eXist =
 
-TODO: TRANSLATE AND EXPLAIN HOW TO HACK FOR 64 MACHINES
+These instructions are for Ubuntu Server, 32 and 64 bits.
 
- * crear el usuario xmldb:
+ * Create user _xmldb_:
 {{{
 sudo adduser --home /var/lib/xmldb --disabled-login xmldb
 }}}
- * ubicarnos en /home/admon/programas.
- * instalar eXist (version 1.2):
+ * Go to path /home/admon/programas.
+ * Install eXist (version 1.2):
 {{{
 sudo java -jar eXist-setup-1.2.4-rev8072.jar -p /var/lib/xmldb
 }}}
- * editar _/var/lib/xmldb/tools/wrapper/conf/wrapper.conf_:
-  * cambiar la propiedad wrapper.app.parameter.1 a standalone.
-  * deshabilitar la propierad wrapper.app.parameter.2.
-  * cambiar la propiedad wrapper.java.maxmemory a 512 Mb. 
- * crear un enlace simbólico en _/etc/init.d_ llamado _exist_ a _/var/lib/xmldb/tools/wrapper/bin/exist.sh_
- * darlo de alta como script de inicio
+ * Edit _/var/lib/xmldb/tools/wrapper/conf/wrapper.conf_:
+  * Change property _wrapper.app.parameter.1_ to value _standalone_.
+  * Comment property _wrapper.app.parameter.2_.
+  * Change property _wrapper.java.maxmemory_ to 512 Mb or whatever you want. 
+ * Make symbolic link into _/etc/init.d_ to _/var/lib/xmldb/tools/wrapper/bin/exist.sh_
+ * Configure the link as a service script.
 {{{
 sudo update-rc.d exist defaults
 }}}
- * hacer que el usuario xmldb posea todo el contenido de /var/lib/xmldb.
+ * User _xmldb_ must own _/var/lib/xmldb_ path.
+{{{
+sudo chown -r xmldb:xmldb /var/lib/xmldb
+}}}
