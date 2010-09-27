@@ -15,5 +15,5 @@ Basically, you have to do three things:
  * Setup environment.
   * If you already have a server, this are [InstallMinimalInstructions minimal configuration].
   * If you want to build your server from scratch, here you have [InstallCompleteInstructions complete configuration].
- * Deploy application.
- * Configure application.
+ * [DeployApplication Deploy application].
+ * [ConfigureApplication Configure application].
