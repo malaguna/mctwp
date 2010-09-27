@@ -1,5 +1,3 @@
-IT IS NOT COMPLETE YET, DON'T FOLLOW THIS INSTRUCTIONS 
-
 = Introduction =
 
 This project is a Java web application that needs a Servlet Container to work. It has been tested in Tomcat 6.0.X, but it must work with any container. So this project is packaged as a WAR file, that must be deployed into container.
