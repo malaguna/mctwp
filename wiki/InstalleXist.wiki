@@ -1,12 +1,11 @@
 = Installing eXist =
 
-These instructions are for Ubuntu Server, 32 and 64 bits.
+These instructions are for Ubuntu Server, 32 and 64 bits. It will install *eXist* into _/var/lib/xmldb_ path, but you can change it, if you want.
 
  * Create user _xmldb_:
 {{{
 sudo adduser --home /var/lib/xmldb --disabled-login xmldb
 }}}
- * Go to path /home/admon/programas.
  * Install eXist (version 1.2):
 {{{
 sudo java -jar eXist-setup-1.2.4-rev8072.jar -p /var/lib/xmldb
@@ -24,3 +23,11 @@ sudo update-rc.d exist defaults
 {{{
 sudo chown -r xmldb:xmldb /var/lib/xmldb
 }}}
+
+If your system is 64 bits, you must replace wrapper script, because default it is only 32 compliant. To do this, you have to download 64 version of wrapper, from [http://wrapper.tanukisoftware.com Tanuki Software]. Get community version, and unpack it.
+
+Go to _/var/lib/xmldb/tools/_ and substitute following files with the new ones:
+
+ * lib/libwrapper.so 
+ * lib/wrapper.jar
+ * bin/wrapper
