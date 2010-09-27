@@ -4,24 +4,21 @@ IT IS NOT COMPLETE YET, DON'T FOLLOW THIS INSTRUCTIONS
 
 This project is a Java web application that needs a Servlet Container to work. It has been tested in Tomcat 6.0.X, but it must work with any container. So this project is packaged as a WAR file, that must be deployed into container.
 
-It is supposed to work in any operating system supported by the Servlet Container, but it has only been tested into GNU/Linux Ubuntu Server >= 8.04.
+It is supposed to work in any operating system supported by the Servlet Container, but it has only been tested into GNU/Linux Ubuntu Server 8.04, 9.04 and 10.04.
 
 However, it needs some other prerequisites in order to work. It uses an external XML data base to store image header's metadata. One of the included plugins need (X)!MedCon program installed (until I can link it through JNI) and finally it needs a directory (or remote file system) to store images.
 
 This page gives you both, a minimal instructions to get project working, and a complete instructions set to build a server from scratch.
 
+Basically, you have to do three things:
+
+ * Setup environment.
+  * If you already have a server, this are [InstallMinimalInstructions minimal configuration].
+  * If you want to build your server from scratch, here you have [InstallCompleteInstructions complete configuration].
+ * Deploy application.
+ * Configure application.
+
 = Details =
 
-== Minimal configuration ==
-
-If you already has a server with a Servlet Container, of course you could use it to deploy this application. Don't forget to download all required [LibrariesDependencies Libraries] and install it either _WEB-INF/lib_ or servlet container shared libs directory.
-
-You need to setup three elements:
-
- * *eXist XML Data Base*: You could install this data base in the same server machine or another one. Version required is 1.2. If you install eXist into a 64bit machine, you must be carefull with service script, because it ready for 32bit, and you must hack it. Follow these [InstalleXist instructions].
-
- * *(X)!MedCon*: Most distributions includes this software, so install version >= 0.10.4. If your distribution doe not include this software, download and compile, it is very easy.
-
- * *Image Library Directory*: You need to create a directory where application will store images. 
 
 == Complete configuration ==
