@@ -8,7 +8,7 @@ sudo adduser --home /var/lib/xmldb --disabled-login xmldb
 }}}
  * Install eXist (version 1.2):
 {{{
-sudo java -jar eXist-setup-1.2.4-rev8072.jar -p /var/lib/xmldb
+sudo java -jar eXist-setup-1.2.X-revXXXX.jar -p /var/lib/xmldb
 }}}
  * Edit _/var/lib/xmldb/tools/wrapper/conf/wrapper.conf_:
   * Change property _wrapper.app.parameter.1_ to value _standalone_.
@@ -24,7 +24,7 @@ sudo update-rc.d exist defaults
 sudo chown -r xmldb:xmldb /var/lib/xmldb
 }}}
 
-If your system is 64 bits, you must replace wrapper script, because default it is only 32 compliant. To do this, you have to download 64 version of wrapper, from [http://wrapper.tanukisoftware.com Tanuki Software]. Get community version, and unpack it.
+If your system is 64 bits, you must replace wrapper script, because default it is only 32 compliant. To do this, you have to download 64 linux community version of wrapper, from [http://wrapper.tanukisoftware.com Tanuki Software].
 
 Go to _/var/lib/xmldb/tools/wrapper_ and substitute following files with the new ones:
 
