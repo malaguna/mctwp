@@ -43,4 +43,6 @@ Here are main thing to configure:
 }}}
  * DICOM PACS configuration: Finally there are two beans that define parameters for DICOM transcations. Here you need to configure AETitle, host, port, etc. These are:
   * MiniPACS
-  * DcmSenderFactory
+  * !DcmSenderFactory
+
+Once you have configured this file, you need to restart application if this were running.
