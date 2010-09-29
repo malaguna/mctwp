@@ -1,1 +1,257 @@
-= Complete Instructions =
+= Complete instructions =
+
+INCOMPLETE
+
+This instructions are checked with Ubuntu Server > 9.04. Ubuntu must be installed with minimal options. I like to avoid graphical environment in servers machines, but you could install it.
+
+== Basic packages ==
+
+Once Ubuntu is installed, make sure following packages are installed:
+
+ * _autoconf_
+ * _build-essential_
+ * _libssl-dev_
+ * _libapache2-mod-jk_
+ * _openssh_
+ * _sun-java6-jdk_
+ * _postgresql_
+ * _libpng12-dev_
+ * _pkg-config_
+ * _libglib2.0-dev_
+ * _libgdk-pixbuf-dev_ 
+ * _libgtk2.0-dev_
+
+== Java configuration ==
+
+ * Create shell script _/etc/profile.d/java.sh_ and make it runnable _chmod +x_. file must contain following
+{{{
+export JAVA_HOME=/usr/lib/jvm/java-6-sun
+}}}
+
+== Tomcat Installation ==
+
+Tomcat installation is done with Apache APR. This increase Tomcat performance, but you can skip if found it difficult.
+
+=== APR Installation ===
+
+You can skip this if don't want APR.
+
+ * Download and unpack _apr-1.3.X.tar.gz_ from [http://apr.apache.org/ APR home]
+ * Get into uncompressed folder and run:
+{{{
+./configure --prefix=/usr/local/apr
+}}}
+ * then, run _make_, _make test_ and finally _sudo make install_.
+
+=== Tomcat Installation ===
+
+ * Download and unpack _apache-tomcat-6.0.X.tar.gz_ from [http://tomcat.apache.org/ Tomcat home].
+ * Create a _tomcat_ user:
+{{{
+sudo adduser --no-create-home --disabled-login tomcat
+}}}
+ * Move uncompressed folder to _/opt_.
+ * Create a soft link into _/opt_ called _tomcat_ that points to moved tomcat folder.
+ * Create shell script _/etc/profile.d/tomcat.sh_ and make it runnable _chmod +x_ file must contain:
+{{{
+export CATALINA_HOME=/opt/tomcat
+}}}
+
+=== Installing tomcat as a system service ===
+
+This can be avoided if you don't want to run tomcat as a system service.
+
+ * Go to _/opt/tomcat/bin_.
+ * Uncompress _tomcat-native.tar.gz_.
+ * Go to _/opt/tomcat/bin/tomcat-native-1.1.4-src/jni/native_.
+ * Run:
+{{{
+sudo ./configure --with-apr=/usr/local/apr/bin --with-java-home=/usr/lib/jvm/java-6-sun --with-ssl=no
+sudo make
+sudo make install
+}}}
+ * For older Ubuntu versions, it is necessary to change file _/etc/modprobe.d/aliases_ switching alias _net-pf-10_ off.
+
+ * Download and unpack _commons-daemon-1.X.X.tar.gz_ from Aapche commons.
+ * Move file _/home/admon/programas/commons-daemon-1.0.1/bin/jsvc.tar.gz_ to _/opt/tomcat/bin_.
+ * Go to _/opt/tomcat/bin_.
+ * Uncompress _jsvc.tar.gz_ go to this new folder.
+ * Run:
+{{{
+sudo autoconf
+sudo ./configure --with-java=/usr/lib/jvm/java-6-sun
+sudo make
+cp jsvc ..
+}}}
+ 
+ * Copy into _/opt/tomcat_ shell script *TODO: upload to SVN tomcat service script*.
+ * Create a soft link into _/etc/init.d_ called _tomcat_ that points to _/opt/tomcat/tomcat.sh_
+ * Setup as a system service script:
+{{{
+sudo update-rc.d tomcat defaults
+}}}
+ 
+
+
+ * Create into folder _opt/tomcat/conf_ Following files:
+   * tomcat-users.xml
+{{{
+<?xml version='1.0' encoding='utf-8'?>
+<tomcat-users>
+  <role rolename="manager"/>
+  <user username="admin" password="inicial" roles="manager"/>
+</tomcat-users>
+}}}
+   * jmxremote.access
+{{{
+monitorRole readonly
+controlRole readonly
+}}}
+   * jmxremote.password
+{{{
+monitorRole inicial
+controlRole inicial
+}}}
+ * Make tomcat user owner of all _/opt/tomcat_ content.
+
+== Configuración AJP entre Apache y Tomcat ==
+
+ * añadir al archivo ''/etc/apache2/httpd.conf'' la directiva ''!ServerName'' con el nombre de la máquina.
+ * sustituir el archivo ''/etc/libapache2-mod-jk/workers.properties'' con el siguiente contenido:
+{{{
+ps=/
+worker.list=worker
+worker.worker.type=ajp13
+worker.worker.host=localhost
+worker.worker.port=8009
+worker.worker.mount=/mctwp /mctwp/*
+}}}
+ * crear el archivo ''/etc/apache2/mods-available/jk.conf'' con el siguiente contenido:
+{{{
+#Ubicacion del fichero workers.properties
+JkWorkersFile /etc/libapache2-mod-jk/workers.properties
+
+#Ubicación del log
+JkLogFile /var/log/apache2/mod_jk.log
+
+#Nivel de logeo
+JkLogLevel info
+
+#Formato de logeo
+JkLogStampFormat "[%a %b %d %H:%M:%S %Y] "
+
+#Opciones
+JkOptions +ForwardKeySize +ForwardURICompat -ForwardDirectories
+
+#Formato de logeo
+JkRequestLogFormat "%w %V %T"
+}}}
+ * ejecutar:
+{{{
+sudo a2dismod jk
+sudo a2enmod jk
+}}}
+ * crear en ''/etc/apache2'' con el comando ''htpasswd -c'' el fichero ''passwd.txt'' y añadir los usuarios necesarios.
+ * añadir al archivo de configuración del default site de apache ''/etc/apache2/sites-available/default'' el siguiente contenido:
+{{{
+    <Location "/mctwp">
+        AuthType basic
+        AuthName "mctwp"
+        # Validacion contra fichero htpasswd.txt
+        AuthUserFile "/etc/apache2/passwd.txt"
+        Require valid-user
+    </Location>
+
+    <LocationMatch "/mctwp/jsp/research/upload/processUpload.jsp">
+        Satisfy any
+    </LocationMatch>
+}}}
+ * añadir el atributo ''tomcatAuthentication="false"'' al conector AJP del archivo de configuración ''/opt/tomcat/conf/server.xml''.
+ * recargar apache y tomcat:
+{{{
+sudo /etc/init.d/apache2 restart
+sudo /etc/init.d/tomcat stop
+sudo /etc/init.d/tomcat start
+}}}
+
+== Instalción de eXist ==
+
+ * crear el usuario '''xmldb''':
+{{{
+sudo adduser --home /var/lib/xmldb --disabled-login xmldb
+}}}
+ * ubicarnos en ''/home/admon/programas''.
+ * instalar eXist (version 1.2):
+{{{
+sudo java -jar eXist-setup-1.2.4-rev8072.jar -p /var/lib/xmldb
+}}}
+ * editar ''/var/lib/xmldb/tools/wrapper/conf/wrapper.conf'':
+  * cambiar la propiedad ''wrapper.app.parameter.1'' a ''standalone''.
+  * deshabilitar la propierad ''wrapper.app.parameter.2''.
+  * cambiar la propiedad ''wrapper.java.maxmemory'' a 512 Mb.
+ * crear un enlace simbólico en ''/etc/init.d'' llamado ''exist'' a ''/var/lib/xmldb/tools/wrapper/bin/exist.sh''
+ * darlo de alta como script de inicio
+{{{
+sudo update-rc.d exist defaults
+}}}
+ 
+ * hacer que el usuario '''xmldb''' posea todo el contenido de ''/var/lib/xmldb''.
+
+== Configurar PostgreSQL ==
+
+ * crear usuario '''admon''' en postgres y restaurar la copia de la base de datos [wiki:Infraestructura/Instalacion/EsquemaDatos esquema de datos]:
+{{{
+sudo su - postgres
+createuser admon
+createdb mctwp
+psql -d mctwp -f dump-mctwp.sql
+
+NOTA: Si la BBDD ya existía, se puede borrar de antemano con dropdb.
+}}}
+ * abandonar sesión postgres.
+ * configurar directivas de autenticación en ''/etc/postgresql/8.3/main/pg_hba.conf'':
+{{{
+local   all         all                              trust
+host    all         all         127.0.0.1/32         trust
+}}}
+
+ * reiniciar postgres y comprobar que funciona bien.
+
+== Almacenamiento de imágenes ==
+
+ * hacer que '''tomcat''' posea ''/var/lib/imgdb''.
+
+== Instalar !XmedCon ==
+
+ * ubicarnos en ''/home/admon/programas''.
+ * descomprimir ''xmedcon-0.10.4.tar.bz2'' o la versión actual.
+ * ubicarnos en la nueva carpeta.
+ * ejecutar:
+{{{
+./configure
+make
+sudo make install
+}}}
+
+== Reinicio ==
+
+ * reiniciar la máquina y comprobar que al arrancar todo está en orden.
+
+== Despliegue de la aplicación ==
+
+ * desplegar desde tomcat la aplicación.
+ * parar la aplicación.
+ * configurar los siguientes archivos:
+  * ''applicationContext.xml'':
+    * configurar bean ''!DataSource'' para acceder a postgres.
+    * configurar bean ''!XmlImageColl'' para acceder a la base de datos eXist.
+    * configurar bean ''FSImageColl'' para acceder al almacen de imágenes.
+    * configurar bean ''MiniPACS'' para recepción de DICOM.
+    * configurar bean ''!DcmSenderFactory'' para envío de DICOM.
+
+ * reiniciar la máquina y comprobar que la aplicación está lista y desplegada.
+
+-- 
+Miguel A. Laguna
+
+"La vida es aquello que te sucede, mientras te empeñas en cumplir tus expectativas"
