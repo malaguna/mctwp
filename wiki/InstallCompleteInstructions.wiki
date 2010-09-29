@@ -183,28 +183,9 @@ sudo /etc/init.d/tomcat stop
 sudo /etc/init.d/tomcat start
 }}}
 
-== Instalción de eXist ==
+== eXist Installation ==
 
- * crear el usuario '''xmldb''':
-{{{
-sudo adduser --home /var/lib/xmldb --disabled-login xmldb
-}}}
- * ubicarnos en ''/home/admon/programas''.
- * instalar eXist (version 1.2):
-{{{
-sudo java -jar eXist-setup-1.2.4-rev8072.jar -p /var/lib/xmldb
-}}}
- * editar ''/var/lib/xmldb/tools/wrapper/conf/wrapper.conf'':
-  * cambiar la propiedad ''wrapper.app.parameter.1'' a ''standalone''.
-  * deshabilitar la propierad ''wrapper.app.parameter.2''.
-  * cambiar la propiedad ''wrapper.java.maxmemory'' a 512 Mb.
- * crear un enlace simbólico en ''/etc/init.d'' llamado ''exist'' a ''/var/lib/xmldb/tools/wrapper/bin/exist.sh''
- * darlo de alta como script de inicio
-{{{
-sudo update-rc.d exist defaults
-}}}
- 
- * hacer que el usuario '''xmldb''' posea todo el contenido de ''/var/lib/xmldb''.
+It is described [InstalleXist here].
 
 == PostgreSQL configuration ==
 
