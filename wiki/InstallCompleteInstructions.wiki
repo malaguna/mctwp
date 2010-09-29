@@ -57,6 +57,27 @@ sudo adduser --no-create-home --disabled-login tomcat
 export CATALINA_HOME=/opt/tomcat
 }}}
 
+ * Create into folder _opt/tomcat/conf_ Following files:
+   * tomcat-users.xml
+{{{
+<?xml version='1.0' encoding='utf-8'?>
+<tomcat-users>
+  <role rolename="manager"/>
+  <user username="admin" password="inicial" roles="manager"/>
+</tomcat-users>
+}}}
+   * jmxremote.access
+{{{
+monitorRole readonly
+controlRole readonly
+}}}
+   * jmxremote.password
+{{{
+monitorRole inicial
+controlRole inicial
+}}}
+ * Make tomcat user owner of all _/opt/tomcat_ content.
+
 === Installing tomcat as a system service ===
 
 This can be avoided if you don't want to run tomcat as a system service.
@@ -90,34 +111,17 @@ cp jsvc ..
 {{{
 sudo update-rc.d tomcat defaults
 }}}
- 
 
+== Configuring AJP ==
 
- * Create into folder _opt/tomcat/conf_ Following files:
-   * tomcat-users.xml
-{{{
-<?xml version='1.0' encoding='utf-8'?>
-<tomcat-users>
-  <role rolename="manager"/>
-  <user username="admin" password="inicial" roles="manager"/>
-</tomcat-users>
-}}}
-   * jmxremote.access
-{{{
-monitorRole readonly
-controlRole readonly
-}}}
-   * jmxremote.password
-{{{
-monitorRole inicial
-controlRole inicial
-}}}
- * Make tomcat user owner of all _/opt/tomcat_ content.
+AJP is a protocol that makes possible to use Apache and Tomcat work together. However it is possible to use Tomcat without Apache, although I prefer to use Apache because of autentication realms.
 
-== Configuración AJP entre Apache y Tomcat ==
+You can use this configuration to run Apache and Tomcat in different machines, but you will have to change some properties.
 
- * añadir al archivo ''/etc/apache2/httpd.conf'' la directiva ''!ServerName'' con el nombre de la máquina.
- * sustituir el archivo ''/etc/libapache2-mod-jk/workers.properties'' con el siguiente contenido:
+If you don't want to use AJP, you need to configure user autentication into Tomcat.
+
+ * Configure _!ServerName_ directive into _/etc/apache2/httpd.conf_ defining server name.
+ * Change content of _/etc/libapache2-mod-jk/workers.properties_ to:
 {{{
 ps=/
 worker.list=worker
@@ -126,7 +130,7 @@ worker.worker.host=localhost
 worker.worker.port=8009
 worker.worker.mount=/mctwp /mctwp/*
 }}}
- * crear el archivo ''/etc/apache2/mods-available/jk.conf'' con el siguiente contenido:
+ * Create file _/etc/apache2/mods-available/jk.conf_ with following content:
 {{{
 #Ubicacion del fichero workers.properties
 JkWorkersFile /etc/libapache2-mod-jk/workers.properties
@@ -146,13 +150,18 @@ JkOptions +ForwardKeySize +ForwardURICompat -ForwardDirectories
 #Formato de logeo
 JkRequestLogFormat "%w %V %T"
 }}}
- * ejecutar:
+ * Run:
 {{{
 sudo a2dismod jk
 sudo a2enmod jk
 }}}
- * crear en ''/etc/apache2'' con el comando ''htpasswd -c'' el fichero ''passwd.txt'' y añadir los usuarios necesarios.
- * añadir al archivo de configuración del default site de apache ''/etc/apache2/sites-available/default'' el siguiente contenido:
+
+=== Apache credentials ===
+
+You can configure Apache to check user credentials several ways. Here it is the easiest one: to use a local file:
+
+ * Create into _/etc/apache2_ an Apache password file called _passwd.txt_, using _htpasswd -c_ command.
+ * Add to Apache default site configuration file _/etc/apache2/sites-available/default_, following directive:
 {{{
     <Location "/mctwp">
         AuthType basic
@@ -166,8 +175,8 @@ sudo a2enmod jk
         Satisfy any
     </LocationMatch>
 }}}
- * añadir el atributo ''tomcatAuthentication="false"'' al conector AJP del archivo de configuración ''/opt/tomcat/conf/server.xml''.
- * recargar apache y tomcat:
+ * Add following attribute _tomcatAuthentication="false"_ to AJP connector node of configuration file _/opt/tomcat/conf/server.xml_.
+ * Reload Apache and Tomcat:
 {{{
 sudo /etc/init.d/apache2 restart
 sudo /etc/init.d/tomcat stop
@@ -197,61 +206,40 @@ sudo update-rc.d exist defaults
  
  * hacer que el usuario '''xmldb''' posea todo el contenido de ''/var/lib/xmldb''.
 
-== Configurar PostgreSQL ==
+== PostgreSQL configuration ==
 
- * crear usuario '''admon''' en postgres y restaurar la copia de la base de datos [wiki:Infraestructura/Instalacion/EsquemaDatos esquema de datos]:
+ * Create a new postgres user called _admon_ and use it to run data base configuration script.
 {{{
 sudo su - postgres
 createuser admon
 createdb mctwp
-psql -d mctwp -f dump-mctwp.sql
+psql -d mctwp -f schema.sql
+psql -d mctwp -f configuration.sql
 
-NOTA: Si la BBDD ya existía, se puede borrar de antemano con dropdb.
+NOTE: If mctwp BBDD exists, you can drop it with dropdb.
 }}}
- * abandonar sesión postgres.
- * configurar directivas de autenticación en ''/etc/postgresql/8.3/main/pg_hba.conf'':
+ * Configure _/etc/postgresql/8.3/main/pg_hba.conf_ properly, following is an untrust configuration, but you can use to test:
 {{{
 local   all         all                              trust
 host    all         all         127.0.0.1/32         trust
 }}}
 
- * reiniciar postgres y comprobar que funciona bien.
+== Image Storage ==
 
-== Almacenamiento de imágenes ==
-
- * hacer que '''tomcat''' posea ''/var/lib/imgdb''.
+ * User _tomcat_ must own the folder you create to store images.
 
 == Instalar !XmedCon ==
 
- * ubicarnos en ''/home/admon/programas''.
- * descomprimir ''xmedcon-0.10.4.tar.bz2'' o la versión actual.
- * ubicarnos en la nueva carpeta.
- * ejecutar:
+Ubuntu has (X)!MedCon into software repositories, but if you prefer last version, or your distribution doesn't have this package, here you got how to build:
+
+ * Download and unpack _xmedcon-0.10.4.tar.bz2_ from [http://xmedcon.sourceforge.net/ (X)!MedCon page].
+ * Go to uncompressed folder and run:
 {{{
 ./configure
 make
 sudo make install
 }}}
 
-== Reinicio ==
+== Reboot machine ==
 
- * reiniciar la máquina y comprobar que al arrancar todo está en orden.
-
-== Despliegue de la aplicación ==
-
- * desplegar desde tomcat la aplicación.
- * parar la aplicación.
- * configurar los siguientes archivos:
-  * ''applicationContext.xml'':
-    * configurar bean ''!DataSource'' para acceder a postgres.
-    * configurar bean ''!XmlImageColl'' para acceder a la base de datos eXist.
-    * configurar bean ''FSImageColl'' para acceder al almacen de imágenes.
-    * configurar bean ''MiniPACS'' para recepción de DICOM.
-    * configurar bean ''!DcmSenderFactory'' para envío de DICOM.
-
- * reiniciar la máquina y comprobar que la aplicación está lista y desplegada.
-
--- 
-Miguel A. Laguna
-
-"La vida es aquello que te sucede, mientras te empeñas en cumplir tus expectativas"
+Reboot machine and check all is OK.
