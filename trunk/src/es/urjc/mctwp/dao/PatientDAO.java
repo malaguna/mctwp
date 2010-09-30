@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Restrictions;
 
 import es.urjc.mctwp.modelo.Group;
 import es.urjc.mctwp.modelo.Patient;
@@ -86,8 +87,8 @@ public class PatientDAO extends GenericDAO<Patient, Integer> {
 			
 		//Create criteria relation based on group
 		if(group != null){
-			Example example = createExample(group, exclude);
-			criteria.createCriteria("group").add(example);
+			criteria.createCriteria("group")
+				.add(Restrictions.eq("code", group.getCode()));
 		}
 		
 		//Search

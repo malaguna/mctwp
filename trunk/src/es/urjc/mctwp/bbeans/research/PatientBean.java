@@ -154,7 +154,8 @@ public class PatientBean extends RequestInvAbstractBean {
 		if (getSession().getGroup() != null) {
 			Command cmd = getCommand(FindPatientsByGroup.class);
 			((FindPatientsByGroup) cmd).setGroup(getSession().getGroup());
-			((FindPatientsByGroup) cmd).setFilter(filter);
+			if( (filter.getCode() > 0 || (filter.getCompleteName() != null && !filter.getCompleteName().isEmpty())))
+				((FindPatientsByGroup) cmd).setFilter(filter);
 			cmd = runCommand(cmd);
 			patients = ((FindPatientsByGroup) cmd).getResult();
 		}

@@ -122,7 +122,8 @@ public class StudyBean extends RequestInvAbstractBean {
 		if (getSession().getPatient() != null) {
 			Command cmd = getCommand(FindStudiesByPatient.class);
 			((FindStudiesByPatient) cmd).setPatient(getSession().getPatient());
-			((FindStudiesByPatient) cmd).setFilter(filter);
+			if( (filter.getCode() > 0 || (filter.getStudyType() != null && !filter.getStudyType().isEmpty())))
+				((FindStudiesByPatient) cmd).setFilter(filter);
 			cmd = runCommand(cmd);
 			studies = ((FindStudiesByPatient) cmd).getResult();
 		}

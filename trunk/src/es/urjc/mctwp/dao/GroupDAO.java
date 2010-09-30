@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Restrictions;
 
 import es.urjc.mctwp.modelo.Group;
 import es.urjc.mctwp.modelo.Trial;
@@ -62,8 +63,8 @@ public class GroupDAO extends GenericDAO<Group, Integer> {
 			
 		//Create criteria relation based on trial
 		if(trial != null){
-			Example example = createExample(trial, exclude);
-			criteria.createCriteria("trial").add(example);
+			criteria.createCriteria("trial")
+				.add(Restrictions.eq("code", trial.getCode()));
 		}
 		
 		//Search

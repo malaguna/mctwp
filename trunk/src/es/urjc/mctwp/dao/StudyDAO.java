@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Restrictions;
 
 import es.urjc.mctwp.modelo.Patient;
 import es.urjc.mctwp.modelo.Study;
@@ -79,8 +80,8 @@ public class StudyDAO extends GenericDAO<Study, Integer> {
 			
 		//Create criteria relation based on trial
 		if(patient != null){
-			Example example = createExample(patient, exclude);
-			criteria.createCriteria("patient").add(example);
+			criteria.createCriteria("patient")
+				.add(Restrictions.eq("code", patient.getCode()));
 		}
 		
 		//Search
