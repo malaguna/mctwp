@@ -251,6 +251,7 @@ public class DownloadBean extends GenericDownloadBean {
 		while(fileIS.read(bytes) != -1)
 			zos.write(bytes);
 		
+		zos.flush();
 		fileIS.close();		
 	}
 	
