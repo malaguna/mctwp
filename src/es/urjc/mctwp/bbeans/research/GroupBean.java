@@ -92,7 +92,8 @@ public class GroupBean extends RequestInvAbstractBean {
 	public String accListGroupsOfTrial() {
 		if (getSession().getTrial() != null) {
 			Command cmd = getCommand(FindGroupsByTrial.class);
-			((FindGroupsByTrial)cmd).setFilter(filter);
+			if( (filter.getCode() > 0 || (filter.getDescription() != null && !filter.getDescription().isEmpty())))
+				((FindGroupsByTrial)cmd).setFilter(filter);
 			cmd = runCommand(cmd);
 			groups = ((FindGroupsByTrial) cmd).getResult();
 		}
