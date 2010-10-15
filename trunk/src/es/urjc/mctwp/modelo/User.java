@@ -18,8 +18,10 @@
 
 package es.urjc.mctwp.modelo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class User extends DomainObject implements java.io.Serializable {
@@ -85,6 +87,10 @@ public class User extends DomainObject implements java.io.Serializable {
 
 	public Set<Participation> getParticipations() {
 		return participations;
+	}
+	
+	public List<Participation> getParticipationsList() {
+		return new ArrayList<Participation>(participations);
 	}
 	
 	public void addParticipation(Participation p){

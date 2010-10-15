@@ -28,30 +28,25 @@ along with Multiclinical Trial Web-PACS.  If not, see
       xmlns:t="http://myfaces.apache.org/tomahawk"
       xmlns:p="http://primefaces.prime.com.tr/ui">
 
-<ui:composition template="/jsp/include/templateAdm.xhtml">
-<ui:define name="cuerpo">
+<ui:composition template="/jsp/include/templateEditionAdm.xhtml">
 
-<!-- Comienza la página JSF -->
-
-<div class="cuerpo">
-
+<ui:define name="saveState">
 	<t:saveState value="#{trialBean.FSrcObject}" />
 	<t:saveState value="#{trialBean.FEdcObject}" />
+</ui:define>
 
-	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
+<ui:define name="title">
+	<h3>
+		<h:outputText value="#{msgs['jsf.headers.TrialEdition']}" />
+	</h3>
+</ui:define>
 
-	<!-- Edit trial form -->
-	<h:form>
-		<h:panelGrid id="cuerpo" columns="3" styleClass="frmTabla">
-			
-			<f:facet name="header">
-				<h:panelGroup styleClass="headFrm">
-					<h:outputLabel value="#{msgs['jsf.headers.TrialEdition']}" styleClass="frmLabelHeader"/>
-				</h:panelGroup>
-			</f:facet>
-				
+<ui:define name="editionForm">
+	<h:panelGroup id="cuerpo">
+		<h:panelGrid columns="3">
+
 			<h:outputLabel for="code" styleClass="frmLabel" value="#{msgs['jsf.generic.Code']}"/>
-			<h:inputText id="code" styleClass="frmInput" value="#{trialBean.FEdcObject.code}" disabled="true"/>
+			<h:inputText id="code" styleClass="frmInput" value="#{trialBean.FEdcObject.code}" disabled="true" size="3" />
 			<t:message id="codeError" style="frmLabelError" for="code" styleClass="error"/>
 
 			<h:outputLabel for="name" styleClass="frmLabel" value="#{msgs['jsf.generic.Name']}" />
@@ -90,20 +85,17 @@ along with Multiclinical Trial Web-PACS.  If not, see
             </t:inputCalendar>				
 			<t:message id="endError" style="frmLabelError" for="endDate" />
 
-			<f:facet name="footer">
-				<h:panelGroup styleClass="footFrm">
-					<h:commandButton id="find" value="#{msgs['jsf.actions.Save']}" action="#{trialBean.accSaveTrial}" styleClass="frmButton" />
-					<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{trialBean.accFindTrial}" styleClass="frmButton" />
-				</h:panelGroup>
-			</f:facet>
-
 		</h:panelGrid>
-	</h:form>
-</div>
-			
-<!-- Termina la página JSF -->
-
+	</h:panelGroup>
 </ui:define>
+
+<ui:define name="buttonsForm">
+	<h:panelGrid columns="4">
+		<h:commandButton id="find" value="#{msgs['jsf.actions.Save']}" action="#{trialBean.accSaveTrial}" styleClass="frmButton" />
+		<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{trialBean.accFindTrial}" styleClass="frmButton" />
+	</h:panelGrid>
+</ui:define>
+
 </ui:composition>
 
 </html>		

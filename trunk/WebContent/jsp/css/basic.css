@@ -145,7 +145,7 @@ body {
 }
 
 .footFrm {
-	text-align: right;
+	float: right;
 }
 
 .frmTabla {

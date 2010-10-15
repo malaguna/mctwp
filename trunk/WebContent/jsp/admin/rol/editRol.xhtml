@@ -28,51 +28,42 @@ along with Multiclinical Trial Web-PACS.  If not, see
       xmlns:t="http://myfaces.apache.org/tomahawk"
       xmlns:p="http://primefaces.prime.com.tr/ui">
 
-<ui:composition template="/jsp/include/templateAdm.xhtml">
-<ui:define name="cuerpo">
+<ui:composition template="/jsp/include/templateEditionAdm.xhtml">
 
-<!-- Comienza la página JSF -->
-
-<div class="cuerpo">
-
+<ui:define name="saveState">
 	<t:saveState value="#{rolBean.FSrcObject}" />
 	<t:saveState value="#{rolBean.FEdcObject}" />
+</ui:define>
 
-	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
-	
-	<!-- Edit user form -->
-	<h:form>
-		<h:panelGrid id="cuerpo" columns="3" styleClass="frmTabla">
-			
-			<f:facet name="header">
-				<h:panelGroup styleClass="headFrm">
-					<h:outputLabel value="#{msgs['jsf.headers.RolEdition']}" styleClass="frmLabelHeader"/>
-				</h:panelGroup>
-			</f:facet>
-				
+<ui:define name="title">
+	<h3>
+		<h:outputText value="#{msgs['jsf.headers.RolEdition']}" /> 
+	</h3>
+</ui:define>
+
+<ui:define name="editionForm">
+	<h:panelGroup id="cuerpo">
+		<h:panelGrid columns="3">
+
 			<h:outputLabel value="#{msgs['jsf.generic.Code']}" styleClass="frmLabel" for="code" />
-			<h:inputText styleClass="frmInput" id="code" value="#{rolBean.FEdcObject.code}" readonly="true" />
+			<h:inputText styleClass="frmInput" id="code" value="#{rolBean.FEdcObject.code}" readonly="true" size="3" />
 			<t:message id="codeError" for="code" />
 			
 			<h:outputLabel value="#{msgs['jsf.generic.Name']}" styleClass="frmLabel" for="name" />
 			<h:inputText styleClass="frmInput" id="name" value="#{rolBean.FEdcObject.name}" />
 			<t:message id="nameError" for="name" />
 
-			<f:facet name="footer">
-				<h:panelGroup styleClass="footFrm">
-					<h:commandButton id="find" value="#{msgs['jsf.actions.Save']}" action="#{rolBean.accSaveRol}" styleClass="frmButton" />
-					<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{rolBean.accFindRol}" styleClass="frmButton" />
-				</h:panelGroup>
-			</f:facet>
-
 		</h:panelGrid>
-	</h:form>
-	
-</div>
-			
-<!-- Termina la página JSF -->
-
+	</h:panelGroup>
 </ui:define>
+
+<ui:define name="buttonsForm">
+	<h:panelGrid columns="4">
+		<h:commandButton id="find" value="#{msgs['jsf.actions.Save']}" action="#{rolBean.accSaveRol}" styleClass="frmButton" />
+		<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{rolBean.accFindRol}" styleClass="frmButton" />
+	</h:panelGrid>
+</ui:define>
+
 </ui:composition>
 
 </html>
