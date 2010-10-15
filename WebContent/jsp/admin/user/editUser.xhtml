@@ -28,67 +28,58 @@ along with Multiclinical Trial Web-PACS.  If not, see
       xmlns:t="http://myfaces.apache.org/tomahawk"
       xmlns:p="http://primefaces.prime.com.tr/ui">
 
-<ui:composition template="/jsp/include/templateAdm.xhtml">
-<ui:define name="cuerpo">
+<ui:composition template="/jsp/include/templateEditionAdm.xhtml">
 
-<!-- Comienza la página JSF -->
-
-<div class="cuerpo">
-
+<ui:define name="saveState">
 	<t:saveState value="#{userBean.FSrcObject}" />
 	<t:saveState value="#{userBean.FEdcObject}" />
+</ui:define>
 
-	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
+<ui:define name="title">
+	<h3>
+		<h:outputText value="#{msgs['jsf.headers.UserEdition']}" />
+	</h3>
+</ui:define>
 
-	<!-- Edit user form -->
-	<h:form>
-		<h:panelGrid id="cuerpo" columns="3" styleClass="frmTabla">
-			
-			<f:facet name="header">
-				<h:panelGroup styleClass="headFrm">
-					<h:outputLabel value="#{msgs['jsf.headers.UserEdition']}" styleClass="frmLabelHeader"/>
-				</h:panelGroup>
-			</f:facet>
-				
+<ui:define name="editionForm">
+	<h:panelGroup id="cuerpo">
+		<h:panelGrid columns="3">
+
 			<h:outputLabel value="#{msgs['jsf.generic.Code']}" styleClass="frmLabel" for="code" />
-			<h:inputText styleClass="frmInput" id="code" value="#{userBean.FEdcObject.code}" readonly="true" />
+			<h:inputText styleClass="frmInput" id="code" value="#{userBean.FEdcObject.code}" readonly="true" size="3"/>
 			<t:message id="codeError" for="code" />
 			
 			<h:outputLabel value="#{msgs['jsf.generic.Login']}" styleClass="frmLabel" for="login" />
-			<h:inputText styleClass="frmInput" id="login" value="#{userBean.FEdcObject.login}"  />
+			<h:inputText styleClass="frmInput" id="login" value="#{userBean.FEdcObject.login}" size="5" />
 			<t:message id="loginError" for="login" />
 			
 			<h:outputLabel value="#{msgs['jsf.generic.Name']}" styleClass="frmLabel" for="name" />
 			<h:inputText styleClass="frmInput" id="name" value="#{userBean.FEdcObject.name}" />
 			<t:message id="nameError" for="name" />
-
+		
 			<h:outputLabel value="#{msgs['jsf.generic.Lastname']}" styleClass="frmLabel" for="lastname" />
 			<h:inputText styleClass="frmInput" id="lastname" value="#{userBean.FEdcObject.lastName}" />
 			<t:message id="lnError" for="lastname" />
-
+		
 			<h:outputLabel value="#{msgs['jsf.generic.Surname']}" styleClass="frmLabel" for="surname" />
 			<h:inputText styleClass="frmInput" id="surname" value="#{userBean.FEdcObject.surName}" />
 			<t:message id="snError" for="surname" />
-
+		
 			<h:outputLabel value="#{msgs['jsf.generic.Admin']}" styleClass="frmLabel" for="admin" />
 			<h:selectBooleanCheckbox styleClass="frmBoolCheck" id="admin" value="#{userBean.FEdcObject.admin}" />
 			<t:message id="admError" for="admin" />			
 
-			<f:facet name="footer">
-				<h:panelGroup styleClass="footFrm">
-					<h:commandButton id="find" value="#{msgs['jsf.actions.Save']}" action="#{userBean.accSaveUser}" styleClass="frmButton" />
-					<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{userBean.accFindUser}" styleClass="frmButton" />
-				</h:panelGroup>
-			</f:facet>
-
 		</h:panelGrid>
-	</h:form>
-
-</div>
-			
-<!-- Termina la página JSF -->
-
+	</h:panelGroup>
 </ui:define>
+
+<ui:define name="buttonsForm">
+	<h:panelGrid columns="4">
+		<h:commandButton id="find" value="#{msgs['jsf.actions.Save']}" action="#{userBean.accSaveUser}" styleClass="frmButton" />
+		<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{userBean.accFindUser}" styleClass="frmButton" />
+	</h:panelGrid>
+</ui:define>
+
 </ui:composition>
 
 </html>

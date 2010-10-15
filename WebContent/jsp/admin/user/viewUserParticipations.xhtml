@@ -28,149 +28,95 @@ along with Multiclinical Trial Web-PACS.  If not, see
       xmlns:t="http://myfaces.apache.org/tomahawk"
       xmlns:p="http://primefaces.prime.com.tr/ui">
 
-<ui:composition template="/jsp/include/templateAdm.xhtml">
-<ui:define name="cuerpo">
+<ui:composition template="/jsp/include/templateListAdm.xhtml">
 
-<!-- Comienza la página JSF -->
-
-<div class="cuerpo">
-
+<ui:define name="saveState">
 	<t:saveState value="#{userBean.user}" />
 	<t:saveState value="#{userBean.allRoles}" />
 	<t:saveState value="#{userBean.notAssignedTrials}" />
 	<t:saveState value="#{userBean.FSrcObject}" />
-	
-	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
-	
-	<!-- user info -->
-	<h:form>
-		<h:panelGrid id="cuerpo" columns="4" styleClass="frmTabla">
-			
-			<f:facet name="header">
-				<h:panelGroup>
-					<h:outputLabel styleClass="frmLabelHeader" value="#{msgs['jsf.headers.UserSearch']}">
-					</h:outputLabel>
-				</h:panelGroup>
-			</f:facet>
-				
-			<h:graphicImage id="image" url="/jsp/icons/user.png" />
-			<h:outputText value="#{userBean.user.code}" />
-			<h:outputText value="#{userBean.user.login}" />
-			<h:outputText value="#{userBean.user.fullName}" />				
-												
-		</h:panelGrid>
-		
-		<h:panelGrid id="tabla" columns="1" styleClass="bodyFrm">
-		
-			<t:dataTable id="results"
-				styleClass="resTabla"
-				headerClass="resCabecera" footerClass="pieTablaEstandar" 
-				rowClasses="resFilaImpar, resFilaPar" columnClasses="columnaNormal" 
-				value="#{userBean.user.participations}" var="row" rows="15">
-					
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="#{msgs['jsf.generic.Rol']}" />
-					</f:facet>
-					<h:outputText value="#{row.rol.name}"/>
-				</h:column>
-		
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="#{msgs['jsf.generic.Trial']}" />
-					</f:facet>
-						<h:outputText value="#{row.trial.name}" />
-				</h:column>
-	
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="#{msgs['jsf.generic.User']}" />
-					</f:facet>
-						<h:outputText value="#{row.user.fullName}" />
-				</h:column>		
-				
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="#{msgs['jsf.actions']}" />
-					</f:facet>
-					
-					<t:commandLink action="#{userBean.accDelParticipationUser}" immediate="true">
-						<h:graphicImage value="/jsp/icons/cross.png" alt="#{msgs['jsf.actions.Edit']}" />
-						<t:updateActionListener value="#{row}" property="#{userBean.partSelected}"></t:updateActionListener>
-					</t:commandLink>
-				</h:column>										
-	
-			</t:dataTable>	
-			
-			<t:dataScroller id="scrollerTable" for="results"  fastStep="10" immediate="true" 
-				styleClass="scroll" paginator="true" paginatorMaxPages="5" 
-				paginatorTableClass="paginator" paginatorActiveColumnStyle="font-weight:bold;" 
-				rowsCountVar="rows" displayedRowsCountVar="inview"
-				firstRowIndexVar="first" lastRowIndexVar="last" pageCountVar="pagTotal" 
-				pageIndexVar="pagActual">
-		
-				<f:facet name="first" >
-					<t:graphicImage url="/jsp/icons/resultset_first.png" />
-				</f:facet>
-				<f:facet name="last">
-					<t:graphicImage url="/jsp/icons/resultset_last.png" border="0" />
-				</f:facet>
-				<f:facet name="previous">
-					<t:graphicImage url="/jsp/icons/resultset_previous.png" border="0" />
-				</f:facet>
-				<f:facet name="next">
-					<t:graphicImage url="/jsp/icons/resultset_next.png" border="0" />
-				</f:facet>
-				
-				<h:outputFormat value="#{msgs['jsf.scroll.User']}" styleClass="scroll">
-					<f:param value="#{rows}" />
-					<f:param value="#{inview}" />
-					<f:param value="#{first}" />
-					<f:param value="#{last}" />
-					<f:param value="#{pagActual}" />
-					<f:param value="#{pagTotal}" />
-				</h:outputFormat>
-
-			</t:dataScroller> 
-	             
-		</h:panelGrid>
-		
-		<h:panelGrid id="buttons" columns="5" styleClass="frmTabla">
-			
-			<f:facet name="header">
-				<h:panelGroup styleClass="headFrm">
-					<h:outputText value="#{msgs['jsf.headers.AddParticipation']}" />
-				</h:panelGroup>
-			</f:facet>			
-		
-			<h:outputLabel value="Roles" styleClass="frmLabel"/>
-			<h:selectOneMenu id="rol"  value="#{userBean.rolSelected}" styleClass="frmSelectOne">
-				<f:selectItems value="#{userBean.allRoles}" />
-			</h:selectOneMenu>
-			<t:message id="rolError" for="rol" />	
-			
-			<h:outputLabel value="Trials" styleClass="frmLabel"/>
-			<h:selectOneMenu id="trial"  value="#{userBean.trialSelected}" styleClass="frmSelectOne">
-				<f:selectItems value="#{userBean.notAssignedTrials}" />
-			</h:selectOneMenu>
-			<t:message id="trialError" for="trial" />	
-			
-			<f:facet name="footer">
-				<h:panelGroup styleClass="footFrm">
-					<h:commandButton id="anadir" value="#{msgs['jsf.actions.Add']}" action="#{userBean.accAddParticipationUser}" styleClass="frmButton" />
-					<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{userBean.accFindUser}" styleClass="frmButton" />
-				</h:panelGroup>
-			</f:facet>	
-									
-		</h:panelGrid>	
-
-	</h:form>
-	
-</div>
-			
-<!-- Termina la página JSF -->
-
 </ui:define>
+
+<ui:define name="title">
+	<h3>
+		<h:outputText value="#{msgs['jsf.headers.UserTrials']} : "/>
+		<h:outputText value="#{userBean.user.fullName}" />
+	</h3>
+</ui:define>
+
+<ui:define name="searchForm">
+	<h:panelGrid columns="3">
+		
+		<h:outputLabel value="Roles" styleClass="frmLabel"/>
+		<h:selectOneMenu id="rol"  value="#{userBean.rolSelected}" styleClass="frmSelectOne">
+			<f:selectItems value="#{userBean.allRoles}" />
+		</h:selectOneMenu>
+		<t:message id="rolError" for="rol" />	
+		
+		<h:outputLabel value="Trials" styleClass="frmLabel"/>
+		<h:selectOneMenu id="trial"  value="#{userBean.trialSelected}" styleClass="frmSelectOne">
+			<f:selectItems value="#{userBean.notAssignedTrials}" />
+		</h:selectOneMenu>
+		<t:message id="trialError" for="trial" />	
+		
+		<f:facet name="footer">
+			<h:panelGroup styleClass="footFrm">
+				<h:commandButton id="anadir" value="#{msgs['jsf.actions.Add']}" action="#{userBean.accAddParticipationUser}" styleClass="frmButton" />
+				<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{userBean.accFindUser}" styleClass="frmButton" />
+			</h:panelGroup>
+		</f:facet>	
+
+	</h:panelGrid>
+</ui:define>
+
+<ui:define name="tableResult">
+	<p:dataTable 
+		id="results"
+		var="row" rows="10"
+		paginator="true" 
+		paginatorPosition="bottom"  
+		value="#{userBean.user.participationsList}">
+			
+		<p:column
+			parser="string"
+			sortBy="#{row.rol.name}">
+			<f:facet name="header">
+				<h:outputText value="#{msgs['jsf.generic.Rol']}" />
+			</f:facet>
+			<h:outputText value="#{row.rol.name}"/>
+		</p:column>
+	
+		<p:column
+			parser="string"
+			sortBy="#{row.trial.name}">
+			<f:facet name="header">
+				<h:outputText value="#{msgs['jsf.generic.Trial']}" />
+			</f:facet>
+			<h:outputText value="#{row.trial.name}" />
+		</p:column>
+		
+		<p:column
+			parser="string"
+			sortBy="#{row.user.fullName}">
+			<f:facet name="header">
+				<h:outputText value="#{msgs['jsf.generic.User']}" />
+			</f:facet>
+				<h:outputText value="#{row.user.fullName}" />
+		</p:column>		
+
+		<p:column>
+			<f:facet name="header">
+				<h:outputText value="#{msgs['jsf.actions']}" />
+			</f:facet>
+			
+			<t:commandLink action="#{userBean.accDelParticipationUser}" immediate="true">
+				<h:graphicImage value="/jsp/icons/cross.png" alt="#{msgs['jsf.actions.Edit']}" />
+				<t:updateActionListener value="#{row}" property="#{userBean.partSelected}"></t:updateActionListener>
+			</t:commandLink>
+		</p:column>										
+	</p:dataTable>	
+</ui:define>
+
 </ui:composition>
 
 </html>

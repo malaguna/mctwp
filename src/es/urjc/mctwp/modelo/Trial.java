@@ -18,6 +18,7 @@
 
 package es.urjc.mctwp.modelo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -102,6 +103,10 @@ public class Trial extends Protocolable implements java.io.Serializable {
 
 	public Set<Participation> getMembers() {
 		return members;
+	}
+	
+	public List<Participation> getMembersList() {
+		return new ArrayList<Participation>(members);
 	}
 	
 	public void addMember(Participation part){
