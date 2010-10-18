@@ -164,6 +164,10 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<property name="hibernateTemplate" ref="HiberTemplate"/>
 	</bean>
 
+	<bean id="ImageTypeDAO" class="es.urjc.mctwp.dao.ImageTypeDAO">
+		<property name="hibernateTemplate" ref="HiberTemplate"/>
+	</bean>
+
 	<bean id="MapSeriesId" class="es.urjc.mctwp.image.management.SeriesIdMapper">
 		<property name="dao" ref="MapSeriesIdDAO" />
 	</bean>

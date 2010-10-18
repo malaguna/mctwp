@@ -28,8 +28,10 @@ public class ActionNames {
 	public final static String ADD_USER_PART		= "addUserParticipation";
 	
 	public final static String CREATE_TASK			= "createTask";
+	public static final String CREATE_IMAGETYPE 	= "createImageType";
 
 	public final static String DELETE_GROUP			= "deleteGroup";
+	public static final String DELETE_IMAGETYPE 	= "deleteImageType";
 	public final static String DELETE_PATIENT		= "deletePatient";
 	public final static String DELETE_STUDY			= "deleteStudy";
 	public final static String DELETE_TASK			= "deleteTask";
@@ -44,6 +46,7 @@ public class ActionNames {
 	public final static String FIND_IMAGES_RESULT	= "findImagesByResult";
 	public final static String FIND_IMAGES_STUDY	= "findImagesByStudy";
 	public final static String FIND_IMAGES_TASK		= "findImagesByTask";
+	public static final String FIND_IMAGETYPES 		= "findImageTypes";
 	public final static String FIND_MODALITIES		= "findModalities";
 	public final static String FIND_NOT_ASGN_MODALS	= "findNotAssignedModals";
 	public final static String FIND_NOT_ASGN_TRIALS	= "findNotAssignedTrials";
@@ -65,6 +68,7 @@ public class ActionNames {
 	public final static String LOAD_GROUP			= "loadGroup";
 	public final static String LOAD_IMAGE			= "loadImage";
 	public final static String LOAD_IMAGE_DATA		= "loadImageData";
+	public final static String LOAD_IMAGETYPE		= "loadImageType";
 	public final static String LOAD_MENU_ITEMS		= "loadMenuItem";
 	public final static String LOAD_PATIENT			= "loadPatient";
 	public final static String LOAD_PROTOCOLABLE	= "loadProtocolable";
