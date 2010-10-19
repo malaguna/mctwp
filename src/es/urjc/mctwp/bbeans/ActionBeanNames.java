@@ -28,6 +28,7 @@ public class ActionBeanNames {
 	public static final String DELETE_IMAGES	 	= "deleteImages";
 
 	public final static String EDIT_GROUP			= "editGroup";
+	public final static String EDIT_IMAGETYPE		= "editImageType";
 	public final static String EDIT_MODALITY		= "editModality";
 	public final static String EDIT_PATIENT			= "editPatient";
 	public final static String EDIT_PROCESS			= "editProcess";
@@ -55,6 +56,7 @@ public class ActionBeanNames {
 	
 	public final static String PERSISTED_IMAGES		= "persistedImages";
 	
+	public final static String SEARCH_IMAGETYPES	= "searchImageTypes";
 	public final static String SEARCH_MODALITIES	= "searchModalities";
 	public final static String SEARCH_PROCESSES		= "searchProcesses";
 	public final static String SEARCH_ROLES			= "searchRoles";

@@ -32,7 +32,7 @@ public class SaveImageType extends Command {
 
 	public SaveImageType(BeanFactory bf) {
 		super(bf);
-		dao = (ImageTypeDAO)bf.getBean(BeanNames.ROL_DAO);
+		dao = (ImageTypeDAO)bf.getBean(BeanNames.IMAGETYPE_DAO);
 		setActionName(ActionNames.SAVE_ROL);
 		setReadOnly(false);
 	}
