@@ -304,6 +304,17 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	</managed-bean>
 		
 	<managed-bean>
+		<managed-bean-name>imageTypeBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.admin.ImageTypeBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>session</property-name>
+			<property-class>es.urjc.mctwp.bbeans.admin.SessionAdmBean</property-class>
+			<value>#{sessionAdm}</value>
+		</managed-property>
+	</managed-bean>
+		
+	<managed-bean>
 		<managed-bean-name>trialBean</managed-bean-name>
 		<managed-bean-class>es.urjc.mctwp.bbeans.admin.TrialBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>

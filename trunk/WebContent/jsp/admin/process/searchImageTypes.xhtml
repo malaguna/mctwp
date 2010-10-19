@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:t="http://myfaces.apache.org/tomahawk"
+      xmlns:p="http://primefaces.prime.com.tr/ui">
+
+<ui:composition template="/jsp/include/templateListAdm.xhtml">
+
+<ui:define name="saveState">
+	<t:saveState value="#{imageTypeBean.imageTypeList}" />
+	<t:saveState value="#{imageTypeBean.FSrcObject}" />
+</ui:define>
+
+<ui:define name="title">
+	<h3>
+		<h:outputText value="#{msgs['jsf.headers.ImageTypeSearch']}"/>
+	</h3>
+</ui:define>
+
+<ui:define name="searchForm">
+	<h:panelGrid columns="3">
+		
+		<h:outputLabel value="#{msgs['jsf.generic.Name']}" styleClass="frmLabel" for="name" />
+		<h:inputText styleClass="frmInput" id="name" value="#{imageTypeBean.FSrcObject.name}" />
+		<t:message id="nameError" for="name" />
+
+		<h:outputLabel value="#{msgs['jsf.generic.Pattern']}" styleClass="frmLabel" for="pattern" />
+		<h:inputText styleClass="frmInput" id="pattern" value="#{imageTypeBean.FSrcObject.pattern}" />
+		<t:message id="patternError" for="pattern" />
+
+		<f:facet name="footer">
+			<h:panelGroup styleClass="footFrm">
+				<h:commandButton id="find" value="#{msgs['jsf.actions.Find']}" action="#{imageTypeBean.accFindImageTypes}" styleClass="frmButton" />
+			</h:panelGroup>
+		</f:facet>
+
+	</h:panelGrid>
+</ui:define>
+
+<ui:define name="tableResult">
+	<p:dataTable 
+		id="results"
+		var="row" rows="20"
+		paginator="true" 
+		paginatorPosition="bottom"  
+		value="#{imageTypeBean.imageTypeList}" 
+		rendered="#{imageTypeBean.imageTypeList != null}">
+			
+		<p:column
+			parser="number"
+			sortBy="#{row.code}">
+			<f:facet name="header">
+				<h:outputText value="#{msgs['jsf.generic.Code']}" />
+			</f:facet>
+			<h:outputText value="#{row.code}"/>
+		</p:column>
+	
+		<p:column
+			parser="string"
+			sortBy="#{row.name}">
+			<f:facet name="header">
+				<h:outputText value="#{msgs['jsf.generic.Name']}" />
+			</f:facet>
+			<h:outputText value="#{row.name}" />
+		</p:column>
+		
+		<p:column
+			parser="string"
+			sortBy="#{row.pattern}">
+			<f:facet name="header">
+				<h:outputText value="#{msgs['jsf.generic.Pattern']}" />
+			</f:facet>
+			<h:outputText value="#{row.pattern}" />
+		</p:column>
+
+		<p:column>
+			<f:facet name="header">
+				<h:outputText value="#{msgs['jsf.actions']}" />
+			</f:facet>
+			
+			<t:commandLink action="#{imageTypeBean.accEditImageType}" immediate="true">
+				<h:graphicImage value="/jsp/icons/application_form_edit.png" alt="#{msgs['jsf.actions.Edit']}" />
+				<t:updateActionListener value="#{row}" property="#{imageTypeBean.FEdcObject}"></t:updateActionListener>
+			</t:commandLink>
+		</p:column>										
+	</p:dataTable>	
+</ui:define>
+
+</ui:composition>
+
+</html>
