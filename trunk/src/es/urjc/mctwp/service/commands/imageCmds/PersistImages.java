@@ -33,6 +33,7 @@ public class PersistImages extends Command {
 	private List<String> images = null;
 	private ImageContainer source = null;
 	private String tempColl = null;
+	private Integer imgType = null;
 
 	public PersistImages(BeanFactory bf) {
 		super(bf);
@@ -53,6 +54,14 @@ public class PersistImages extends Command {
 	public String getTempCol() {
 		return tempColl;
 	}
+	public void setImgType(Integer imgType) {
+		this.imgType = imgType;
+	}
+
+	public Integer getImgType() {
+		return imgType;
+	}
+
 	public void setSource(ImageContainer protocolable) {
 		this.source = protocolable;
 	}
@@ -66,12 +75,13 @@ public class PersistImages extends Command {
 				piv != null &&
 				tempColl != null &&
 				images != null &&
+				imgType != null &&
 				source != null;
 	}
 
 	@Override
 	public Command runCommand() throws Exception{
-		source.accept(piv, images, tempColl);
+		source.accept(piv, images, tempColl, imgType);
 		createLogComment("audit.persistImage", images.size(), tempColl, source.getType(), source.getDescription());
 		return this;
 	}

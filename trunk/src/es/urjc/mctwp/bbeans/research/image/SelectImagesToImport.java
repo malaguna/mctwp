@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.faces.model.SelectItem;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
@@ -31,10 +33,12 @@ import es.urjc.mctwp.bbeans.ActionBeanNames;
 import es.urjc.mctwp.bbeans.RequestInvAbstractBean;
 import es.urjc.mctwp.image.objects.ThumbNail;
 import es.urjc.mctwp.modelo.ImageContainer;
+import es.urjc.mctwp.modelo.ImageType;
 import es.urjc.mctwp.modelo.Patient;
 import es.urjc.mctwp.modelo.Study;
 import es.urjc.mctwp.service.Command;
 import es.urjc.mctwp.service.blogic.ImageContainerTypeVisitor;
+import es.urjc.mctwp.service.commands.adminCmds.FindAllImageTypes;
 import es.urjc.mctwp.service.commands.imageCmds.DeleteTemporalImages;
 import es.urjc.mctwp.service.commands.imageCmds.LoadThumbsOfTemporalImages;
 import es.urjc.mctwp.service.commands.imageCmds.PersistImages;
@@ -46,6 +50,8 @@ import es.urjc.mctwp.service.commands.imageCmds.PersistImages;
  */
 public class SelectImagesToImport extends RequestInvAbstractBean {
 	private List<ThumbSelectItem> thumbs = null;
+	private List<SelectItem> imgTypes = null;
+	private Integer typeSelected = null;
 	private String folder = null;
 	
 	@SuppressWarnings("unused")
@@ -64,6 +70,22 @@ public class SelectImagesToImport extends RequestInvAbstractBean {
 		this.thumbs = thumbs;
 	}
 	
+	public void setImgTypes(List<SelectItem> imgTypes) {
+		this.imgTypes = imgTypes;
+	}
+
+	public List<SelectItem> getImgTypes() {
+		return imgTypes;
+	}
+
+	public void setTypeSelected(Integer typeSelected) {
+		this.typeSelected = typeSelected;
+	}
+
+	public Integer getTypeSelected() {
+		return typeSelected;
+	}
+
 	public String getFolder() {
 		return folder;
 	}
@@ -112,6 +134,18 @@ public class SelectImagesToImport extends RequestInvAbstractBean {
 	public String accListFolder(){
 		if(folder != null)
 			populateThumbNails();
+		
+		FindAllImageTypes cmd = (FindAllImageTypes) getCommand(FindAllImageTypes.class);
+		cmd = (FindAllImageTypes) runCommand(cmd);
+		
+		if(cmd != null && cmd.getResult() != null){
+			imgTypes = new ArrayList<SelectItem>();
+			
+			for(ImageType imgt : cmd.getResult()){
+				imgTypes.add(new SelectItem(imgt.getCode(), imgt.getName()));
+			}
+		}else
+			setErrorMessage(getMessage("jsf.info.NoImageTypes"));
 
 		return ActionBeanNames.LIST_IMAGES_FOLDER;
 	}
@@ -132,26 +166,34 @@ public class SelectImagesToImport extends RequestInvAbstractBean {
 		//to persist any temporal image.
 		if(thumbs != null){
 			
-			//Get id's of selected images
-			for(ThumbSelectItem tsi: thumbs){
-				if(tsi.getSelected()){
-					images.add(tsi.getThumbId());
+			if(typeSelected != null){
+				//Get id's of selected images
+				for(ThumbSelectItem tsi: thumbs){
+					if(tsi.getSelected()){
+						images.add(tsi.getThumbId());
+					}
 				}
+				
+				ImageContainer container = getProperContainer();
+				
+				//Always reattach trial
+				//getFacadeService().cleanReattach(getSession().getTrial());
+				Command cmd = getCommand(PersistImages.class);
+				((PersistImages)cmd).setTempColl(folder);
+				((PersistImages)cmd).setSource(container);
+				((PersistImages)cmd).setImgType(typeSelected);
+				((PersistImages)cmd).setImages(images);
+				
+				runCommand(cmd);
+				setInfoMessage(getMessage("jsf.messages.ImagesPersisted"));
+			}else{
+				setErrorMessage(getMessage("jsf.info.NoImgTypeSelected"));
 			}
-			
-			ImageContainer container = getProperContainer();
-			
-			//Always reattach trial
-			//getFacadeService().cleanReattach(getSession().getTrial());
-			Command cmd = getCommand(PersistImages.class);
-			((PersistImages)cmd).setTempColl(folder);
-			((PersistImages)cmd).setSource(container);
-			((PersistImages)cmd).setImages(images);
-			
-			runCommand(cmd);		
+		}else{
+			setErrorMessage(getMessage("jsf.info.NoImagesSelected"));
 		}
-
-		setInfoMessage(getMessage("jsf.messages.ImagesPersisted"));
+		
+		
 		
 		return accListFolder();
 	}

@@ -102,7 +102,7 @@ public abstract class Protocolable extends ImageContainer{
 	}
 
 	@Override
-	public abstract void accept(PersistImagesVisitor piv, List<String> imagesId,	String tempCol) throws Exception;
+	public abstract void accept(PersistImagesVisitor piv, List<String> imagesId, String tempCol, Integer imgType) throws Exception;
 
 	@Override
 	public abstract Class<? extends ImageContainer> accept(ImageContainerTypeVisitor imcv);

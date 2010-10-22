@@ -38,6 +38,7 @@ public class ImageData extends DomainObject implements java.io.Serializable {
 	private Study study = null;
 	private Result result = null;
 	private Set<Task> tasks = null;
+	private ImageType imgType = null;
 
 	public String getImageId() {
 		return this.imageId;
@@ -120,6 +121,14 @@ public class ImageData extends DomainObject implements java.io.Serializable {
 				tasks.remove(task);
 				task.delImage(this);
 			}
+	}
+
+	public void setImgType(ImageType imgTyep) {
+		this.imgType = imgTyep;
+	}
+
+	public ImageType getImgType() {
+		return imgType;
 	}
 
 	public int getThumbnailSize() {
