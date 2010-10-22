@@ -37,6 +37,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 
 	<t:saveState value="#{selectImages.folder}" />
 	<t:saveState value="#{selectImages.thumbs}" />
+	<t:saveState value="#{selectImages.imgTypes}" />
 
 	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
 	
@@ -125,16 +126,33 @@ along with Multiclinical Trial Web-PACS.  If not, see
 				</t:dataScroller> 
 			</td>
 			<td style="vertical-align: bottom;">
-				<h:commandButton 
-					id="delete" 
-					styleClass="frmButton" 
-					value="#{msgs['jsf.actions.Delete']}" 
-					action="#{selectImages.deleteImages}"/>
-				<h:commandButton 
-					id="importar" 
-					styleClass="frmButton" 
-					value="#{msgs['jsf.actions.Import']}" 
-					action="#{selectImages.importImages}"/>
+				<table>
+					<tr>
+						<td>
+							<h:outputLabel value="imgTypes" styleClass="frmLabel"/>
+							<h:selectOneMenu id="imgTypes"  value="#{selectImages.typeSelected}" styleClass="frmSelectOne">
+								<f:selectItem itemLabel="" itemValue="#{null}" />
+								<f:selectItems value="#{selectImages.imgTypes}" />
+							</h:selectOneMenu>
+							<t:message id="imgTypesError" for="imgTypes" />	
+						</td>
+					</tr>
+					<tr>
+						<td><hr/></td>
+					</tr>
+					<tr>
+						<h:commandButton 
+							id="delete" 
+							styleClass="frmButton" 
+							value="#{msgs['jsf.actions.Delete']}" 
+							action="#{selectImages.deleteImages}"/>
+						<h:commandButton 
+							id="importar" 
+							styleClass="frmButton" 
+							value="#{msgs['jsf.actions.Import']}" 
+							action="#{selectImages.importImages}"/>
+					</tr>
+				</table>
 			</td>
 		</tr>
 	</table>

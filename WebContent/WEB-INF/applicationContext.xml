@@ -249,6 +249,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<property name="patientDao"	ref="PatientDAO" />
 		<property name="imageManager" 	 ref="ImagePluginManager"/>
 		<property name="imageDataDao"	 ref="ImageDataDAO" />
+		<property name="imageTypeDao"	 ref="ImageTypeDAO" />
 		<property name="imageColManager" ref="ImageCollectionManager" />
 	</bean>
 	

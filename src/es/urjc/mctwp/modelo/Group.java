@@ -92,8 +92,8 @@ public class Group extends Protocolable implements java.io.Serializable {
 	}
 	
 	@Override
-	public void accept(PersistImagesVisitor piv, List<String> imagesId,	String tempCol) throws Exception {
-		piv.visit(this, imagesId, tempCol);
+	public void accept(PersistImagesVisitor piv, List<String> imagesId,	String tempCol, Integer imgType) throws Exception {
+		piv.visit(this, imagesId, tempCol, imgType);
 	}
 
 	@Override

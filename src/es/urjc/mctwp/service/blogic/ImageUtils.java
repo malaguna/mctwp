@@ -31,6 +31,7 @@ import java.util.Set;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import es.urjc.mctwp.dao.ImageDataDAO;
+import es.urjc.mctwp.dao.ImageTypeDAO;
 import es.urjc.mctwp.dao.PatientDAO;
 import es.urjc.mctwp.dao.ResultDAO;
 import es.urjc.mctwp.dao.StudyDAO;
@@ -62,10 +63,11 @@ public class ImageUtils extends AbstractBLogic{
 	private StudyDAO studyDao = null;
 	private ResultDAO resultDao = null;
 	private PatientDAO patientDao = null;
+	private ImageDataDAO imageDataDao = null;
+	private ImageTypeDAO imageTypeDao = null;
 	
 	//Other business objects
 	private ImagePluginManager imgManager = null;
-	private ImageDataDAO imageDataDao = null;
 	private DcmSenderFactory senderFactory = null;
 	private ImageCollectionManager imgColManager = null;
 	
@@ -104,6 +106,12 @@ public class ImageUtils extends AbstractBLogic{
 	}
 	public ImageDataDAO getImageDataDao() {
 		return imageDataDao;
+	}
+	public void setImageTypeDao(ImageTypeDAO imageTypeDao) {
+		this.imageTypeDao = imageTypeDao;
+	}
+	public ImageTypeDAO getImageTypeDao() {
+		return imageTypeDao;
 	}
 	public void setSenderFactory(DcmSenderFactory senderFactory) {
 		this.senderFactory = senderFactory;
@@ -165,7 +173,7 @@ public class ImageUtils extends AbstractBLogic{
 	 * @param images
 	 * @throws Exception 
 	 */
-	public void persistImagesTrial(String tempColl, Trial trial, List<String> imagesId) throws Exception{
+	public void persistImagesTrial(String tempColl, Trial trial, List<String> imagesId, Integer imgType) throws Exception{
 		throw new Exception("There is not possible to add images to a trial directly, you must select a group");
 	}
 		
@@ -179,7 +187,7 @@ public class ImageUtils extends AbstractBLogic{
 	 * @param images
 	 * @throws Exception 
 	 */
-	public void persistImagesGroup(String tempColl, Group group, List<String> imagesId) throws Exception{
+	public void persistImagesGroup(String tempColl, Group group, List<String> imagesId, Integer imgType) throws Exception{
 		List<PatientInfo> patInfo = new ArrayList<PatientInfo>();
 		List<Image> images = new ArrayList<Image>();
 		Study study = null;
@@ -212,7 +220,7 @@ public class ImageUtils extends AbstractBLogic{
 
 			//Move image from tempCollection to trial collection
 			String collection = group.getTrial().getCollection();
-			persistImage(tempColl, collection, auxImg.getId(), group, study);
+			persistImage(tempColl, collection, auxImg.getId(), group, study, imgType);
 		}
 	}
 		
@@ -226,7 +234,7 @@ public class ImageUtils extends AbstractBLogic{
 	 * @param images
 	 * @throws Exception 
 	 */
-	public void persistImagesPatient(String tempColl, Patient patient, List<String> imagesId) throws Exception{
+	public void persistImagesPatient(String tempColl, Patient patient, List<String> imagesId, Integer imgType) throws Exception{
 		List<PatientInfo> patInfo = new ArrayList<PatientInfo>();
 		List<Image> images = new ArrayList<Image>();
 		Study study = null;
@@ -257,7 +265,7 @@ public class ImageUtils extends AbstractBLogic{
 
 			//Move image from tempCollection to trial collection
 			String collection = patient.getCollection();
-			persistImage(tempColl, collection, auxImg.getId(), patient, study);
+			persistImage(tempColl, collection, auxImg.getId(), patient, study, imgType);
 		}
 	}
 	
@@ -270,7 +278,7 @@ public class ImageUtils extends AbstractBLogic{
 	 * @param images
 	 * @throws Exception
 	 */
-	public void persistImageResult(String tempColl, Result result, List<String> images) throws Exception{
+	public void persistImageResult(String tempColl, Result result, List<String> images, Integer imgType) throws Exception{
 		if(images == null) return;
 		
 		for(String idImage: images){
@@ -280,7 +288,8 @@ public class ImageUtils extends AbstractBLogic{
 			ImageData imageData = new ImageData();
 			imageData.setDate(new Date());
 			imageData.setImageId(idImage);
-			imageData.setImageType("");
+			imageData.setImgType(imageTypeDao.findById(imgType));
+
 			result.addImage(imageData);
 			
 			//Obtain thumbnail
@@ -310,14 +319,14 @@ public class ImageUtils extends AbstractBLogic{
 	 * @param images
 	 * @throws Exception
 	 */
-	public void persistImagesStudy(String tempColl, Study study, List<String> images) throws Exception{
+	public void persistImagesStudy(String tempColl, Study study, List<String> images, Integer imgType) throws Exception{
 		if( (tempColl == null) || (study == null) || ( (images == null) || (images.isEmpty()))) return;
 		
 		for(String idImage: images){
 			
 			//Move image from tempCollection to trial collection
 			String collection = study.getPatient().getGroup().getTrial().getCollection();
-			persistImage(tempColl, collection, idImage, study, study);
+			persistImage(tempColl, collection, idImage, study, study, imgType);
 		}		
 	}
 	
@@ -332,7 +341,7 @@ public class ImageUtils extends AbstractBLogic{
 	 * @param study
 	 * @throws Exception
 	 */
-	private void persistImage(String tempColl, String defColl, String idImage, Protocolable source, Study study) throws Exception{
+	private void persistImage(String tempColl, String defColl, String idImage, Protocolable source, Study study, Integer imgType) throws Exception{
 		ImageData imageData = null;
 		
 		//First, it is necessary to  check if image already exist into study, it is possible to
@@ -346,7 +355,7 @@ public class ImageUtils extends AbstractBLogic{
 			imageData.setDate(new Date());
 			imageData.setImageId(idImage);
 			imageData.setResult(null);
-			imageData.setImageType("");
+			imageData.setImgType(imageTypeDao.findById(imgType));
 
 			//Obtain thumbnail
 			ThumbNail tn = imgColManager.getThumbNail(tempColl, idImage, true);

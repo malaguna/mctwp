@@ -64,28 +64,28 @@ public class PersistImagesVisitor {
 		return protocolableDao;
 	}
 
-	public void visit(Trial imgcon, List<String> imagesId, String tempColl) throws Exception{
+	public void visit(Trial imgcon, List<String> imagesId, String tempColl, Integer imgType) throws Exception{
 		Protocolable aux = protocolableDao.findById(imgcon.getCode());
-		utils.persistImagesTrial(tempColl, (Trial)aux, imagesId);
+		utils.persistImagesTrial(tempColl, (Trial)aux, imagesId, imgType);
 	}
 
-	public void visit(Group imgcon, List<String> imagesId, String tempColl) throws Exception{
+	public void visit(Group imgcon, List<String> imagesId, String tempColl, Integer imgType) throws Exception{
 		Protocolable aux = protocolableDao.findById(imgcon.getCode());
-		utils.persistImagesGroup(tempColl, (Group)aux, imagesId);
+		utils.persistImagesGroup(tempColl, (Group)aux, imagesId, imgType);
 	}
 
-	public void visit(Patient imgcon, List<String> imagesId, String tempColl) throws Exception{
+	public void visit(Patient imgcon, List<String> imagesId, String tempColl, Integer imgType) throws Exception{
 		Protocolable aux = protocolableDao.findById(imgcon.getCode());
-		utils.persistImagesPatient(tempColl, (Patient)aux, imagesId);
+		utils.persistImagesPatient(tempColl, (Patient)aux, imagesId, imgType);
 	}
 	
-	public void visit(Study imgcon, List<String> imagesId, String tempColl) throws Exception{
+	public void visit(Study imgcon, List<String> imagesId, String tempColl, Integer imgType) throws Exception{
 		Protocolable aux = protocolableDao.findById(imgcon.getCode());
-		utils.persistImagesStudy(tempColl, (Study)aux, imagesId);
+		utils.persistImagesStudy(tempColl, (Study)aux, imagesId, imgType);
 	}
 
-	public void visit(Result imgcon, List<String> imagesId, String tempColl) throws Exception{
+	public void visit(Result imgcon, List<String> imagesId, String tempColl, Integer imgType) throws Exception{
 		Result aux = resultDao.findById(imgcon.getCode());
-		utils.persistImageResult(tempColl, aux, imagesId);
+		utils.persistImageResult(tempColl, aux, imagesId, imgType);
 	}
 }
