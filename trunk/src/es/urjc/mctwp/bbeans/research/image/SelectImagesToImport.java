@@ -184,8 +184,7 @@ public class SelectImagesToImport extends RequestInvAbstractBean {
 				((PersistImages)cmd).setImgType(typeSelected);
 				((PersistImages)cmd).setImages(images);
 				
-				runCommand(cmd);
-				setInfoMessage(getMessage("jsf.messages.ImagesPersisted"));
+				cmd = runCommand(cmd);
 			}else{
 				setErrorMessage(getMessage("jsf.info.NoImgTypeSelected"));
 			}

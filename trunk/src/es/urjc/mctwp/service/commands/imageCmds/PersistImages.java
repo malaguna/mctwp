@@ -83,6 +83,7 @@ public class PersistImages extends Command {
 	public Command runCommand() throws Exception{
 		source.accept(piv, images, tempColl, imgType);
 		createLogComment("audit.persistImage", images.size(), tempColl, source.getType(), source.getDescription());
+		createUserComment("jsf.messages.ImagesPersisted");
 		return this;
 	}
 }

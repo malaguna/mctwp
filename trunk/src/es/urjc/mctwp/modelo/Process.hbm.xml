@@ -45,6 +45,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
         <!-- Asociaciones -->
 
 		<many-to-one name="processDef" column="proceso" not-null="true" />
+        <many-to-one name="imgType" column="tipoimagen" not-null="false" />    
 		<many-to-one name="owner" column="usuario" not-null="true" />
 		<many-to-one name="source" column="protocolable" />
 

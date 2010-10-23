@@ -23,6 +23,7 @@ public class Process extends DomainObject {
 	private static final long serialVersionUID = -3893014283892311091L;
 	private ProcessDef processDef = null;
 	private Protocolable source = null;
+	private ImageType imgType = null;
 	private Integer daysToDo = null;
 	private User owner = null;
 
@@ -40,6 +41,14 @@ public class Process extends DomainObject {
 
 	public Protocolable getSource() {
 		return source;
+	}
+
+	public void setImgType(ImageType imgType) {
+		this.imgType = imgType;
+	}
+
+	public ImageType getImgType() {
+		return imgType;
 	}
 
 	public User getOwner() {

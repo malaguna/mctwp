@@ -20,6 +20,7 @@ package es.urjc.mctwp.service.commands.researchCmds;
 
 import org.springframework.beans.factory.BeanFactory;
 
+import es.urjc.mctwp.dao.ImageTypeDAO;
 import es.urjc.mctwp.dao.ProcessDAO;
 import es.urjc.mctwp.dao.ProcessDefDAO;
 import es.urjc.mctwp.dao.ProtocolableDAO;
@@ -35,10 +36,12 @@ import es.urjc.mctwp.modelo.Process;
 public class AddProcessToProtocolable extends Command {
 	private ProtocolableDAO protocolableDao = null;
 	private ProcessDefDAO processDefDao = null;
+	private ImageTypeDAO imageTypeDao = null;
 	private ProcessDAO processDao = null;
 	private UserDAO userDao = null;
 	private Protocolable source = null;
 	private Integer processDefId = null;
+	private Integer imgType = null;
 	private Integer ownerId = null;
 	private Integer days = null;
 
@@ -46,6 +49,7 @@ public class AddProcessToProtocolable extends Command {
 		super(bf);
 		protocolableDao = (ProtocolableDAO)bf.getBean(BeanNames.PROTOCOLABLE_DAO);
 		processDefDao = (ProcessDefDAO)bf.getBean(BeanNames.PROCESS_DEF_DAO);
+		imageTypeDao = (ImageTypeDAO)bf.getBean(BeanNames.IMAGETYPE_DAO);
 		processDao = (ProcessDAO)bf.getBean(BeanNames.PROCESS_DAO);
 		userDao = (UserDAO)bf.getBean(BeanNames.USER_DAO);
 		setActionName(ActionNames.ADD_PROCESS_PRT);
@@ -64,6 +68,14 @@ public class AddProcessToProtocolable extends Command {
 	public void setProcessDefId(Integer processDefId) {
 		this.processDefId = processDefId;
 	}
+	public void setImgType(Integer imgType) {
+		this.imgType = imgType;
+	}
+
+	public Integer getImgType() {
+		return imgType;
+	}
+
 	public Integer getDays() {
 		return days;
 	}
@@ -98,6 +110,7 @@ public class AddProcessToProtocolable extends Command {
 		process.setDaysToDo((days == null)?pdef.getDaysToDo():days);
 		process.setProcessDef(pdef);
 		process.setOwner(owner);
+		process.setImgType(imageTypeDao.findById(imgType));
 		
 		source.addProcess(process);
 		protocolableDao.persist(source);

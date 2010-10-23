@@ -212,6 +212,19 @@ public abstract class Command {
 	}
 
 	/**
+	 * This method get the appropriate message template and applies arguments to
+	 * generate a valid localized message.
+	 * 
+	 * @param arguments
+	 * @param template
+	 */
+	protected void createUserComment(String template, Object... arguments) {
+		MessageFormat formatter = new MessageFormat("");
+		formatter.applyPattern(messages.getString(template));
+		userComment = formatter.format(arguments);
+	}
+
+	/**
 	 * Whether the user has permission to run the action of the command
 	 * 
 	 * @return
