@@ -34,6 +34,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<t:saveState value="#{protocolBean.notAssignedProcesses}" />
 		<t:saveState value="#{protocolBean.possibleUsers}" />
 		<t:saveState value="#{protocolBean.source}" />
+		<t:saveState value="#{protocolBean.imgTypes}" />
 	</ui:define>
 
 	<ui:define name="title">
@@ -67,6 +68,12 @@ along with Multiclinical Trial Web-PACS.  If not, see
 				<h:inputText id="days" value="#{protocolBean.days}" styleClass="frmInput" />
 				<t:message id="daysError" for="days" />
 
+				<h:outputLabel value="Image Type" styleClass="frmLabel"/>
+				<h:selectOneMenu id="imgTypes"  value="#{protocolBean.typeSelected}" styleClass="frmSelectOne">
+					<f:selectItem itemLabel="" itemValue="#{null}" />
+					<f:selectItems value="#{protocolBean.imgTypes}" />
+				</h:selectOneMenu>
+				<t:message id="imgTypesError" for="imgTypes" />	
 			</h:panelGrid>
 		</h:panelGroup>
 	</ui:define>

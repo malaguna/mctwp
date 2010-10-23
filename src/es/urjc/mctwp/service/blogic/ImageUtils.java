@@ -289,6 +289,7 @@ public class ImageUtils extends AbstractBLogic{
 			imageData.setDate(new Date());
 			imageData.setImageId(idImage);
 			imageData.setImgType(imageTypeDao.findById(imgType));
+			imageData.setImageType("");
 
 			result.addImage(imageData);
 			
@@ -355,6 +356,7 @@ public class ImageUtils extends AbstractBLogic{
 			imageData.setDate(new Date());
 			imageData.setImageId(idImage);
 			imageData.setResult(null);
+			imageData.setImageType("");
 			imageData.setImgType(imageTypeDao.findById(imgType));
 
 			//Obtain thumbnail
@@ -365,7 +367,7 @@ public class ImageUtils extends AbstractBLogic{
 		try{
 			if(imageData.getCode() == 0){
 				imageDataDao.persist(imageData);
-				createTasks(imageData, source);
+				createTasks(imageData, source, imgType);
 			}
 			imgColManager.acceptTemporalImage(tempColl, defColl, idImage);
 		}catch (RuntimeException re){
@@ -459,10 +461,10 @@ public class ImageUtils extends AbstractBLogic{
 	 * @param image
 	 * @param source
 	 */
-	private void createTasks(ImageData image, Protocolable source){
+	private void createTasks(ImageData image, Protocolable source, Integer imgType){
 		HashSet<ImageData> set = new HashSet<ImageData>();
 		set.add(image);
-		createTasks(set, source);
+		createTasks(set, source, imgType);
 	}
 
 	/**
@@ -471,26 +473,28 @@ public class ImageUtils extends AbstractBLogic{
 	 * @param image
 	 * @param study
 	 */
-	private void createTasks(Set<ImageData> images, Protocolable source){
+	private void createTasks(Set<ImageData> images, Protocolable source, Integer imgType){
 		Task task = null;
 		
 		if( (images != null) && !(images.isEmpty()) && (source.getProcesses() != null) ){
 			
 			for (Process p : source.getProcesses()){
-				Calendar cal = Calendar.getInstance();
-				cal.add(Calendar.DAY_OF_MONTH, p.getDaysToDo());
-				task = new Task();
-				
-				task.setProcess(p.getProcessDef());
-				task.setOwner(p.getOwner());
-				task.setEndDate(cal.getTime());
-				task.setSource(source);
-				
-				//ImageData.addTask is the convenience method
-				for(ImageData img : images)
-					img.addTask(task);
-				
-				this.taskDao.persist(task);
+				if(p.getImgType().getCode().equals(imgType)){
+					Calendar cal = Calendar.getInstance();
+					cal.add(Calendar.DAY_OF_MONTH, p.getDaysToDo());
+					task = new Task();
+					
+					task.setProcess(p.getProcessDef());
+					task.setOwner(p.getOwner());
+					task.setEndDate(cal.getTime());
+					task.setSource(source);
+					
+					//ImageData.addTask is the convenience method
+					for(ImageData img : images)
+						img.addTask(task);
+					
+					this.taskDao.persist(task);
+				}
 			}
 		}
 	}

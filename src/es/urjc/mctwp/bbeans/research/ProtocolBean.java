@@ -26,11 +26,13 @@ import javax.faces.model.SelectItem;
 
 import es.urjc.mctwp.bbeans.ActionBeanNames;
 import es.urjc.mctwp.bbeans.RequestInvAbstractBean;
+import es.urjc.mctwp.modelo.ImageType;
 import es.urjc.mctwp.modelo.Participation;
 import es.urjc.mctwp.modelo.ProcessDef;
 import es.urjc.mctwp.modelo.Protocolable;
 import es.urjc.mctwp.modelo.User;
 import es.urjc.mctwp.service.Command;
+import es.urjc.mctwp.service.commands.adminCmds.FindAllImageTypes;
 import es.urjc.mctwp.service.commands.researchCmds.AddProcessToProtocolable;
 import es.urjc.mctwp.service.commands.researchCmds.FindNotAssignedProcesses;
 import es.urjc.mctwp.service.commands.researchCmds.LoadParticipationsOfTrial;
@@ -45,6 +47,8 @@ import es.urjc.mctwp.service.commands.researchCmds.RemoveProcessToProtocolable;
 public class ProtocolBean extends RequestInvAbstractBean{
 	private List<SelectItem> notAssignedProcesses = new ArrayList<SelectItem>();
 	private List<SelectItem> possibleUsers = new ArrayList<SelectItem>();
+	private List<SelectItem> imgTypes = null;
+	private Integer typeSelected = null;
 	private Protocolable source = null;
 	private Integer idProcessDefSelected = null;
 	private Integer idProcessSelected = null;
@@ -107,6 +111,22 @@ public class ProtocolBean extends RequestInvAbstractBean{
 		return possibleUsers;
 	}
 
+	public void setImgTypes(List<SelectItem> imgTypes) {
+		this.imgTypes = imgTypes;
+	}
+
+	public List<SelectItem> getImgTypes() {
+		return imgTypes;
+	}
+
+	public void setTypeSelected(Integer typeSelected) {
+		this.typeSelected = typeSelected;
+	}
+
+	public Integer getTypeSelected() {
+		return typeSelected;
+	}
+
 	/**
 	 * Reattach source to session in order to view its protocol
 	 * 
@@ -127,6 +147,19 @@ public class ProtocolBean extends RequestInvAbstractBean{
 		List<ProcessDef> aux = null;
 
 		if(source != null){
+			
+			//Prepare image types
+			FindAllImageTypes cmda = (FindAllImageTypes) getCommand(FindAllImageTypes.class);
+			cmda = (FindAllImageTypes) runCommand(cmda);
+			
+			if(cmda != null && cmda.getResult() != null){
+				imgTypes = new ArrayList<SelectItem>();
+				
+				for(ImageType imgt : cmda.getResult()){
+					imgTypes.add(new SelectItem(imgt.getCode(), imgt.getName()));
+				}
+			}else
+				setErrorMessage(getMessage("jsf.info.NoImageTypes"));
 			
 			//Get not assigned processes
 			Command cmd = getCommand(FindNotAssignedProcesses.class);
@@ -174,6 +207,8 @@ public class ProtocolBean extends RequestInvAbstractBean{
 		((AddProcessToProtocolable)cmd).setProcessDefId(idProcessDefSelected);
 		((AddProcessToProtocolable)cmd).setOwnerId(owner);
 		((AddProcessToProtocolable)cmd).setDays(days);
+		((AddProcessToProtocolable)cmd).setImgType(typeSelected);
+		
 		runCommand(cmd);
 
 		return accViewProtocol();
