@@ -52,6 +52,10 @@ public class ThumbSelectItem implements Serializable, Comparable<ThumbSelectItem
 		return thumbId;
 	}
 
+	public String getThumbIdShort() {
+		return String.format("%.15s..", thumbId);
+	}
+
 	public void setThumbId(String thumbId) {
 		this.thumbId = thumbId;
 	}
@@ -81,6 +85,18 @@ public class ThumbSelectItem implements Serializable, Comparable<ThumbSelectItem
 		return patName;
 	}
 
+	public String getPatNameShort() {
+		String result = "No Info";
+		
+		if(patName != null || !patName.isEmpty())
+			if(patName.length() > 15)
+				result = String.format("%.15s..", patName);
+			else
+				result = patName;
+		
+		return result;
+	}
+
 	public void setPatCode(String patCode) {
 		if(patCode != null)
 			this.patCode = patCode;
@@ -99,11 +115,26 @@ public class ThumbSelectItem implements Serializable, Comparable<ThumbSelectItem
 		return stdCode;
 	}
 
+	public String getStdCodeShort() {
+		String result = "[No Info]";
+		
+		if(stdCode != null || !stdCode.isEmpty())
+			if(stdCode.length() > 13)
+				result = String.format("[%.13s..]", stdCode);
+			else
+				result = String.format("[%s]", stdCode);
+		
+		return result;
+	}
+
 	public String getPath() {
 		return path;
 	}
 
 	public void setPath(String path) {
+		if(path == null)
+			path ="";
+		
 		this.path = path;
 	}
 
