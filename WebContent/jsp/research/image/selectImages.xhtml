@@ -62,34 +62,34 @@ along with Multiclinical Trial Web-PACS.  If not, see
 					<h:column styleClass="topAligned">
 						<h:panelGrid 
 							columns="1">
-							<h:panelGroup>
-								<h:selectBooleanCheckbox value="#{fimag.selected}" />
-								<h:outputText value="Select"/>
-							</h:panelGroup>
 							<h:graphicImage 
 								url="#{fimag.path}" 
 								alt="#{fimag.thumbId}" 
 								title="#{fimag.thumbId}"/>
+							<h:panelGroup>
+								<h:selectBooleanCheckbox value="#{fimag.selected}" />
+								<h:outputText value="#{fimag.thumbIdShort}"/>
+							</h:panelGroup>
 							<h:outputText
-								value="#{fimag.patName}"
+								value="#{fimag.patNameShort}"
 								rendered="#{!selectImages.containerAPatient and !selectImages.containerAStudy and !(empty fimag.patCode)}"/>
 							<h:outputText
-								value="#{fimag.patName}"
+								value="#{fimag.patNameShort}"
 								style="background-color: green;"
 								rendered="#{(selectImages.containerAPatient and !(empty fimag.patCode) and (fimag.patCode == selectImages.patientCont.hospitalId)) or (selectImages.containerAStudy and fimag.patCode == selectImages.studyCont.patient.hospitalId)}"/>
 							<h:outputText
-								value="#{fimag.patName}"
+								value="#{fimag.patNameShort}"
 								style="background-color: red;"
 								rendered="#{(selectImages.containerAPatient and !(empty fimag.patCode) and (fimag.patCode != selectImages.patientCont.hospitalId)) or (selectImages.containerAStudy and fimag.patCode != selectImages.studyCont.patient.hospitalId)}"/>
 							<h:outputText
-								value="Study [#{fimag.stdCode}]"
+								value="#{fimag.stdCodeShort}"
 								rendered="#{!selectImages.containerAStudy and !(empty fimag.stdCode)}"/>
 							<h:outputText
-								value="Study [#{fimag.stdCode}]"
+								value="#{fimag.stdCodeShort}"
 								style="background-color: green;"
 								rendered="#{selectImages.containerAStudy and !(empty fimag.stdCode) and (fimag.stdCode == selectImages.studyCont.hospitalId) and (fimag.patCode == selectImages.studyCont.patient.hospitalId)}"/>
 							<h:outputText
-								value="Study [#{fimag.stdCode}]"
+								value="#{fimag.stdCodeShort}"
 								style="background-color: red;"
 								rendered="#{selectImages.containerAStudy and !(empty fimag.stdCode) and ((fimag.stdCode != selectImages.studyCont.hospitalId) or (fimag.patCode != selectImages.studyCont.patient.hospitalId))}"/>
 						</h:panelGrid>
@@ -125,32 +125,47 @@ along with Multiclinical Trial Web-PACS.  If not, see
 					
 				</t:dataScroller> 
 			</td>
-			<td style="vertical-align: bottom;">
+			<td style="border-left: 1px solid #666464;">
 				<table>
 					<tr>
 						<td>
-							<h:outputLabel value="Image Type" styleClass="frmLabel"/>
-							<h:selectOneMenu id="imgTypes"  value="#{selectImages.typeSelected}" styleClass="frmSelectOne">
-								<f:selectItem itemLabel="" itemValue="#{null}" />
-								<f:selectItems value="#{selectImages.imgTypes}" />
-							</h:selectOneMenu>
-							<t:message id="imgTypesError" for="imgTypes" />	
+							<table>
+								<tr>
+									<td>
+										<h:outputLabel value="Image Type : " styleClass="frmLabel"/>
+									</td>
+									<td>
+										<h:selectOneMenu id="imgTypes"  value="#{selectImages.typeSelected}" styleClass="frmSelectOne">
+											<f:selectItem itemLabel="" itemValue="#{null}" />
+											<f:selectItems value="#{selectImages.imgTypes}" />
+										</h:selectOneMenu>
+										<t:message id="imgTypesError" for="imgTypes" />	
+									</td>
+								</tr>
+							</table>
 						</td>
 					</tr>
 					<tr>
-						<td><hr/></td>
-					</tr>
-					<tr>
-						<h:commandButton 
-							id="delete" 
-							styleClass="frmButton" 
-							value="#{msgs['jsf.actions.Delete']}" 
-							action="#{selectImages.deleteImages}"/>
-						<h:commandButton 
-							id="importar" 
-							styleClass="frmButton" 
-							value="#{msgs['jsf.actions.Import']}" 
-							action="#{selectImages.importImages}"/>
+						<td style="float: right;">
+							<table>
+								<tr>
+									<td>
+										<h:commandButton 
+											id="delete" 
+											styleClass="frmButton" 
+											value="#{msgs['jsf.actions.Delete']}" 
+											action="#{selectImages.deleteImages}"/>
+									</td>
+									<td>
+										<h:commandButton 
+											id="importar" 
+											styleClass="frmButton" 
+											value="#{msgs['jsf.actions.Import']}" 
+											action="#{selectImages.importImages}"/>
+									</td>
+								</tr>
+							</table>
+						</td>
 					</tr>
 				</table>
 			</td>
