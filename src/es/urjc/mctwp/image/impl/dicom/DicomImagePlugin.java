@@ -46,6 +46,7 @@ import org.w3c.dom.Node;
 import es.urjc.mctwp.image.ImageUtils;
 import es.urjc.mctwp.image.exception.ImageException;
 import es.urjc.mctwp.image.management.ImagePluginDefaultImpl;
+import es.urjc.mctwp.image.objects.DicomSCHeaderAttrs;
 import es.urjc.mctwp.image.objects.Image;
 import es.urjc.mctwp.image.objects.SeriesImage;
 import es.urjc.mctwp.image.objects.PatientInfo;
@@ -97,40 +98,15 @@ public class DicomImagePlugin extends ImagePluginDefaultImpl {
 
 	@Override
 	public PatientInfo getPatientInfo(Image image) throws ImageException {
-		DicomInputStream dis = null;
-		DicomObject dcmObj = null;
 		PatientInfo result = null;
-		String error = null;
-		SingleImageDicomImpl sidi = null;
 
-		if (image == null)
-			error = "Null dicom image";
-		else if (image instanceof SeriesImageDicomImpl && !((SeriesImageDicomImpl) image).getImages().isEmpty())
-			sidi = (SingleImageDicomImpl) ((SeriesImageDicomImpl) image)
-					.getImages().get(0);
-		else if (image instanceof SingleImageDicomImpl)
-			sidi = (SingleImageDicomImpl) image;
-
-		// Retrieve demographic dicom file information
-		try {
-			if(sidi != null){
-				dis = new DicomInputStream(sidi.getContent());
-				dcmObj = new BasicDicomObject();
-				dis.readDicomObject(dcmObj, -1);
-	
-				result = new PatientInfo();
-				result.setCode(dcmObj.getString(Tag.PatientID));
-				result.setName(dcmObj.getString(Tag.PatientName));
-				result.setStudy(dcmObj.getString(Tag.StudyID));
-			}else
-				error = "There is no images into serie";
-		} catch (IOException ioe) {
-			result = null;
-			error = "Can't read patient and study dicom header information";
+		DicomObject dcmObj = getDicomObject(image);
+		if(dcmObj != null){
+			result = new PatientInfo();
+			result.setCode(dcmObj.getString(Tag.PatientID));
+			result.setName(dcmObj.getString(Tag.PatientName));
+			result.setStudy(dcmObj.getString(Tag.StudyID));
 		}
-
-		if (error != null)
-			throw new ImageException(error);
 
 		return result;
 	}
@@ -221,6 +197,73 @@ public class DicomImagePlugin extends ImagePluginDefaultImpl {
 	@Override
 	public String[] getSupportedExtensions() {
 		return new String[] {SingleImageDicomImpl.DCM_EXT};
+	}
+	
+	public DicomSCHeaderAttrs getDicomHeader(Image image) throws ImageException{
+		DicomSCHeaderAttrs result = null;
+
+		DicomObject dcmObj = getDicomObject(image);
+		if(dcmObj != null){
+			result = new DicomSCHeaderAttrs();
+			result.setAccesionNumber(dcmObj.getString(Tag.AccessionNumber));
+			result.setImageDate(dcmObj.getDate(Tag.Date));
+			//result.setImageNumber(dcmObj.getString(Tag.num));
+			result.setInstitutionName(dcmObj.getString(Tag.InstitutionName));
+			result.setPatientBirth(dcmObj.getDate(Tag.PatientBirthDate));
+			result.setPatientId(dcmObj.getString(Tag.PatientID));
+			result.setPatientName(dcmObj.getString(Tag.PatientName));
+			result.setPatientSex(dcmObj.getString(Tag.PatientSex));
+			result.setSeriesDate(dcmObj.getString(Tag.SeriesDate));
+			result.setSeriesDescription(dcmObj.getString(Tag.SeriesDescription));
+			result.setSeriesInstanceUID(dcmObj.getString(Tag.SeriesInstanceUID));
+			result.setSeriesNumber(dcmObj.getString(Tag.SeriesNumber));
+			result.setStudyDate(dcmObj.getDate(Tag.StudyDate));
+			result.setStudyDescription(dcmObj.getString(Tag.StudyDescription));
+			result.setStudyInstanceUID(dcmObj.getString(Tag.StudyInstanceUID));
+			result.setStudyTime(dcmObj.getDate(Tag.StudyTime));
+		}
+		
+		return result;
+	}
+	
+	/**
+	 * Returns dicom object. It parses image an reports any exception
+	 * 
+	 * @param image
+	 * @return
+	 * @throws ImageException
+	 */
+	private DicomObject getDicomObject(Image image) throws ImageException{
+		SingleImageDicomImpl sidi = null;
+		DicomInputStream dis = null;
+		DicomObject result = null;
+		String error = null;
+
+		if (image == null)
+			error = "Null dicom image";
+		else if (image instanceof SeriesImageDicomImpl && !((SeriesImageDicomImpl) image).getImages().isEmpty())
+			sidi = (SingleImageDicomImpl) ((SeriesImageDicomImpl) image)
+					.getImages().get(0);
+		else if (image instanceof SingleImageDicomImpl)
+			sidi = (SingleImageDicomImpl) image;
+
+		// Retrieve header dicom from file information
+		try {
+			if(sidi != null){
+				dis = new DicomInputStream(sidi.getContent());
+				result = new BasicDicomObject();
+				dis.readDicomObject(result, -1);
+			}else
+				error = "There is no images into serie";
+		} catch (IOException ioe) {
+			result = null;
+			error = "Can't read dicom file";
+		}
+
+		if (error != null)
+			throw new ImageException(error);
+
+		return result;
 	}
 
 	/**

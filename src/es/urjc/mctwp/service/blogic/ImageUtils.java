@@ -38,8 +38,10 @@ import es.urjc.mctwp.dao.StudyDAO;
 import es.urjc.mctwp.dao.TaskDAO;
 import es.urjc.mctwp.image.exception.ImageCollectionException;
 import es.urjc.mctwp.image.exception.ImageException;
+import es.urjc.mctwp.image.impl.dicom.DicomImagePlugin;
 import es.urjc.mctwp.image.management.ImageCollectionManager;
 import es.urjc.mctwp.image.management.ImagePluginManager;
+import es.urjc.mctwp.image.objects.DicomSCHeaderAttrs;
 import es.urjc.mctwp.image.objects.Image;
 import es.urjc.mctwp.image.objects.PatientInfo;
 import es.urjc.mctwp.image.objects.ThumbNail;
@@ -70,6 +72,7 @@ public class ImageUtils extends AbstractBLogic{
 	private ImagePluginManager imgManager = null;
 	private DcmSenderFactory senderFactory = null;
 	private ImageCollectionManager imgColManager = null;
+	private DicomImagePlugin dicomPlugin = null;
 	
 	public void setTaskDao(TaskDAO taskDao) {
 		this.taskDao = taskDao;
@@ -126,6 +129,12 @@ public class ImageUtils extends AbstractBLogic{
 		return imgColManager;
 	}
 
+	public void setDicomPlugin(DicomImagePlugin dicomPlugin) {
+		this.dicomPlugin = dicomPlugin;
+	}
+	public DicomImagePlugin getDicomPlugin() {
+		return dicomPlugin;
+	}
 	public void storeTemporalImages(User user, List<File> files) throws ImageCollectionException, ImageException, IOException{
 		if(files != null){
 			imgColManager.storeTemporalImages(user.getLogin(), files);
@@ -161,6 +170,24 @@ public class ImageUtils extends AbstractBLogic{
 			}catch(Exception e){
 				
 			}
+		}
+	}
+	
+	/**
+	 * Sends to destination a list of images identified by a 
+	 * list of ids
+	 * 
+	 * @param images
+	 * @param destination
+	 */
+	public void sendImageAsSC(String imageId, String col, DcmDestination destination, DicomSCHeaderAttrs header) throws ImageException, ImageCollectionException{
+		DcmSender sender = getSenderFactory().getSender();
+		
+		if( (sender != null) && (imageId != null) && (header != null) &&
+			( (destination != null) && (destination.isValid()) ) ){
+			
+			Image image = imgColManager.getImage(col, imageId, false);
+			sender.sendImageAsSC(image, header, destination, dicomPlugin);
 		}
 	}
 	
@@ -497,5 +524,22 @@ public class ImageUtils extends AbstractBLogic{
 				}
 			}
 		}
+	}
+	
+	/**
+	 * It returns Dicom Header of a Dicom image
+	 * @param orig
+	 * @return
+	 * @throws ImageCollectionException 
+	 * @throws ImageException 
+	 */
+	public DicomSCHeaderAttrs getDicomHeader(String imageId, String collection) throws ImageException, ImageCollectionException {
+		DicomSCHeaderAttrs result = null;
+		
+		Image img = imgColManager.getImage(collection, imageId, false);
+		if(dicomPlugin != null)
+			result = dicomPlugin.getDicomHeader(img);
+		
+		return result;
 	}
 }

@@ -74,4 +74,6 @@ public class ActionBeanNames {
 	public final static String VIEW_USER_PRATICIP	= "viewUserParticipations";
 
 	public static final String EDIT_FILES = "viewProtocolableFiles";
+
+	public static final String SEND_IMAGE_SC = "sendImageAsSC";
 }

@@ -83,6 +83,16 @@ along with Multiclinical Trial Web-PACS.  If not, see
 					                	value="#{row.thumbId}"
 					                	target="#{downloadBean.imageId}"/>
 								</h:commandLink>
+								<h:commandLink 
+									action="#{sendSCDicomBean.accPrepareSend}">
+					                <h:graphicImage 
+					                	url="/jsp/icons/sc_go.png" 
+					                	alt="#{msgs['jsf.actions.Send']}" 
+					                	title="#{msgs['jsf.actions.Send']}"/>
+					                <f:setPropertyActionListener
+					                	value="#{row.imageId}"
+					                	target="#{sendSCDicomBean.imageId}"/>
+								</h:commandLink>
 								<h:selectBooleanCheckbox value="#{row.selected}" />
 							</h:panelGrid>					
 						</h:panelGrid>

@@ -39,7 +39,7 @@ import org.dcm4che2.io.DicomOutputStream;
 import org.dcm4che2.net.Association;
 import org.dcm4che2.net.Device;
 import org.dcm4che2.net.DicomServiceException;
-import org.dcm4che2.net.Executor;
+import java.util.concurrent.Executor;
 import org.dcm4che2.net.NetworkApplicationEntity;
 import org.dcm4che2.net.NetworkConnection;
 import org.dcm4che2.net.NewThreadExecutor;
@@ -151,7 +151,7 @@ public class DcmStorageServerImpl extends StorageService implements DcmStorageSe
 		UID.MultiframeGrayscaleByteSecondaryCaptureImageStorage,
 		UID.MultiframeGrayscaleWordSecondaryCaptureImageStorage,
 		UID.MultiframeTrueColorSecondaryCaptureImageStorage,
-		UID.VLImageStorageRetired,
+		UID.VLImageStorageTrialRetired,
 		UID.VLEndoscopicImageStorage,
 		UID.VideoEndoscopicImageStorage,
 		UID.VLMicroscopicImageStorage,
@@ -162,15 +162,16 @@ public class DcmStorageServerImpl extends StorageService implements DcmStorageSe
 		UID.OphthalmicPhotography8BitImageStorage,
 		UID.OphthalmicPhotography16BitImageStorage,
 		UID.StereometricRelationshipStorage,
-		UID.VLMultiframeImageStorageRetired,
+		UID.VLMultiframeImageStorageTrialRetired,
 		UID.StandaloneOverlayStorageRetired,
-		UID.BasicTextSR,
-		UID.EnhancedSR,
-		UID.ComprehensiveSR,
+		UID.BasicTextSRStorage,
+		UID.EnhancedSRStorage,
+		UID.ComprehensiveSRStorage,
+		UID.ComprehensiveSRStorageTrialRetired,
 		UID.ProcedureLogStorage,
-		UID.MammographyCADSR,
-		UID.KeyObjectSelectionDocument,
-		UID.ChestCADSR,
+		UID.MammographyCADSRStorage,
+		UID.KeyObjectSelectionDocumentStorage,
+		UID.ChestCADSRStorage,
 		UID.StandaloneCurveStorageRetired,
 		UID._12leadECGWaveformStorage,
 		UID.GeneralECGWaveformStorage,

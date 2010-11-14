@@ -32,6 +32,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 Components Attribute:
 
 	${backBean} : backBean
+	${showDelete} : boolean to hide or show delete image button. Default true.
 	
 Definitions:
  	
@@ -78,11 +79,14 @@ Definitions:
 			styleClass="frmButton" 
 			value="#{msgs['jsf.actions.Send']}" 
 			action="#{backBean.accSendImages}" />
-		<h:commandButton 
-			style="margin-left: 5px;"
-			styleClass="frmButton"
-			value="#{msgs['jsf.actions.DeleteSelected']}"
-			action="#{backBean.accPrepareImagesToDelete}" />
+		
+		<c:if test="${empty showDelete or (!empty showDelete and showDelete)}">
+			<h:commandButton 
+				style="margin-left: 5px;"
+				styleClass="frmButton"
+				value="#{msgs['jsf.actions.DeleteSelected']}"
+				action="#{backBean.accPrepareImagesToDelete}" />
+		</c:if>
 	</h:panelGroup>
 </h:panelGrid>
 	

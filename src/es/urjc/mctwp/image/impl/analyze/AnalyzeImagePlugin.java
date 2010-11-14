@@ -188,7 +188,8 @@ public class AnalyzeImagePlugin extends ImagePluginDefaultImpl {
 			
 			String base = source.getParent();
 			String pre = ImageUtils.getFileName(source);
-			result = new File(FilenameUtils.concat(base, pre + ".png"));
+			String exten = (DCM_FORMAT_OPT.equalsIgnoreCase(format))?".dcm":".png";
+			result = new File(FilenameUtils.concat(base, pre + exten));
 
 			// Check if thumbnails exists. Like a cache of thumbnails
 			if ((!result.exists()) || (!result.isFile())

@@ -125,6 +125,10 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<from-outcome>deleteImages</from-outcome>
 			<to-view-id>/jsp/research/image/deleteImages.xhtml</to-view-id>
 		</navigation-case>
+		<navigation-case>
+			<from-outcome>sendImageAsSC</from-outcome>
+			<to-view-id>/jsp/research/image/sendImageAsSC.xhtml</to-view-id>
+		</navigation-case>
 	</navigation-rule>
 
 	<navigation-rule>
