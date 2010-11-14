@@ -185,7 +185,7 @@ public class ImagePluginManager {
 
 		return result;
 	}
-
+	
 	/**
 	 * Builds an image from a file
 	 * 

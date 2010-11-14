@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+    xmlns:mine="http://mctwp.urjc.es/jsf">
+
+<ui:composition template="/jsp/include/templateRsc.xhtml">
+
+<ui:define name="cuerpo">
+
+	<t:saveState value="#{sendSCDicomBean.SOPUids}"/>
+	<t:saveState value="#{sendSCDicomBean.imageId}"/>
+
+	<h:form prependId="false">	
+	<table class="cuerpoCentrado">
+		<tr>
+			<td class="textoCentrado">
+				<h3><h:outputText value="#{msgs['jsf.headers.SendImageAsSC']}" /></h3>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<hr/>
+			</td>
+		</tr>
+		<tr>
+			<td class="bajoLinea">
+				<table>
+					<tr>
+						<td>
+							<p:tabView>
+								<p:tab title="#{msgs['jsf.headers.Header']}">
+								
+									<h:panelGrid columns="3">
+									
+										<h:outputLabel 
+											styleClass="frmLabel"
+											value="#{msgs['jsf.dicom.sopInstanceUID']} :"/>
+										<h:selectOneMenu 
+											id="sopuid"
+											styleClass="frmSelectOne"
+											value="#{sendSCDicomBean.dicomHeader.sopInstanceUID}">
+											<f:selectItems value="#{sendSCDicomBean.SOPUids}" />
+										</h:selectOneMenu>
+										<t:message 
+											for="sopuid"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.studyDate']} :" />
+										<h:inputText 
+											id="studyDate"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.studyDate}" />									
+										<t:message 
+											for="studyDate"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.seriesDate']} :" />
+										<h:inputText 
+											id="seriesDate"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.seriesDate}" />									
+										<t:message 
+											for="seriesDate"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.imageDate']} :" />
+										<h:inputText 
+											id="imageDate"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.imageDate}" />									
+										<t:message 
+											for="imageDate"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.studyTime']} :" />
+										<h:inputText 
+											id="studyTime"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.studyTime}" />									
+										<t:message 
+											for="studyTime"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.accesionNumber']} :" />
+										<h:inputText 
+											id="accesion"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.accesionNumber}" />									
+										<t:message 
+											for="accesion"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.institutionName']} :" />
+										<h:inputText 
+											id="institution"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.institutionName}" />									
+										<t:message 
+											for="institution"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.studyDescription']} :" />
+										<h:inputText 
+											id="studyDesc"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.studyDescription}" />									
+										<t:message 
+											for="studyDesc"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.seriesDescription']} :" />
+										<h:inputText 
+											id="seriesDesc"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.seriesDescription}" />									
+										<t:message 
+											for="seriesDesc"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.patientName']} :" />
+										<h:inputText 
+											id="patName"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.patientName}" />									
+										<t:message 
+											for="patName"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.patientId']} :" />
+										<h:inputText 
+											id="patId"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.patientId}" />									
+										<t:message 
+											for="patId"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.patientBirth']} :" />
+										<h:inputText 
+											id="patBirth"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.patientBirth}" />									
+										<t:message 
+											for="patBirth"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.patientSex']} :" />
+										<h:inputText 
+											id="patSex"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.patientSex}" />									
+										<t:message 
+											for="patSex"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.studyInstanceUID']} :" />
+										<h:inputText 
+											id="studyUID"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.studyInstanceUID}" />									
+										<t:message 
+											for="studyUID"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.seriesInstanceUID']} :" />
+										<h:inputText 
+											id="seriesUID"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.seriesInstanceUID}" />									
+										<t:message 
+											for="seriesUID"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.seriesNumber']} :" />
+										<h:inputText 
+											id="seriesNumber"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.seriesNumber}" />									
+										<t:message 
+											for="seriesNumber"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+										<h:outputLabel 
+											styleClass="frmLabel" 
+											value="#{msgs['jsf.dicom.imageNumber']} :" />
+										<h:inputText 
+											id="imageNumber"
+											styleClass="frmInput" 
+											value="#{sendSCDicomBean.dicomHeader.imageNumber}" />									
+										<t:message 
+											for="imageNumber"
+											styleClass="error"
+											style="frmLabelError"/>
+										
+									</h:panelGrid>
+
+								</p:tab>
+							</p:tabView>
+						</td>
+						<td style="vertical-align: top;">
+							<mine:dcmSender backBean="#{sendSCDicomBean}" showDelete="#{false}" />
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	</h:form>
+	
+</ui:define>
+
+</ui:composition>
+</html>

@@ -230,6 +230,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<property name="thrName" value="SENDER" />
 		<property name="bufferSize" value="256" />
 		<property name="rspDelay" value="0" />
+		<property name="imageManager" ref="ImagePluginManager" />
 		<property name="sampleObjSender" ref="SampleObjSender" />
 	</bean>
 
@@ -247,10 +248,12 @@ along with Multiclinical Trial Web-PACS.  If not, see
 		<property name="studyDao"	ref="StudyDAO" />
 		<property name="resultDao"	ref="ResultDAO" />
 		<property name="patientDao"	ref="PatientDAO" />
+		<property name="dicomPlugin" ref="DicomPlugin" />
 		<property name="imageManager" 	 ref="ImagePluginManager"/>
 		<property name="imageDataDao"	 ref="ImageDataDAO" />
 		<property name="imageTypeDao"	 ref="ImageTypeDAO" />
 		<property name="imageColManager" ref="ImageCollectionManager" />
+		<property name="senderFactory" ref="DcmSenderFactory"/>
 	</bean>
 	
 	<bean id="PersistImagesVisitor" class="es.urjc.mctwp.service.blogic.PersistImagesVisitor">

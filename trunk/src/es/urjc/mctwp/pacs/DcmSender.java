@@ -21,7 +21,9 @@ package es.urjc.mctwp.pacs;
 import java.io.File;
 import java.util.List;
 
+import es.urjc.mctwp.image.impl.dicom.DicomImagePlugin;
 import es.urjc.mctwp.image.management.ImagePluginManager;
+import es.urjc.mctwp.image.objects.DicomSCHeaderAttrs;
 import es.urjc.mctwp.image.objects.Image;
 
 /**
@@ -83,4 +85,5 @@ public abstract class DcmSender {
 
 	public abstract void init() throws DcmException;
 	public abstract void sendImages(List<Image> images, DcmDestination destination);
+	public abstract void sendImageAsSC(Image image, DicomSCHeaderAttrs header, DcmDestination destination, DicomImagePlugin plugin);
 }

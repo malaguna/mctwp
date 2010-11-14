@@ -42,13 +42,15 @@ import org.dcm4che2.net.Association;
 import org.dcm4che2.net.ConfigurationException;
 import org.dcm4che2.net.Device;
 import org.dcm4che2.net.DimseRSPHandler;
-import org.dcm4che2.net.Executor;
+import java.util.concurrent.Executor;
 import org.dcm4che2.net.NetworkApplicationEntity;
 import org.dcm4che2.net.NetworkConnection;
 import org.dcm4che2.net.NewThreadExecutor;
 import org.dcm4che2.net.TransferCapability;
 
 import es.urjc.mctwp.image.exception.ImageException;
+import es.urjc.mctwp.image.impl.dicom.DicomImagePlugin;
+import es.urjc.mctwp.image.objects.DicomSCHeaderAttrs;
 import es.urjc.mctwp.image.objects.Image;
 import es.urjc.mctwp.pacs.DcmDestination;
 import es.urjc.mctwp.pacs.DcmException;
@@ -185,18 +187,57 @@ public class DcmSenderImpl extends DcmSender{
 		if( (destination != null) && (images != null) && (!images.isEmpty()) ){
 			
 			try {
-
 				files = obtainDicomFiles(images);
 				parsedFiles = parseFiles(files);
 				configureTransferCapability();
 				connectTo(destination);
-				sendFiles(parsedFiles);
+				sendFiles(parsedFiles, null);
 
 			} catch (Exception e) {
 				logErrMsg("sendImages", e);
 				//TODO Throws own exceptions
-			}
+			}			
+		}
+	}
+	
+	/**
+	 * This method convert image to Dicom and override header info. Then
+	 * tries to connect with the destination, parse new Dicom file 
+	 * and try to set correct transfer syntax and finally send image.
+	 * 
+	 * TODO prepare exception for different kind of errors:
+	 *  - destination not found
+	 *  - bad image
+	 *  - unsupported format
+	 *  - etc.
+	 * 
+	 * @param destination
+	 * @param dicomHeader
+	 * @param image
+	 */
+	public void sendImageAsSC(Image image, DicomSCHeaderAttrs header, DcmDestination destination, DicomImagePlugin plugin){
+		List<File> files = null;
+		List<FileInfo> parsedFiles = null;
+		
+		if( (destination != null) && (image != null) && (header != null) ){
 			
+			try {
+				files = getImng().obtainDICOM(image, tempDirectory);
+				
+				//Override Dicom Header
+				if(files != null && files.size() == 1){
+					parsedFiles = parseFiles(files);
+					configureTransferCapability();
+					connectTo(destination);
+					sendFiles(parsedFiles, header);
+				}else{
+					throw new Exception("There are no files, or there more than one files");
+				}
+
+			} catch (Exception e) {
+				logErrMsg("sendSCImage", e);
+				//TODO Throws own exceptions
+			}			
 		}
 	}
 	
@@ -296,7 +337,7 @@ public class DcmSenderImpl extends DcmSender{
 	 * 
 	 * @param files
 	 */
-	private void sendFiles(List<FileInfo> parsedFiles) throws DcmException{
+	private void sendFiles(List<FileInfo> parsedFiles, DicomSCHeaderAttrs header) throws DcmException{
 		if( (parsedFiles != null) && (!parsedFiles.isEmpty()) ){
 
 			for(FileInfo info : parsedFiles){
@@ -318,8 +359,7 @@ public class DcmSenderImpl extends DcmSender{
 	                throw new DcmException(error);
 	            }
 	            
-	            try {
-	            	
+	            try {	            	
 	                DimseRSPHandler rspHandler = new DimseRSPHandler() {
 	                    public void onDimseRSP(Association as, DicomObject cmd, DicomObject data) {
 							int status = cmd.getInt(Tag.Status);
@@ -336,6 +376,7 @@ public class DcmSenderImpl extends DcmSender{
 	                };
 
 	                DataWriter dw = new DataWriter(info);
+	                dw.setHeader(header);
 	                dw.setTranscoderBufferSize(trnBufferSize);
 	                assoc.cstore(info.cuid, info.iuid, priority, dw, tsuid, rspHandler);
 		            assoc.waitForDimseRSP();
