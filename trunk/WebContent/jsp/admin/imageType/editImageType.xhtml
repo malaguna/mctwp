@@ -54,7 +54,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<t:message id="nameError" for="name" />
 
 			<h:outputLabel value="#{msgs['jsf.generic.Pattern']}" styleClass="frmLabel" for="pattern" />
-			<h:inputTextarea styleClass="frmInput" id="pattern" value="#{imageTypeBean.FEdcObject.pattern}"  required="true" />
+			<h:inputTextarea styleClass="frmInput" id="pattern" value="#{imageTypeBean.FEdcObject.pattern}" />
 			<t:message id="patternError" for="pattern" />
 
 		</h:panelGrid>
@@ -64,7 +64,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 <ui:define name="buttonsForm">
 	<h:panelGrid columns="4">
 		<h:commandButton id="find" value="#{msgs['jsf.actions.Save']}" action="#{imageTypeBean.accSaveImageType}" styleClass="frmButton" />
-		<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{imageTypeBean.accFindImageType}" styleClass="frmButton" />
+		<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{imageTypeBean.accFindImageTypes}" styleClass="frmButton" />
 	</h:panelGrid>
 </ui:define>
 
