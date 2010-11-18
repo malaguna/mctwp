@@ -18,8 +18,6 @@
 
 package es.urjc.mctwp.pacs;
 
-import org.apache.naming.factory.BeanFactory;
-
 import es.urjc.mctwp.image.management.ImageCollectionManager;
 import es.urjc.mctwp.service.ServiceDelegate;
 
@@ -27,7 +25,6 @@ public interface DcmStorageServer {
 	
 	public void setImageCollectionManager(ImageCollectionManager imc);
 	public void setService(ServiceDelegate service);
-	public void setBf(BeanFactory bf);
 
 	public void init() throws DcmException;
 	public void start() throws DcmException;
