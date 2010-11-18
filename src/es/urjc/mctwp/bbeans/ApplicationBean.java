@@ -37,6 +37,7 @@ public class ApplicationBean extends AbstractBean {
 		pacs = server;
 		try{
 			pacs.init();
+			pacs.setService(getService());
 			startPacs();
 		}
 		catch(DcmException msse){

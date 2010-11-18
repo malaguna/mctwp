@@ -30,7 +30,9 @@ import java.util.ArrayList;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
-import org.apache.naming.factory.BeanFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 import org.dcm4che2.data.BasicDicomObject;
 import org.dcm4che2.data.DicomObject;
 import org.dcm4che2.data.Tag;
@@ -56,7 +58,7 @@ import es.urjc.mctwp.service.Command;
 import es.urjc.mctwp.service.ServiceDelegate;
 import es.urjc.mctwp.service.commands.ModalityAllowed;
 
-public class DcmStorageServerImpl extends StorageService implements DcmStorageServer{
+public class DcmStorageServerImpl extends StorageService implements DcmStorageServer, BeanFactoryAware{
 	private ServiceDelegate service = null;
 	private BeanFactory bf = null;
 
@@ -188,12 +190,6 @@ public class DcmStorageServerImpl extends StorageService implements DcmStorageSe
 	}
 	public ServiceDelegate getService() {
 		return service;
-	}
-	public void setBf(BeanFactory bf) {
-		this.bf = bf;
-	}
-	public BeanFactory getBf() {
-		return bf;
 	}
 	public void setAeTitle(String aeTitle) {
 		this.aeTitle = aeTitle;
@@ -382,5 +378,8 @@ public class DcmStorageServerImpl extends StorageService implements DcmStorageSe
 		
 		return result;
 	}
-	
+	@Override
+	public void setBeanFactory(BeanFactory arg0) throws BeansException {
+		this.bf = arg0;
+	}
 }
