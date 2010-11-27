@@ -102,9 +102,14 @@ public class ImagePluginManager {
 		List<ImagePlugin> lstPlugins = getPlugins(image);
 		if (lstPlugins != null)
 			for (ImagePlugin plugin : lstPlugins) {
-				result = plugin.toXml(image);
-				if (result != null)
-					break;
+				try{
+					result = plugin.toXml(image);
+					if (result != null)
+						break;
+				}catch (RuntimeException re){
+					logger.error(re.getLocalizedMessage());
+					re.printStackTrace();
+				}
 			}
 
 		return result;
@@ -123,17 +128,23 @@ public class ImagePluginManager {
 		List<ImagePlugin> lstPlugins = getPlugins(image);
 		if (lstPlugins != null)
 			for (ImagePlugin plugin : lstPlugins) {
-				File thumb = plugin.toPng(image);
-				if (thumb != null) {
-					result = new ThumbNail();
-					result.setContent(thumb);
-					result.setId(image.getId());
-
-					PatientInfo info = plugin.getPatientInfo(image);
-					if (info != null)
-						result.setPatInfo(info);
-
-					break;
+				
+				try{
+					File thumb = plugin.toPng(image);
+					if (thumb != null) {
+						result = new ThumbNail();
+						result.setContent(thumb);
+						result.setId(image.getId());
+	
+						PatientInfo info = plugin.getPatientInfo(image);
+						if (info != null)
+							result.setPatInfo(info);
+	
+						break;
+					}
+				}catch (RuntimeException re){
+					logger.error(re.getLocalizedMessage());
+					re.printStackTrace();
 				}
 			}
 
@@ -155,9 +166,14 @@ public class ImagePluginManager {
 		List<ImagePlugin> lstPlugins = getPlugins(image);
 		if (lstPlugins != null)
 			for (ImagePlugin plugin : lstPlugins) {
-				result = plugin.toDicom(image, outputDir);
-				if (result != null)
-					break;
+				try{
+					result = plugin.toDicom(image, outputDir);
+					if (result != null)
+						break;
+				}catch (RuntimeException re){
+					logger.error(re.getLocalizedMessage());
+					re.printStackTrace();
+				}
 			}
 
 		return result;
@@ -178,9 +194,14 @@ public class ImagePluginManager {
 		List<ImagePlugin> lstPlugins = getPlugins(image);
 		if (lstPlugins != null)
 			for (ImagePlugin plugin : lstPlugins) {
-				result = plugin.getPatientInfo(image);
-				if (result != null)
-					break;
+				try{
+					result = plugin.getPatientInfo(image);
+					if (result != null)
+						break;
+				}catch (RuntimeException re){
+					logger.error(re.getLocalizedMessage());
+					re.printStackTrace();
+				}
 			}
 
 		return result;
