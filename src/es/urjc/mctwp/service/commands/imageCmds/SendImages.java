@@ -64,6 +64,7 @@ public class SendImages extends Command {
 	public Command runCommand() throws Exception{
 		imageUtils.sendImages(images, getTrial().getCollection(), destination);
 		createLogComment("audit.sendImages", images.size(), getTrial().getCollection(), destination.getHostname());
-		return null;
+		createUserComment("jsf.generic.SendOk");
+		return this;
 	}
 }

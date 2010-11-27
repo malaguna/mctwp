@@ -167,7 +167,7 @@ public class ServiceDelegate {
 						String msg = "Command failed: " + e.getLocalizedMessage();
 						txManager.rollback(status);
 						logger.error(msg);
-						throw new CommandException(msg);
+						throw new CommandException(msg, e);
 					}
 					
 					try{
@@ -175,7 +175,7 @@ public class ServiceDelegate {
 					}catch(Exception e){
 						String msg = "Command commit failed: " + e.getLocalizedMessage();
 						logger.error(msg);
-						throw new CommandException(msg);
+						throw new CommandException(msg, e);
 					}
 					
 					endsLogCommand(cmd);

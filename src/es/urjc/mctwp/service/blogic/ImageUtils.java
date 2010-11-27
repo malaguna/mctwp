@@ -168,7 +168,7 @@ public class ImageUtils extends AbstractBLogic{
 			try{
 				sender.sendImages(images, destination);
 			}catch(Exception e){
-				
+				throw new ImageException("Images can not be sended", e);
 			}
 		}
 	}
