@@ -505,7 +505,7 @@ public class ImageUtils extends AbstractBLogic{
 		
 		if( (images != null) && !(images.isEmpty()) && (source.getProcesses() != null) ){
 			
-			for (Process p : source.getProcesses()){
+			for (Process p : source.getAllProcesses()){
 				if(p.getImgType().getCode().equals(imgType)){
 					Calendar cal = Calendar.getInstance();
 					cal.add(Calendar.DAY_OF_MONTH, p.getDaysToDo());

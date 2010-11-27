@@ -36,6 +36,7 @@ import es.urjc.mctwp.modelo.ImageContainer;
 import es.urjc.mctwp.modelo.ImageType;
 import es.urjc.mctwp.modelo.Patient;
 import es.urjc.mctwp.modelo.Study;
+import es.urjc.mctwp.service.ActionNames;
 import es.urjc.mctwp.service.Command;
 import es.urjc.mctwp.service.blogic.ImageContainerTypeVisitor;
 import es.urjc.mctwp.service.commands.adminCmds.FindAllImageTypes;
@@ -136,6 +137,7 @@ public class SelectImagesToImport extends RequestInvAbstractBean {
 			populateThumbNails();
 		
 		FindAllImageTypes cmd = (FindAllImageTypes) getCommand(FindAllImageTypes.class);
+		cmd.setActionName(ActionNames.PERSIST_IMAGES);
 		cmd = (FindAllImageTypes) runCommand(cmd);
 		
 		if(cmd != null && cmd.getResult() != null){

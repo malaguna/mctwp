@@ -24,7 +24,6 @@ import org.springframework.beans.factory.BeanFactory;
 
 import es.urjc.mctwp.dao.ImageTypeDAO;
 import es.urjc.mctwp.modelo.ImageType;
-import es.urjc.mctwp.service.ActionNames;
 import es.urjc.mctwp.service.BeanNames;
 import es.urjc.mctwp.service.ResultCommand;
 
@@ -36,7 +35,6 @@ public class FindImageType extends ResultCommand<List<ImageType>> {
 	public FindImageType(BeanFactory bf) {
 		super(bf);
 		ImageTypeDao = (ImageTypeDAO)bf.getBean(BeanNames.IMAGETYPE_DAO);
-		setActionName(ActionNames.FIND_IMAGETYPES);
 	}
 	
 	public void setImageType(ImageType ImageType) {

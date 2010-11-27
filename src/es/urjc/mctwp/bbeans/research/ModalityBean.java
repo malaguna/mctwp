@@ -37,7 +37,7 @@ import es.urjc.mctwp.service.commands.researchCmds.LoadParticipationsOfTrial;
 import es.urjc.mctwp.service.commands.researchCmds.RemoveUserModality;
 
 public class ModalityBean extends RequestInvAbstractBean {
-	private List<SelectItem> modalities = null;
+	private List<SelectItem> modalities = new ArrayList<SelectItem>();
 	private Integer modalitySelected = null;
 	private List<SelectItem> users = null;
 	private Integer userSelected = null;
@@ -74,6 +74,15 @@ public class ModalityBean extends RequestInvAbstractBean {
 		return user;
 	}
 	
+	public List<Modality> getUserModalitiesAsList() {
+		List<Modality> result = null;
+		
+		if(user != null)
+			result = new ArrayList<Modality>(user.getModalities());
+		
+		return result;
+	}
+
 	public String accPrepareUsers(){
 		//Get possible users
 		Command cmd = getCommand(LoadParticipationsOfTrial.class);
@@ -93,23 +102,23 @@ public class ModalityBean extends RequestInvAbstractBean {
 	}
 	
 	public String accPrepareModalities(){
-		if(user == null){
+		if(userSelected != null){
 			Command cmd = getCommand(LoadUser.class);
 			((LoadUser)cmd).setUserCode(userSelected);
 			cmd = runCommand(cmd);
 			user = ((LoadUser)cmd).getResult();
-		}
-		
-		Command cmd = getCommand(FindNotAssignedModalities.class);
-		((FindNotAssignedModalities)cmd).setUserObj(user);
-		cmd = runCommand(cmd);
-		List<Modality> aux = ((FindNotAssignedModalities)cmd).getResult();
-		
-		if(aux != null){
-			modalities = new ArrayList<SelectItem>();
 			
-			for(Modality modality : aux){
-				modalities.add(new SelectItem(modality.getCode(), modality.getName()));
+			Command cmd2 = getCommand(FindNotAssignedModalities.class);
+			((FindNotAssignedModalities)cmd2).setUserObj(user);
+			cmd2 = runCommand(cmd2);
+			List<Modality> aux = ((FindNotAssignedModalities)cmd2).getResult();
+			
+			if(aux != null){
+				modalities = new ArrayList<SelectItem>();
+				
+				for(Modality modality : aux){
+					modalities.add(new SelectItem(modality.getCode(), modality.getName()));
+				}
 			}
 		}
 		
@@ -117,10 +126,13 @@ public class ModalityBean extends RequestInvAbstractBean {
 	}
 	
 	public String accAddUserModality(){
-		Command cmd = getCommand(AddUserModality.class);
-		((AddUserModality)cmd).setModality(modalitySelected);
-		((AddUserModality)cmd).setUserObj(user);
-		cmd = runCommand(cmd);
+		if(user != null){
+			Command cmd = getCommand(AddUserModality.class);
+			((AddUserModality)cmd).setModality(modalitySelected);
+			((AddUserModality)cmd).setUserObj(user);
+			cmd = runCommand(cmd);
+		}else
+			setWarnMessage("No se ha indicado ningún usuario");
 		
 		return accPrepareModalities();
 	}
