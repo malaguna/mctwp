@@ -76,7 +76,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 					paginator="true" paginatorPosition="bottom"  
 					value="#{modalityIBean.userModalitiesAsList}">
 						
-					<p:column>
+					<p:column sortBy="#{row.name}" parser="string">
 						<f:facet name="header">
 							<h:outputText value="#{msgs['jsf.generic.Name']}" />
 						</f:facet>
