@@ -169,4 +169,9 @@ public class Trial extends Protocolable implements java.io.Serializable {
 		
 		return auxSet;
 	}
+
+	@Override
+	protected Set<Process> getParentProcesses() {
+		return null;
+	}
 }
