@@ -54,15 +54,18 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<t:message id="nameError" for="name" />
 
 			<h:outputLabel value="#{msgs['jsf.generic.Help']}" styleClass="frmLabel" for="help" />
-			<h:inputTextarea styleClass="frmInput" id="help" value="#{processDefBean.FEdcObject.help}"  required="true" />
+			<h:inputTextarea styleClass="frmInput" id="help" value="#{processDefBean.FEdcObject.help}" />
 			<t:message id="helpError" for="help" />
 
 			<h:outputLabel value="#{msgs['jsf.generic.Description']}" styleClass="frmLabel" for="desc" />
-			<h:inputTextarea styleClass="frmInput" id="desc" value="#{processDefBean.FEdcObject.description}"  required="true" />
+			<h:inputTextarea styleClass="frmInput" id="desc" value="#{processDefBean.FEdcObject.description}" />
 			<t:message id="descError" for="desc" />
 
 			<h:outputLabel value="#{msgs['jsf.generic.TimeToDo']}" styleClass="frmLabel" for="time" />
-			<h:inputText styleClass="frmInput" id="time" value="#{processDefBean.FEdcObject.daysToDo}" size="2" required="true" />
+			<h:panelGroup>
+				<h:inputText styleClass="frmInput" id="time" value="#{processDefBean.FEdcObject.daysToDo}" size="2" />
+				<h:ouputText value="#{msgs['jsf.generic.Days']}"/>
+			</h:panelGroup>
 			<t:message id="timeError" for="time" />
 
 		</h:panelGrid>

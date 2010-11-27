@@ -7,7 +7,6 @@ Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
 This file is part of Multiclinical Trial Web-PACS.
 
 Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
-it and/or modify it under  the terms of the GNU General Public License 
 as published by the Free  Software Foundation, either version 3 of the 
 License, or (at your option) any later version.
 
@@ -27,133 +26,111 @@ along with Multiclinical Trial Web-PACS.  If not, see
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:t="http://myfaces.apache.org/tomahawk"
       xmlns:p="http://primefaces.prime.com.tr/ui">
-
+      
 <ui:composition template="/jsp/include/templateRsc.xhtml">
 <ui:define name="cuerpo">
+
+<t:saveState value="#{modalityIBean.user}" />
+<t:saveState value="#{modalityIBean.users}" />
+<t:saveState value="#{modalityIBean.modalities}" />
 
 <!-- Comienza la página JSF -->
 
 <div class="cuerpo">
 
-	<t:saveState value="#{modalityIBean.user}" />
-	<t:saveState value="#{modalityIBean.users}" />
-	<t:saveState value="#{modalityIBean.modalities}" />
+	<ui:insert name="saveState" />
 	
-	<f:loadBundle basename="es.urjc.mctwp.resources.messages" var="msgs"/>
+	<h:form id="mainForm" prependId="false">
 	
-	<!-- user info -->
-	<h:form>
-		<h:panelGrid id="tblUser" columns="1" styleClass="bodyFrm" rendered="#{modalityIBean.user == null}">
-			
-			<f:facet name="header">
-				<h:panelGroup>
-					<h:outputLabel styleClass="frmLabelHeader" value="#{msgs['jsf.headers.ModalitiesMngt']}">
-					</h:outputLabel>
-				</h:panelGroup>
-			</f:facet>
-																
-			<h:outputLabel value="#{msgs['jsf.generic.User']}" styleClass="frmLabel" for="user" />
-			<h:selectOneMenu id="user" value="#{modalityIBean.userSelected}">
-				<f:selectItems value="#{modalityIBean.users}"/>
-			</h:selectOneMenu>
-			<t:message id="userError" for="user" />
-
-			<f:facet name="footer">
-				<h:panelGroup styleClass="tblUserFootFrm">
-					<h:commandButton id="cargar" value="#{msgs['jsf.actions.Load']}" action="#{modalityIBean.accPrepareModalities}" styleClass="frmButton" />
-				</h:panelGroup>
-			</f:facet>	
-			
-		</h:panelGrid>
-		
-		<h:panelGrid id="tabla" columns="1" styleClass="bodyFrm" rendered="#{modalityIBean.user != null}">
-		
-			<t:dataTable id="results"
-				styleClass="resTabla"
-				headerClass="resCabecera" footerClass="pieTablaEstandar" 
-				rowClasses="resFilaImpar, resFilaPar" columnClasses="columnaNormal" 
-				value="#{modalityIBean.user.modalities}" var="row" rows="10">
+	<table class="cuerpoCentrado">
+		<tr>
+			<td class="textoCentrado">
+				<h3>
+					<h:outputText value="#{msgs['jsf.headers.ModalitiesMngt']}"/>
+				</h3>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<hr/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h:panelGrid id="selectUser" columns="2" styleClass="frmTabla">
+							
+					<h:outputLabel value="#{msgs['jsf.generic.User']}" styleClass="frmLabel" for="user" />
+					<h:selectOneMenu id="user" styleClass="frmSelectOne" value="#{modalityIBean.userSelected}">
+						<p:ajax event="change" update="results, buttons, action" action="#{modalityIBean.accPrepareModalities}" />
+						<f:selectItem itemValue="#{null}" itemLabel="..." />
+						<f:selectItems value="#{modalityIBean.users}"/>
+					</h:selectOneMenu>
 					
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="#{msgs['jsf.generic.Name']}" />
-					</f:facet>
-					<h:outputText value="#{row.name}"/>
-				</h:column>
-		
-				<h:column>
-					<f:facet name="header">
-						<h:outputText value="#{msgs['jsf.actions']}" />
-					</f:facet>
-					
-					<t:commandLink action="#{modalityIBean.accDelUserModality}" >
-						<h:graphicImage value="/jsp/icons/cross.png" alt="#{msgs['jsf.actions.Delete']}" />
-						<t:updateActionListener value="#{row.code}" property="#{modalityIBean.modalitySelected}"></t:updateActionListener>
-					</t:commandLink>
-				</h:column>										
-	
-			</t:dataTable>	
+				</h:panelGrid>
+			</td>
+		</tr>
+		<tr>
+			<td class="entreLineas">
+				<p:dataTable id="results"
+					var="row" rows="10"
+					paginator="true" paginatorPosition="bottom"  
+					value="#{modalityIBean.userModalitiesAsList}">
+						
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs['jsf.generic.Name']}" />
+						</f:facet>
+						<h:outputText value="#{row.name}"/>
+					</p:column>
 			
-			<t:dataScroller id="scrollerTable" for="results"  fastStep="10" immediate="true" 
-				styleClass="scroll" paginator="true" paginatorMaxPages="5" 
-				paginatorTableClass="paginator" paginatorActiveColumnStyle="font-weight:bold;" 
-				rowsCountVar="rows" displayedRowsCountVar="inview"
-				firstRowIndexVar="first" lastRowIndexVar="last" pageCountVar="pagTotal" 
-				pageIndexVar="pagActual">
+					<p:column>
+						<f:facet name="header">
+							<h:outputText value="#{msgs['jsf.generic.Modalities']}" />
+						</f:facet>
+						
+						<h:commandLink action="#{modalityIBean.accDelUserModality}" >
+							<h:graphicImage value="/jsp/icons/cross.png" alt="#{msgs['jsf.actions.Delete']}" />
+							<t:updateActionListener value="#{row.code}" property="#{modalityIBean.modalitySelected}" />
+						</h:commandLink>
+					</p:column>										
 		
-				<f:facet name="first" >
-					<t:graphicImage url="/jsp/icons/resultset_first.png" />
-				</f:facet>
-				<f:facet name="last">
-					<t:graphicImage url="/jsp/icons/resultset_last.png" border="0" />
-				</f:facet>
-				<f:facet name="previous">
-					<t:graphicImage url="/jsp/icons/resultset_previous.png" border="0" />
-				</f:facet>
-				<f:facet name="next">
-					<t:graphicImage url="/jsp/icons/resultset_next.png" border="0" />
-				</f:facet>
-				
-				<h:outputFormat value="#{msgs['jsf.scroll.Modality']}" styleClass="scroll">
-					<f:param value="#{rows}" />
-					<f:param value="#{inview}" />
-					<f:param value="#{first}" />
-					<f:param value="#{last}" />
-					<f:param value="#{pagActual}" />
-					<f:param value="#{pagTotal}" />
-				</h:outputFormat>
+				</p:dataTable>	
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<table class="frmBotonera">
+					<tr>
+						<td>
+							<h:panelGrid id="buttons" columns="5" styleClass="frmTabla">
+								
+								<f:facet name="header">
+									<h:panelGroup styleClass="headFrm">
+										<h:outputText value="#{msgs['jsf.headers.AddModality']}" />
+									</h:panelGroup>
+								</f:facet>			
+							
+								<h:outputLabel value="Actions" styleClass="frmLabel"/>
+								<h:selectOneMenu id="action"  value="#{modalityIBean.modalitySelected}" styleClass="frmSelectOne">
+									<f:selectItem itemValue="#{null}" itemLabel="..." />
+									<f:selectItems value="#{modalityIBean.modalities}" />
+								</h:selectOneMenu>
+								<t:message id="actionError" for="action" />	
+								
+								<h:commandButton id="anadir" value="#{msgs['jsf.actions.Add']}" action="#{modalityIBean.accAddUserModality}" styleClass="frmButton" />
 
-			</t:dataScroller> 
-	             
-		</h:panelGrid>
+							</h:panelGrid>	
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
 		
-		<h:panelGrid id="buttons" columns="5" styleClass="frmTabla" rendered="#{modalityIBean.user != null}">
-			
-			<f:facet name="header">
-				<h:panelGroup styleClass="headFrm">
-					<h:outputText value="#{msgs['jsf.headers.AddModality']}" />
-				</h:panelGroup>
-			</f:facet>			
-		
-			<h:outputLabel value="Actions" styleClass="frmLabel"/>
-			<h:selectOneMenu id="action"  value="#{modalityIBean.modalitySelected}" styleClass="frmSelectOne">
-				<f:selectItems value="#{modalityIBean.modalities}" />
-			</h:selectOneMenu>
-			<t:message id="actionError" for="action" />	
-			
-			<f:facet name="footer">
-				<h:panelGroup styleClass="footFrm">
-					<h:commandButton id="anadir" value="#{msgs['jsf.actions.Add']}" action="#{modalityIBean.accAddUserModality}" styleClass="frmButton" />
-					<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{modalityIBean.accDeleteUserSelected}" styleClass="frmButton" />
-				</h:panelGroup>
-			</f:facet>	
-									
-		</h:panelGrid>	
-
 	</h:form>
 	
 </div>
-			
+
 <!-- Termina la página JSF -->
 
 </ui:define>

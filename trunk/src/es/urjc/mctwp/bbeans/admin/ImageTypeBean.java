@@ -24,6 +24,7 @@ import java.util.List;
 import es.urjc.mctwp.bbeans.ActionBeanNames;
 import es.urjc.mctwp.bbeans.RequestAdmAbstractBean;
 import es.urjc.mctwp.modelo.ImageType;
+import es.urjc.mctwp.service.ActionNames;
 import es.urjc.mctwp.service.Command;
 import es.urjc.mctwp.service.commands.adminCmds.FindImageType;
 import es.urjc.mctwp.service.commands.adminCmds.SaveImageType;
@@ -68,6 +69,7 @@ public class ImageTypeBean extends RequestAdmAbstractBean {
 		fSrcObject.setCode(null);
 		
 		Command cmd = getCommand(FindImageType.class);
+		cmd.setActionName(ActionNames.FIND_IMAGETYPES);
 		((FindImageType)cmd).setImageType(fSrcObject);
 		cmd = runCommand(cmd);
 		auxList = ((FindImageType)cmd).getResult();

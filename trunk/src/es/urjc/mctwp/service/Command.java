@@ -182,7 +182,7 @@ public abstract class Command {
 		return actionName;
 	}
 
-	protected void setActionName(String accion) {
+	public void setActionName(String accion) {
 		this.actionName = accion;
 	}
 
