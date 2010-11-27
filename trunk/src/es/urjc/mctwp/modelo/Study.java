@@ -116,5 +116,10 @@ public class Study extends Protocolable implements java.io.Serializable {
 	@Override
 	public Set<ImageData> getAllImages(){
 		return this.getImages();
+	}
+
+	@Override
+	protected Set<Process> getParentProcesses() {
+		return patient.getProcesses();
 	}	
 }

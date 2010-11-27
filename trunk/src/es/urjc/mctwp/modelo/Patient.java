@@ -122,5 +122,9 @@ public class Patient extends Protocolable {
 				auxSet.addAll(study.getImages());
 		
 		return auxSet;
+	}
+	@Override
+	protected Set<Process> getParentProcesses() {
+		return group.getProcesses();
 	}	
 }

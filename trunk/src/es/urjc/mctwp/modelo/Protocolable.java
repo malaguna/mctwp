@@ -35,8 +35,29 @@ public abstract class Protocolable extends ImageContainer{
 		this.processes = processes;
 	}
 
+	/**
+	 * It returns the complete set of processes owned by this 
+	 * protocolable and its fathers.
+	 * 
+	 * @return
+	 */
 	public Set<Process> getProcesses() {
-		return processes;
+		Set<Process> result = null;
+		Set<Process> auxPar = getParentProcesses();
+		
+		if(processes != null && !processes.isEmpty()){
+			result = new HashSet<Process>();
+			result.addAll(processes);
+		}
+		
+		if(auxPar != null && !auxPar.isEmpty()){
+			if(result == null)
+				result = new HashSet<Process>();
+			
+			result.addAll(auxPar);
+		}
+		
+		return result;
 	}
 	
 	public ArrayList<Process> getProcessesList() {
@@ -106,6 +127,8 @@ public abstract class Protocolable extends ImageContainer{
 
 	@Override
 	public abstract Class<? extends ImageContainer> accept(ImageContainerTypeVisitor imcv);
+	
+	protected abstract Set<Process> getParentProcesses();
 	
 	@Override
 	public Set<ImageData> getAllImages(){
