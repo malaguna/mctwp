@@ -18,7 +18,6 @@
 
 package es.urjc.mctwp.service.commands.researchCmds;
 
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,7 +32,7 @@ import es.urjc.mctwp.service.ActionNames;
 import es.urjc.mctwp.service.BeanNames;
 import es.urjc.mctwp.service.ResultCommand;
 
-public class GetAttachmentStream extends ResultCommand<InputStream> {
+public class GetAttachmentStream extends ResultCommand<java.io.File> {
 	private byte[] buffer = new byte[1024];
 	public final static String TMP_PREFIX = "flt-";
 	public final static String TMP_SUBFIX = ".tmp";	
@@ -71,12 +70,11 @@ public class GetAttachmentStream extends ResultCommand<InputStream> {
 	}
 
 	@Override
-	public ResultCommand<InputStream> runCommand() throws IOException, SQLException {
+	public ResultCommand<java.io.File> runCommand() throws IOException, SQLException {
 		File aux = fileDao.findById(fileId);
 		
 		//Temp file to return valid stream
 		java.io.File temp = java.io.File.createTempFile(TMP_PREFIX, TMP_SUBFIX);
-		temp.deleteOnExit();
 
 		//Copy BLOB into Temp file
 		InputStream fis = aux.getFile().getBinaryStream();
@@ -87,7 +85,7 @@ public class GetAttachmentStream extends ResultCommand<InputStream> {
 		fos.close();
 		
 		//Return stream
-		this.setResult(new FileInputStream(temp));
+		this.setResult(temp);
 		return this;
 	}
 }

@@ -125,6 +125,6 @@ public class Patient extends Protocolable {
 	}
 	@Override
 	protected Set<Process> getParentProcesses() {
-		return group.getProcesses();
+		return group.getAllProcesses();
 	}	
 }

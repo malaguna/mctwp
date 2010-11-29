@@ -112,27 +112,32 @@ public abstract class ImagePluginDefaultImpl implements ImagePlugin {
 		BufferedImage thumbImage = null;
 		Graphics2D graphics2D = null;
 
-		try {
-			if (file != null) {
+		if (file != null) {
 
+			try{
 				pngImage = ImageIO.read(file);
+			} catch (Exception e) {
+				pngImage = null;
+			}
+			
+			int thumbWidth = 128;
+			int thumbHeight = 128;
 
+			if(pngImage != null){
 				// Set dimensions
-				int thumbWidth = 128;
-				int thumbHeight = 128;
 				int imageWidth = pngImage.getWidth(null);
 				int imageHeight = pngImage.getHeight(null);
-
+	
 				// Obtain ratios
 				double thumbRatio = (double) thumbWidth / (double) thumbHeight;
 				double imageRatio = (double) imageWidth / (double) imageHeight;
-
+	
 				if (thumbRatio < imageRatio) {
 					thumbHeight = (int) (thumbWidth / imageRatio);
 				} else {
 					thumbWidth = (int) (thumbHeight * imageRatio);
 				}
-
+	
 				// Draw original image to thumbnail and scale it
 				thumbImage = new BufferedImage(thumbWidth, thumbHeight,
 						BufferedImage.TYPE_INT_RGB);
@@ -141,13 +146,15 @@ public abstract class ImagePluginDefaultImpl implements ImagePlugin {
 						RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 				graphics2D.drawImage(pngImage, 0, 0, thumbWidth, thumbHeight,
 						null);
-
-				// Save thumbnail image to OUTFILE
-				ImageIO.write(thumbImage, "png", file);
+			}else{
+				thumbImage = new BufferedImage(thumbWidth, thumbHeight,
+						BufferedImage.TYPE_INT_RGB);
+				graphics2D = thumbImage.createGraphics();
+				graphics2D.drawString("No Preview", 0, 0);
 			}
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			throw new ImageException(e);
+
+			// Save thumbnail image to OUTFILE
+			ImageIO.write(thumbImage, "png", file);
 		}
 	}
 }

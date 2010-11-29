@@ -60,7 +60,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<column name="contenido" not-null="true" />
 		</property>   
 
-		<many-to-one name="source" column="protocolable" />
+		<many-to-one name="source" column="source" />
 		     
 	</class>
 </hibernate-mapping>

@@ -11,7 +11,7 @@ public class File extends DomainObject {
 	private String contentType = null;
 	private Long size = null;
 	private Blob file = null;
-	private Protocolable source = null;
+	private ImageContainer source = null;
 
 	public String getName() {
 		return name;
@@ -61,11 +61,11 @@ public class File extends DomainObject {
 		this.file = file;
 	}
 
-	public void setSource(Protocolable source) {
+	public void setSource(ImageContainer source) {
 		this.source = source;
 	}
 
-	public Protocolable getSource() {
+	public ImageContainer getSource() {
 		return source;
 	}
 }

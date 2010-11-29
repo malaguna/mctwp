@@ -16,34 +16,9 @@
 //along with Multiclinical Trial Web-PACS.  If not, see 
 //<http://www.gnu.org/licenses/>.
 
-package es.urjc.mctwp.service.commands.adminCmds;
+package es.urjc.mctwp.dao;
 
-import java.util.List;
+import es.urjc.mctwp.modelo.ImageContainer;
 
-import org.springframework.beans.factory.BeanFactory;
-
-import es.urjc.mctwp.dao.ImageTypeDAO;
-import es.urjc.mctwp.modelo.ImageType;
-import es.urjc.mctwp.service.BeanNames;
-import es.urjc.mctwp.service.ResultCommand;
-
-public class FindAllImageTypes extends ResultCommand<List<ImageType>> {
-	private ImageTypeDAO ImageTypeDao = null;
-
-	public FindAllImageTypes(BeanFactory bf) {
-		super(bf);
-		ImageTypeDao = (ImageTypeDAO)bf.getBean(BeanNames.IMAGETYPE_DAO);
-	}
-	
-	@Override
-	public boolean isValidCommand(){
-		return  super.isValidCommand() && 
-				ImageTypeDao != null;
-	}	
-
-	@Override
-	public ResultCommand<List<ImageType>> runCommand() {
-		this.setResult(ImageTypeDao.findAll());
-		return this;
-	}
+public class ImageContainerDAO extends GenericDAO<ImageContainer, Integer> {
 }

@@ -120,6 +120,6 @@ public class Study extends Protocolable implements java.io.Serializable {
 
 	@Override
 	protected Set<Process> getParentProcesses() {
-		return patient.getProcesses();
+		return patient.getAllProcesses();
 	}	
 }

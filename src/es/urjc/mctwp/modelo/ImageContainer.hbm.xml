@@ -1,0 +1,244 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<!--
+Copyright 2008, 2009, 2010 Miguel Ángel Laguna Lobato
+
+This file is part of Multiclinical Trial Web-PACS.
+
+Multiclinical  Trial Web-PACS is free  software: you  can redistribute 
+it and/or modify it under  the terms of the GNU General Public License 
+as published by the Free  Software Foundation, either version 3 of the 
+License, or (at your option) any later version.
+
+Multiclinical  Trial Web-PACS is distributed  in the hope that it will 
+be useful, but WITHOUT ANY WARRANTY; without even the implied warranty 
+of  MERCHANTABILITY or  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU 
+General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with Multiclinical Trial Web-PACS.  If not, see 
+<http://www.gnu.org/licenses/>. 
+ -->
+
+<hibernate-mapping>
+    <class name="es.urjc.mctwp.modelo.ImageContainer" table="imagecontainer" select-before-update="true">
+        <id name="code" type="int">
+            <column name="codigo" />
+            <generator class="sequence">
+            	<param name="sequence">imagecontainer_seq</param>
+            </generator>
+        </id>
+        
+        <property name="oid" type="string">
+            <column name="oid" length="36" not-null="true">
+                <comment></comment>
+            </column>
+        </property>
+        
+	    <joined-subclass name="es.urjc.mctwp.modelo.Result" table="resultado" select-before-update="true">
+			<key column="codigo" />
+	        
+	        <property name="date" type="date">
+	            <column name="fecha" length="0" not-null="true">
+	                <comment></comment>
+	            </column>
+	        </property>        
+	    
+	        <property name="description" type="string">
+	            <column name="descripcion" length="255" not-null="false">
+	                <comment></comment>
+	            </column>
+	        </property>
+	        
+	        <many-to-one name="task" column="tarea" not-null="true" />
+	        
+	        <set name="images"
+	        	table="imagen" 
+	        	cascade="save-update"
+	        	order-by="codigo"
+	        	inverse="true">
+	        	
+	        	<key column="resultado" />
+	        	<one-to-many class="es.urjc.mctwp.modelo.ImageData"/>
+	        </set>
+	    </joined-subclass>
+
+	    <joined-subclass name="es.urjc.mctwp.modelo.Protocolable" table="protocolable" select-before-update="true">
+        	<key column="codigo" />
+
+	        <!-- Asociaciones -->
+	        
+	        <set name="tasks" 
+	        	table="tarea" 
+	        	order-by="codigo" 
+	        	cascade="save-update delete delete-orphan"
+	        	inverse="true">
+	        	<key column="fuente"/>
+	        	<one-to-many class="es.urjc.mctwp.modelo.Task"/>
+	        </set>        
+	        
+	        <set name="processes" 
+	        	table="proceso" 
+	        	order-by="codigo" 
+	        	cascade="save-update delete delete-orphan"
+	        	inverse="true">
+	        	<key column="protocolable"/>
+	        	<one-to-many class="es.urjc.mctwp.modelo.Process" />
+	        </set>        
+	        
+		    <joined-subclass name="es.urjc.mctwp.modelo.Trial" table="ensayo" select-before-update="true">
+	        	<key column="codigo" />
+		
+		        <property name="name" type="string">
+		            <column name="nombre" length="40" not-null="true">
+		                <comment></comment>
+		            </column>
+		        </property>
+		
+		        <property name="financing" type="string">
+		            <column name="financiacion" length="40" not-null="true">
+		                <comment></comment>
+		            </column>
+		        </property>
+		
+		        <property name="agency" type="string">
+		            <column name="agencia" length="50" not-null="true">
+		                <comment></comment>
+		            </column>
+		        </property>
+		
+		        <property name="project" type="string">
+		            <column name="proyecto" length="50" not-null="true">
+		                <comment></comment>
+		            </column>
+		        </property>
+		
+		        <property name="collection" type="string">
+		            <column name="coleccion" length="25" not-null="true">
+		                <comment></comment>
+		            </column>
+		        </property>
+		
+		        <property name="startDate" type="date">
+		            <column name="inicio" length="0">
+		                <comment></comment>
+		            </column>
+		        </property>
+		
+		        <property name="endDate" type="date">
+		            <column name="fin" length="0">
+		                <comment></comment>
+		            </column>
+		        </property>
+		        
+		        <!-- Asociaciones -->
+		   
+		        <set name="members" 
+		        	table="participacion"
+		        	inverse="true"
+		        	cascade="save-update"
+		        	order-by="codigo">
+		        	<key column="ensayo"></key>
+		        	<one-to-many class="es.urjc.mctwp.modelo.Participation"/>
+		        </set>
+		        
+		        <set name="groups" 
+		        	table="grupo"
+		        	inverse="true"
+		        	cascade="save-update"
+		        	order-by="codigo">
+		        	<key column="ensayo"></key>
+		        	<one-to-many class="es.urjc.mctwp.modelo.Group"/>
+		        </set>
+		    </joined-subclass>
+	
+	        <joined-subclass name="es.urjc.mctwp.modelo.Group" table="grupo" select-before-update="true">
+	        	<key column="codigo" />
+		
+		        <property name="description" type="string">
+		            <column name="descripcion" length="250" not-null="true">
+		                <comment></comment>
+		            </column>
+		        </property>
+		        
+		        <!-- Asociaciones -->
+		        
+		        <many-to-one name="trial" column="ensayo" not-null="true" />
+		        <set name="patients" 
+		        	table="paciente" 
+		        	order-by="codigo" 
+		        	cascade="save-update"
+		        	inverse="true">
+		        	<key column="grupo"></key>
+		        	<one-to-many class="es.urjc.mctwp.modelo.Patient"/>
+		        </set>         	
+	        </joined-subclass>
+	        
+	        <joined-subclass name="es.urjc.mctwp.modelo.Patient" table="paciente" select-before-update="true">
+	        	<key column="codigo" />
+		
+		        <property name="hospitalId" type="string">
+		            <column name="nhc" length="50" not-null="true">
+		                <comment></comment>
+		            </column>
+		        </property>
+		
+		        <property name="completeName" type="string">
+		            <column name="nombre" length="250" not-null="true">
+		                <comment></comment>
+		            </column>
+		        </property>
+		        
+		        <!-- Asociaciones -->
+		        
+		        <many-to-one name="group" column="grupo" not-null="true" />        
+		
+		        <set name="studies" 
+		        	table="estudio"
+		        	inverse="true"
+		        	cascade="save-update delete delete-orphan">
+		        	<key column="paciente" />
+		        	<one-to-many class="es.urjc.mctwp.modelo.Study"/>
+		        </set>
+	        </joined-subclass>
+	        
+	        <joined-subclass name="es.urjc.mctwp.modelo.Study" table="estudio" select-before-update="true">
+	        	<key column="codigo" />
+		
+		        <property name="date" type="date">
+		            <column name="fecha" length="0" not-null="true">
+		                <comment></comment>
+		            </column>
+		        </property>
+		
+		        <property name="studyType" type="string">
+		            <column name="tipo" length="10" not-null="false">
+		                <comment></comment>
+		            </column>
+		        </property>        
+		
+		        <property name="hospitalId" type="string">
+		            <column name="hospital_id" length="36" not-null="false">
+		                <comment></comment>
+		            </column>
+		        </property>
+		        
+		        <!-- Asociaciones -->
+		        
+		        <many-to-one name="patient" column="paciente" not-null="true" />        
+		
+		        <set name="images" 
+		        	table="imagen"
+		        	inverse="true"
+		        	cascade="save-update delete delete-orphan">
+		        	<key column="estudio" />
+		        	<one-to-many class="es.urjc.mctwp.modelo.ImageData"/>
+		        </set>
+	        </joined-subclass>
+
+        </joined-subclass>
+        
+    </class>
+</hibernate-mapping>

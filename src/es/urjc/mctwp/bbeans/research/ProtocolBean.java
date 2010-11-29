@@ -31,6 +31,7 @@ import es.urjc.mctwp.modelo.Participation;
 import es.urjc.mctwp.modelo.ProcessDef;
 import es.urjc.mctwp.modelo.Protocolable;
 import es.urjc.mctwp.modelo.User;
+import es.urjc.mctwp.service.ActionNames;
 import es.urjc.mctwp.service.Command;
 import es.urjc.mctwp.service.commands.adminCmds.FindAllImageTypes;
 import es.urjc.mctwp.service.commands.researchCmds.AddProcessToProtocolable;
@@ -150,6 +151,7 @@ public class ProtocolBean extends RequestInvAbstractBean{
 			
 			//Prepare image types
 			FindAllImageTypes cmda = (FindAllImageTypes) getCommand(FindAllImageTypes.class);
+			cmda.setActionName(ActionNames.ADD_PROCESS_PRT);
 			cmda = (FindAllImageTypes) runCommand(cmda);
 			
 			if(cmda != null && cmda.getResult() != null){

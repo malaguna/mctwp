@@ -6,26 +6,26 @@ import org.springframework.beans.factory.BeanFactory;
 
 import es.urjc.mctwp.dao.FileDAO;
 import es.urjc.mctwp.modelo.File;
-import es.urjc.mctwp.modelo.Protocolable;
+import es.urjc.mctwp.modelo.ImageContainer;
 import es.urjc.mctwp.service.ActionNames;
 import es.urjc.mctwp.service.BeanNames;
 import es.urjc.mctwp.service.ResultCommand;
 
-public class LoadProtocolableAttachments extends ResultCommand<List<File>> {
-	private Protocolable source = null;
+public class LoadAttachments extends ResultCommand<List<File>> {
+	private ImageContainer source = null;
 	private FileDAO dao = null;
 	
-	public LoadProtocolableAttachments(BeanFactory bf) {
+	public LoadAttachments(BeanFactory bf) {
 		super(bf);
 		dao = (FileDAO) bf.getBean(BeanNames.FILE_DAO);
 		setActionName(ActionNames.ADD_FILE_PRT);
 	}
 
-	public void setSource(Protocolable source) {
+	public void setSource(ImageContainer source) {
 		this.source = source;
 	}
 
-	public Protocolable getSource() {
+	public ImageContainer getSource() {
 		return source;
 	}
 	

@@ -359,8 +359,8 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	</managed-bean>
 	
 	<managed-bean>
-		<managed-bean-name>filesProtocolableBean</managed-bean-name>
-		<managed-bean-class>es.urjc.mctwp.bbeans.research.FilesProtocolableBean</managed-bean-class>
+		<managed-bean-name>filesAttachmentBean</managed-bean-name>
+		<managed-bean-class>es.urjc.mctwp.bbeans.research.FilesAttachmentBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 		<managed-property>
 			<property-name>session</property-name>

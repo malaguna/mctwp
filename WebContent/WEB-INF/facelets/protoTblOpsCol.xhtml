@@ -101,7 +101,7 @@ Components Attribute:
 	<td class="tdBotonera">		
 		<h:commandLink
 			id="${id}FileManagementCommand"
-			action="#{filesProtocolableBean.accViewFiles}"
+			action="#{filesAttachmentBean.accViewFiles}"
 			actionListener="${actLstnBean[actLstnName]}">
 			<h:graphicImage 
 				id="${id}FileManagementIcon"
@@ -111,7 +111,7 @@ Components Attribute:
 			<f:setPropertyActionListener 
 				id="${id}FileSPAL"
 				value="#{row}"
-				target="#{filesProtocolableBean.source}" />
+				target="#{filesAttachmentBean.source}" />
 		</h:commandLink>
 	</td>
 

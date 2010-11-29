@@ -50,7 +50,6 @@ along with Multiclinical Trial Web-PACS.  If not, see
 				<value>es/urjc/mctwp/modelo/Menu.hbm.xml</value>
 				<value>es/urjc/mctwp/modelo/Task.hbm.xml</value>
 				<value>es/urjc/mctwp/modelo/User.hbm.xml</value>
-				<value>es/urjc/mctwp/modelo/Result.hbm.xml</value>
 				<value>es/urjc/mctwp/modelo/Action.hbm.xml</value>
 				<value>es/urjc/mctwp/modelo/Process.hbm.xml</value>
 				<value>es/urjc/mctwp/modelo/TaskLog.hbm.xml</value>
@@ -59,8 +58,8 @@ along with Multiclinical Trial Web-PACS.  If not, see
 				<value>es/urjc/mctwp/modelo/ImageType.hbm.xml</value>
 				<value>es/urjc/mctwp/modelo/ProcessDef.hbm.xml</value>
 				<value>es/urjc/mctwp/modelo/MapSeriesId.hbm.xml</value>
-				<value>es/urjc/mctwp/modelo/Protocolable.hbm.xml</value>
 				<value>es/urjc/mctwp/modelo/Participation.hbm.xml</value>
+				<value>es/urjc/mctwp/modelo/ImageContainer.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

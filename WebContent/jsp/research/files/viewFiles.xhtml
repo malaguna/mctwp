@@ -32,8 +32,8 @@ along with Multiclinical Trial Web-PACS.  If not, see
 <ui:composition template="/jsp/include/templateUploadFileProto.xhtml">
 
 <ui:define name="saveState">
-	<t:saveState value="#{filesProtocolableBean.source}" />
-	<t:saveState value="#{filesProtocolableBean.files}" />
+	<t:saveState value="#{filesAttachmentBean.source}" />
+	<t:saveState value="#{filesAttachmentBean.files}" />
 </ui:define>
 
 <ui:define name="title">
@@ -44,7 +44,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	<mine:protoTbl
 		id="filesList"
 		rows="10"
-		value="#{filesProtocolableBean.files}">
+		value="#{filesAttachmentBean.files}">
 		
 		<ui:define name="tableColumns">
 		
@@ -80,7 +80,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 				<td class="tdBotonera">		
 					<h:commandLink
 						id="buttonsDownloadCommand"
-						action="#{filesProtocolableBean.accDownloadFile}">
+						action="#{filesAttachmentBean.accDownloadFile}">
 						<h:graphicImage 
 							id="buttonsDownloadIcon"
 							value="/jsp/icons/picture_save.png"
@@ -89,7 +89,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 						<f:setPropertyActionListener 
 							id="buttonsUpdateToDownload"
 							value="#{row}"
-							target="#{filesProtocolableBean.file}" />
+							target="#{filesAttachmentBean.file}" />
 					</h:commandLink>
 				</td>
 
@@ -97,7 +97,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 				<td class="tdBotoneraUltimo">		
 					<h:commandLink
 						id="buttonsDeleteCommand"
-						action="#{filesProtocolableBean.accDelFile}">
+						action="#{filesAttachmentBean.accDelFile}">
 						<h:graphicImage 
 							id="buttonsDeleteIcon"
 							value="/jsp/icons/cross.png"
@@ -106,7 +106,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 						<f:setPropertyActionListener 
 							id="buttonsUpdateToDelete"
 							value="#{row}"
-							target="#{filesProtocolableBean.file}" />
+							target="#{filesAttachmentBean.file}" />
 					</h:commandLink>
 				</td>
 				</tr>
@@ -121,14 +121,14 @@ along with Multiclinical Trial Web-PACS.  If not, see
 <ui:define name="buttonsForm">
 	<t:inputFileUpload id="uploadFiles"
 		accept="*"
-		value="#{filesProtocolableBean.upFile}"
+		value="#{filesAttachmentBean.upFile}"
 		storage="file"
 		styleClass="frmInput" />
 	<h:commandButton
 		id="uploadBtn"
 		styleClass="frmButton"
 		value="#{msgs['jsf.actions.Add']}"
-		action="#{filesProtocolableBean.accUploadFile}"
+		action="#{filesAttachmentBean.accUploadFile}"
 		/>
 </ui:define>
 
