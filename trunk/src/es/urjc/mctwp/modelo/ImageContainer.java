@@ -26,7 +26,7 @@ import es.urjc.mctwp.service.blogic.PersistImagesVisitor;
 
 /**
  * This is not a persistent entity, it is a class to provide common
- * functionality to persist images. It it related with PersistImagesVisitor
+ * functionality to persist images. It is related with PersistImagesVisitor
  * 
  * @author miguel
  *

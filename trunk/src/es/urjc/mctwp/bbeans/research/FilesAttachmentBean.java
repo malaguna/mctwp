@@ -18,6 +18,7 @@
 
 package es.urjc.mctwp.bbeans.research;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -32,11 +33,11 @@ import org.apache.myfaces.custom.fileupload.UploadedFile;
 import es.urjc.mctwp.bbeans.ActionBeanNames;
 import es.urjc.mctwp.bbeans.GenericDownloadBean;
 import es.urjc.mctwp.modelo.File;
-import es.urjc.mctwp.modelo.Protocolable;
+import es.urjc.mctwp.modelo.ImageContainer;
 import es.urjc.mctwp.service.Command;
-import es.urjc.mctwp.service.commands.researchCmds.AddFileToProtocolable;
+import es.urjc.mctwp.service.commands.researchCmds.AttachFile;
 import es.urjc.mctwp.service.commands.researchCmds.GetAttachmentStream;
-import es.urjc.mctwp.service.commands.researchCmds.LoadProtocolableAttachments;
+import es.urjc.mctwp.service.commands.researchCmds.LoadAttachments;
 import es.urjc.mctwp.service.commands.researchCmds.RemoveFile;
 
 /**
@@ -44,17 +45,17 @@ import es.urjc.mctwp.service.commands.researchCmds.RemoveFile;
  * @author Miguel Ángel Laguna Lobato
  *
  */
-public class FilesProtocolableBean extends GenericDownloadBean {
-	private Protocolable source = null;
+public class FilesAttachmentBean extends GenericDownloadBean {
+	private ImageContainer source = null;
 	private List<FileItem> files = null;
 	private UploadedFile upFile = null; 
 	private FileItem file = new FileItem();
 	
-	public void setSource(Protocolable source) {
+	public void setSource(ImageContainer source) {
 		this.source = source;
 	}
 
-	public Protocolable getSource() {
+	public ImageContainer getSource() {
 		return source;
 	}
 	
@@ -89,13 +90,13 @@ public class FilesProtocolableBean extends GenericDownloadBean {
 	 */
 	public String accViewFiles(){
 		
-		//Reload Protocolable from database and update state
-		Command cmd = getCommand(LoadProtocolableAttachments.class);
-		((LoadProtocolableAttachments)cmd).setSource(source);
+		//Reload ImageContainer from database and update state
+		Command cmd = getCommand(LoadAttachments.class);
+		((LoadAttachments)cmd).setSource(source);
 		cmd = runCommand(cmd);
 		
 		if(cmd != null){
-			List<File> auxFiles = ((LoadProtocolableAttachments)cmd).getResult();
+			List<File> auxFiles = ((LoadAttachments)cmd).getResult();
 			if(auxFiles != null){
 				files = new ArrayList<FileItem>();
 				for(File file : auxFiles)
@@ -139,7 +140,8 @@ public class FilesProtocolableBean extends GenericDownloadBean {
 				configResponseHeader(response, contentType, fileName);
 				
 				//Prepare OutputStream and writes files into
-				InputStream is = ((GetAttachmentStream)cmd).getResult();
+				java.io.File tmpFile = ((GetAttachmentStream)cmd).getResult();
+				InputStream is = new FileInputStream(tmpFile);
 				OutputStream os = response.getOutputStream();
 
 				byte bytes[] = new byte[BUFFER_SIZE];
@@ -147,6 +149,7 @@ public class FilesProtocolableBean extends GenericDownloadBean {
 					os.write(bytes);
 				
 				is.close();
+				tmpFile.delete();
 				
 				completeResponse();
 			} catch (Exception e) {
@@ -168,9 +171,9 @@ public class FilesProtocolableBean extends GenericDownloadBean {
 			file.setSource(source);
 			file.setStamp(new Date());
 			
-			Command cmd = getCommand(AddFileToProtocolable.class);
-			((AddFileToProtocolable)cmd).setFile(file);
-			((AddFileToProtocolable)cmd).setStream(upFile.getInputStream());
+			Command cmd = getCommand(AttachFile.class);
+			((AttachFile)cmd).setFile(file);
+			((AttachFile)cmd).setStream(upFile.getInputStream());
 			cmd = runCommand(cmd);
 			
 		}else

@@ -59,6 +59,12 @@ along with Multiclinical Trial Web-PACS.  If not, see
 				sortParser="string"
 				header="#{msgs['jsf.generic.Name']}"/>
 				
+			<mine:protoTblCol 
+				id="imgType"
+				value="#{row.imgType.name}"
+				sortParser="string"
+				header="#{msgs['jsf.generic.Type']}"/>
+				
 			<p:column id="delProcess">
 				<table class="tablaBotonera">
 

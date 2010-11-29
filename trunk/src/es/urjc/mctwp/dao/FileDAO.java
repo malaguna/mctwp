@@ -6,12 +6,12 @@ import org.hibernate.Criteria;
 import org.hibernate.criterion.Example;
 
 import es.urjc.mctwp.modelo.File;
-import es.urjc.mctwp.modelo.Protocolable;
+import es.urjc.mctwp.modelo.ImageContainer;
 
 public class FileDAO extends GenericDAO<File, Integer> {
 
 	@SuppressWarnings("unchecked")
-	public List<File> getFilesOfSource(Protocolable source){
+	public List<File> getFilesOfSource(ImageContainer source){
 		Example example = Example.create(new File());
 		Example related = Example.create(source);
 		
@@ -23,7 +23,7 @@ public class FileDAO extends GenericDAO<File, Integer> {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<File> findFilesBySource(Protocolable source){
+	public List<File> findFilesBySource(ImageContainer source){
 		List<File> result = null;
 		String query = "SELECT f FROM File f WHERE f.source=? ORDER BY f.name";
 		

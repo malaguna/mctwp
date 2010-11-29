@@ -30,12 +30,12 @@ import es.urjc.mctwp.service.ActionNames;
 import es.urjc.mctwp.service.BeanNames;
 import es.urjc.mctwp.service.Command;
 
-public class AddFileToProtocolable extends Command {
+public class AttachFile extends Command {
 	private SessionFactory factory = null;
 	private InputStream stream = null;
 	private File file = null;
 
-	public AddFileToProtocolable(BeanFactory bf) {
+	public AttachFile(BeanFactory bf) {
 		super(bf);
 		factory = (SessionFactory) bf.getBean(BeanNames.SESSION_FACTORY);
 		setActionName(ActionNames.ADD_FILE_PRT);
