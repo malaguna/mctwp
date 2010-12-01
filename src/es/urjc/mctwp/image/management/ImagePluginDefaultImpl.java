@@ -147,10 +147,7 @@ public abstract class ImagePluginDefaultImpl implements ImagePlugin {
 				graphics2D.drawImage(pngImage, 0, 0, thumbWidth, thumbHeight,
 						null);
 			}else{
-				thumbImage = new BufferedImage(thumbWidth, thumbHeight,
-						BufferedImage.TYPE_INT_RGB);
-				graphics2D = thumbImage.createGraphics();
-				graphics2D.drawString("No Preview", 0, 0);
+				thumbImage = ImageIO.read(this.getClass().getClassLoader().getResourceAsStream("/es/urjc/mctwp/image/management/noprev.png"));
 			}
 
 			// Save thumbnail image to OUTFILE
