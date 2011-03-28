@@ -41,10 +41,10 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	<h3>
 	<h:panelGroup id="listDescription" styleClass="cuerpo">
 		<h:outputText 
-			value="Tareas de la imagen #{sessionInv.image.code}" 
+			value="#{msgs['jsf.headers.TasksOfImage']} #{sessionInv.image.code}" 
 			rendered="#{tasksBean.imageMode}"/>
 		<h:outputText 
-			value="Tareas del usuario #{sessionInv.user.fullName}" 
+			value="#{msgs['jsf.headers.TasksOfUser']}  #{sessionInv.user.fullName}" 
 			rendered="#{tasksBean.userMode}"/>
 	</h:panelGroup>
 	</h3>

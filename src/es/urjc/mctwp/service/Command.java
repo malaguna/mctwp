@@ -108,7 +108,7 @@ public abstract class Command {
 
 			// Get ResourceBundle
 			messages = ResourceBundle
-					.getBundle("es.urjc.mctwp.resources.messages");
+					.getBundle("es.urjc.mctwp.resources.messages_en");
 
 			try {
 				factory = bf;

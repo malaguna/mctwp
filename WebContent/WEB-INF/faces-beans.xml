@@ -27,7 +27,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			org.springframework.web.jsf.DelegatingVariableResolver
 		</variable-resolver>
 		<message-bundle>
-			es.urjc.mctwp.resources.messages
+			es.urjc.mctwp.resources.messages_en
 		</message-bundle>		
 
 		<!-- Configuración de Facelets -->
