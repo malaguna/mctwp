@@ -163,7 +163,7 @@ sudo a2enmod jk
 
 You can configure Apache to check user credentials several ways. Here it is the easiest one: to use a local file:
 
- * Create into _/etc/apache2_ an Apache password file called _passwd.txt_, using _htpasswd.
+ * Create into _/etc/apache2_ an Apache password file called _passwd.txt_, using _htpasswd_.
 {{{
 sudo htpasswd -c /etc/apache2/passwd.txt USER_NAME
 }}}
