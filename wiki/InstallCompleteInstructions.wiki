@@ -1,24 +1,23 @@
 = Complete instructions =
 
-INCOMPLETE
+This instructions are checked with Ubuntu Server 10.04. Ubuntu must be installed with minimal options. I don't install graphical environment in servers machines, but you could install it, if you want.
 
-This instructions are checked with Ubuntu Server > 9.04. Ubuntu must be installed with minimal options. I like to avoid graphical environment in servers machines, but you could install it.
+It doesn't matter whether you choose 32 bits or 64, all software needed is compatible.
 
 == Basic packages ==
 
-Once Ubuntu is installed, make sure following packages are installed:
+Once Ubuntu is installed, you have to install another needed packages. In order to find all of them, it is necessary that you allow *parter* repository in _/etc/apt/sources.list_ file , make sure following packages are installed:
 
  * _autoconf_
  * _build-essential_
  * _libssl-dev_
  * _libapache2-mod-jk_
- * _openssh_
+ * _openssh-server_
  * _sun-java6-jdk_
  * _postgresql_
  * _libpng12-dev_
  * _pkg-config_
  * _libglib2.0-dev_
- * _libgdk-pixbuf-dev_ 
  * _libgtk2.0-dev_
 
 == Java configuration ==
@@ -36,12 +35,12 @@ Tomcat installation is done with Apache APR. This increase Tomcat performance, b
 
 You can skip this if don't want APR.
 
- * Download and unpack _apr-1.3.X.tar.gz_ from [http://apr.apache.org/ APR home]
+ * Download and unpack _apr-1.X.X.tar.gz_ from [http://apr.apache.org/ APR home]
  * Get into uncompressed folder and run:
 {{{
 ./configure --prefix=/usr/local/apr
 }}}
- * then, run _make_, _make test_ and finally _sudo make install_.
+ * then, run _make_, _make test_ and finally _sudo make install_. When running tests, you could see if everyone succeed. After running install, you could check if all binaries have been copied to _/usr/local/apr_
 
 === Tomcat Installation ===
 
@@ -93,20 +92,21 @@ sudo make install
 }}}
  * For older Ubuntu versions, it is necessary to change file _/etc/modprobe.d/aliases_ switching alias _net-pf-10_ off.
 
- * Download and unpack _commons-daemon-1.X.X.tar.gz_ from Aapche commons.
- * Move file _/home/admon/programas/commons-daemon-1.0.1/bin/jsvc.tar.gz_ to _/opt/tomcat/bin_.
- * Go to _/opt/tomcat/bin_.
- * Uncompress _jsvc.tar.gz_ go to this new folder.
- * Run:
+ * Download and unpack _commons-daemon-1.X.X-src.tar.gz_ from Apache commons.
+ * Get into _src/native/unix_ subdirectory and run:
 {{{
 sudo autoconf
 sudo ./configure --with-java=/usr/lib/jvm/java-6-sun
 sudo make
-cp jsvc ..
+cp jsvc /opt/tomcat/bin
 }}}
  
- * Copy into _/opt/tomcat_ shell script *TODO: upload to SVN tomcat service script*.
- * Create a soft link into _/etc/init.d_ called _tomcat_ that points to _/opt/tomcat/tomcat.sh_
+ * Copy into _/opt/tomcat_ this [TomcatScript shell script]. You can configure this script changing some properties as server name, and so on.
+ * Create a soft link into _/etc/init.d_ called _tomcat_ that points to _/opt/tomcat/tomcat.sh_, and don't forget to give execution flag to this script.
+{{{
+sudo chmod +x /opt/tomcat/tomcat.sh
+sudo ln -s /opt/tomcat/tomcat.sh /etc/init.d/tomcat
+}}}
  * Setup as a system service script:
 {{{
 sudo update-rc.d tomcat defaults
@@ -120,7 +120,10 @@ You can use this configuration to run Apache and Tomcat in different machines, b
 
 If you don't want to use AJP, you need to configure user autentication into Tomcat.
 
- * Configure _!ServerName_ directive into _/etc/apache2/httpd.conf_ defining server name.
+ * Configure _!ServerName_ directive into _/etc/apache2/httpd.conf_ defining server name, for example:
+{{{
+ServerName localhost
+}}}
  * Change content of _/etc/libapache2-mod-jk/workers.properties_ to:
 {{{
 ps=/
@@ -160,7 +163,11 @@ sudo a2enmod jk
 
 You can configure Apache to check user credentials several ways. Here it is the easiest one: to use a local file:
 
- * Create into _/etc/apache2_ an Apache password file called _passwd.txt_, using _htpasswd -c_ command.
+ * Create into _/etc/apache2_ an Apache password file called _passwd.txt_, using _htpasswd.
+{{{
+sudo htpasswd -c /etc/apache2/passwd.txt USER_NAME
+}}}
+ * This command will prompt twice for the password. Remember that -c option is must be used only when password file does not exist, if you already have an existing password file and just want to add new credential, you must remove -c option.
  * Add to Apache default site configuration file _/etc/apache2/sites-available/default_, following directive:
 {{{
     <Location "/mctwp">
