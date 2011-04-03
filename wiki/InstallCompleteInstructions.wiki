@@ -19,6 +19,7 @@ Once Ubuntu is installed, you have to install another needed packages. In order 
  * _pkg-config_
  * _libglib2.0-dev_
  * _libgtk2.0-dev_
+ * _medcon_
 
 == Java configuration ==
 
@@ -218,7 +219,7 @@ host    all         all         127.0.0.1/32         trust
 
 == Instalar !XmedCon ==
 
-Ubuntu has (X)!MedCon into software repositories, but if you prefer last version, or your distribution doesn't have this package, here you got how to build:
+We already install (X)!MedCon from Ubuntu software repositories, but if you prefer last version, or your distribution doesn't have this package, here you got how to build:
 
  * Download and unpack _xmedcon-0.10.4.tar.bz2_ from [http://xmedcon.sourceforge.net/ (X)!MedCon page].
  * Go to uncompressed folder and run:
