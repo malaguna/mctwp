@@ -21,7 +21,7 @@ sudo update-rc.d exist defaults
 }}}
  * User _xmldb_ must own _/var/lib/xmldb_ path.
 {{{
-sudo chown -r xmldb:xmldb /var/lib/xmldb
+sudo chown -R xmldb:xmldb /var/lib/xmldb
 }}}
 
 If your system is 64 bits, you must replace wrapper script, because default it is only 32 compliant. To do this, you have to download 64 linux community version of wrapper, from [http://wrapper.tanukisoftware.com Tanuki Software].
