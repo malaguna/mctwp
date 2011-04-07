@@ -53,7 +53,7 @@ mkcol mctwp
 adduser mctwp
 }}}
 
-The second command will prompt you for _password_, _home collection_ and _groups_. Give as _home collection_, *mctwp* and for _groups_ *dba*.
+The second command will prompt you for _password_ *don't forget it*, _home collection_ and _groups_. Give as _home collection_, *mctwp* and for _groups_ *dba*.
 
 Later, you will configure application with this user and collection.
 
