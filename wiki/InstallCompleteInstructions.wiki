@@ -201,11 +201,10 @@ It is described [InstalleXist here].
 {{{
 sudo su - postgres
 createuser admon
-createdb mctwp
 psql -d mctwp -f schema.sql
 psql -d mctwp -f configuration.sql
 
-NOTE: If mctwp BBDD exists, you can drop it with dropdb.
+NOTE: If mctwp BBDD exists, you must drop it with dropdb, previously to run schema.sql
 }}}
  * Configure _/etc/postgresql/8.3/main/pg_hba.conf_ properly, following is an untrust configuration, but you can use to test:
 {{{
