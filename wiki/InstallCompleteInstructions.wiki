@@ -169,7 +169,11 @@ You can configure Apache to check user credentials several ways. Here it is the 
 sudo htpasswd -c /etc/apache2/passwd.txt USER_NAME
 }}}
  * This command will prompt twice for the password. Remember that -c option is must be used only when password file does not exist, if you already have an existing password file and just want to add new credential, you must remove -c option.
- * Add to Apache default site configuration file _/etc/apache2/sites-available/default_, following directive:
+ * Add following directive under *ServerAdmin* in file _/etc/apache2/sites-available/default_.
+{{{
+JkMountCopy on
+}}}
+ * Add at the end of the same file, but before ending *VirtualHost* node, following directives:
 {{{
     <Location "/mctwp">
         AuthType basic
