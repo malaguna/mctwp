@@ -215,7 +215,7 @@ host    all         all         127.0.0.1/32         trust
 
 == Image Storage ==
 
- * User _tomcat_ must own the folder you have created to store images.
+ * User _tomcat_ must own a folder where the application will store all images. You can create the folder where you want, for example _/var/lib/imgdb_. It would be ideal if this path where on NAT folder or iSCSI mounted.
 
 == Instalar !XmedCon ==
 
