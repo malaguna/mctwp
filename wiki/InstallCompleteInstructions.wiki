@@ -197,10 +197,10 @@ It is described [InstalleXist here].
 
 == PostgreSQL configuration ==
 
- * Create a new postgres user called _admon_ and use it to run data base configuration script.
+ * Create a new postgres user called _admon_ and use it to run data base configuration script. Create user, will ask you a password, *don't forget it*.
 {{{
 sudo su - postgres
-createuser admon
+createuser --no-superuser --createdb --no-createrole --login --pwprompt admon
 createdb mctwp
 psql -d mctwp -f schema.sql
 psql -d mctwp -f configuration.sql
