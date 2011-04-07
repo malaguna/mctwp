@@ -15,6 +15,7 @@ Once Ubuntu is installed, you have to install another needed packages. In order 
  * _openssh-server_
  * _sun-java6-jdk_
  * _postgresql_
+ * _postgresql-contrib_
  * _libpng12-dev_
  * _pkg-config_
  * _libglib2.0-dev_
@@ -201,17 +202,28 @@ It is described [InstalleXist here].
 
 == PostgreSQL configuration ==
 
- * Create a new postgres user called _admon_ and use it to run data base configuration script. Create user, will ask you a password, *don't forget it*.
+ * Here it is necessary to do several things.
+  * First it is necessary to create a new postgres system user called _admon_. When creating the role, postgres will ask you for a password, *don't forget it*, you will need it later to configure application.
+  * Then it is necessary to create the database and to enable some contrib modules.
+  * Finally you have to create an admin user into users table application. To do this, you need to insert manually using SQL. The same login you choose for this user must be added to the apache password file we have already seen.
+ * Here there are all the commands:
 {{{
 sudo su - postgres
+
 createuser --no-superuser --createdb --no-createrole --login --pwprompt admon
 createdb mctwp
+
+psql -d mctwp -f /usr/share/postgresql/8.4/contrib/uuid-ossp.sql
+psql -d mctwp -f /usr/share/postgresql/8.4/contrib/lo.sql
+
 psql -d mctwp -f schema.sql
 psql -d mctwp -f configuration.sql
 
+psql -d mctwp -c "insert into usuario values(nextval('usuario_seq'), uuid_generate_v1(), 'NAME', 'SURNAME', now(), 'LOGIN', true, '');"
+
 NOTE: If mctwp BBDD exists, you must drop it with dropdb
 }}}
- * Configure _/etc/postgresql/8.3/main/pg_hba.conf_ properly, following is an untrust configuration, but you can use to test:
+ * Now, you have to configure _/etc/postgresql/8.3/main/pg_hba.conf_ properly, following is an untrust configuration, but you can use to test:
 {{{
 local   all         all                              trust
 host    all         all         127.0.0.1/32         trust
