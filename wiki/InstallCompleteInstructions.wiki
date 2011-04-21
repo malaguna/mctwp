@@ -116,11 +116,11 @@ sudo update-rc.d tomcat defaults
 
 == Configuring AJP ==
 
-AJP is a protocol that makes possible to use Apache and Tomcat work together. However it is possible to use Tomcat without Apache, although I prefer to use Apache because of autentication realms.
+AJP is a protocol that makes possible to use Apache and Tomcat work together. However it is possible to use Tomcat without Apache, although I prefer to use Apache because of authentication realms.
 
 You can use this configuration to run Apache and Tomcat in different machines, but you will have to change some properties.
 
-If you don't want to use AJP, you need to configure user autentication into Tomcat.
+If you don't want to use AJP, you need to configure user authentication into Tomcat.
 
  * Configure _!ServerName_ directive into _/etc/apache2/httpd.conf_ defining server name, for example:
 {{{
