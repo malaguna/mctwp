@@ -503,7 +503,7 @@ public class ImageUtils extends AbstractBLogic{
 	private void createTasks(Set<ImageData> images, Protocolable source, Integer imgType){
 		Task task = null;
 		
-		if( (images != null) && !(images.isEmpty()) && (source.getProcesses() != null) ){
+		if( (images != null) && !(images.isEmpty()) && (source.getAllProcesses() != null) ){
 			
 			for (Process p : source.getAllProcesses()){
 				if(p.getImgType().getCode().equals(imgType)){
