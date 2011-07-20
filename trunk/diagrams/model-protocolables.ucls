@@ -2,7 +2,7 @@
   associations="true" dependencies="false" nesting-relationships="true">  
   <class id="1" corner="BOTTOM_RIGHT" language="java" name="es.urjc.mctwp.modelo.Trial" project="mctwp" 
     file="/mctwp/src/es/urjc/mctwp/modelo/Trial.java" binary="false">    
-    <position x="91" y="175" width="-1" height="-1"/>    
+    <position x="89" y="173" width="-1" height="-1"/>    
     <display autosize="true" package="true" initial-value="false" signature="false" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="false" package="false" protected="false" private="false"/>    
@@ -10,7 +10,7 @@
   </class>  
   <class id="2" corner="BOTTOM_RIGHT" language="java" name="es.urjc.mctwp.modelo.Protocolable" project="mctwp" 
     file="/mctwp/src/es/urjc/mctwp/modelo/Protocolable.java" binary="false">    
-    <position x="322" y="59" width="-1" height="-1"/>    
+    <position x="300" y="57" width="-1" height="-1"/>    
     <display autosize="true" package="true" initial-value="false" signature="false" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="false" package="false" protected="false" private="false"/>    
@@ -18,7 +18,7 @@
   </class>  
   <class id="3" corner="BOTTOM_RIGHT" language="java" name="es.urjc.mctwp.modelo.Group" project="mctwp" 
     file="/mctwp/src/es/urjc/mctwp/modelo/Group.java" binary="false">    
-    <position x="91" y="407" width="-1" height="-1"/>    
+    <position x="89" y="405" width="-1" height="-1"/>    
     <display autosize="true" package="true" initial-value="false" signature="false" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="false" package="false" protected="false" private="false"/>    
@@ -26,7 +26,7 @@
   </class>  
   <class id="4" corner="BOTTOM_RIGHT" language="java" name="es.urjc.mctwp.modelo.Patient" project="mctwp" 
     file="/mctwp/src/es/urjc/mctwp/modelo/Patient.java" binary="false">    
-    <position x="323" y="407" width="-1" height="-1"/>    
+    <position x="301" y="405" width="-1" height="-1"/>    
     <display autosize="true" package="true" initial-value="false" signature="false" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="false" package="false" protected="false" private="false"/>    
@@ -34,35 +34,30 @@
   </class>  
   <class id="5" corner="BOTTOM_RIGHT" language="java" name="es.urjc.mctwp.modelo.Study" project="mctwp" 
     file="/mctwp/src/es/urjc/mctwp/modelo/Study.java" binary="false">    
-    <position x="458" y="242" width="-1" height="-1"/>    
+    <position x="401" y="239" width="-1" height="-1"/>    
     <display autosize="true" package="true" initial-value="false" signature="false" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true"/>      
       <operations public="false" package="false" protected="false" private="false"/>    
     </display>  
   </class>  
-  <generalization>    
-    <bendpoint x="323" y="241"/>    
-    <end type="SOURCE" nodeId="5"/>    
-    <end type="TARGET" nodeId="2"/>  
-  </generalization>  
-  <generalization>    
-    <end type="SOURCE" nodeId="4"/>    
-    <end type="TARGET" nodeId="2"/>  
-  </generalization>  
+  <class id="6" corner="BOTTOM_RIGHT" language="java" name="es.urjc.mctwp.modelo.ImageData" project="mctwp" 
+    file="/mctwp/src/es/urjc/mctwp/modelo/ImageData.java" binary="false">    
+    <position x="604" y="239" width="-1" height="-1"/>    
+    <display autosize="true" package="true" initial-value="false" signature="false" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true"/>      
+      <operations public="false" package="false" protected="false" private="false"/>    
+    </display>  
+  </class>  
   <association>    
-    <bendpoint x="458" y="407"/>    
-    <end type="SOURCE" nodeId="5" navigable="false">      
-      <attribute name="patient"/>      
+    <end type="SOURCE" nodeId="6" navigable="false">      
+      <attribute name="study"/>      
       <multiplicity minimum="0" maximum="1"/>    
     </end>    
-    <end type="TARGET" nodeId="4" navigable="true"/>    
+    <end type="TARGET" nodeId="5" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <generalization>    
-    <bendpoint x="237" y="176"/>    
-    <bendpoint x="237" y="241"/>    
-    <bendpoint x="323" y="241"/>    
-    <end type="SOURCE" nodeId="1"/>    
+    <end type="SOURCE" nodeId="4"/>    
     <end type="TARGET" nodeId="2"/>  
   </generalization>  
   <association>    
@@ -73,27 +68,15 @@
     <end type="TARGET" nodeId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association>    
-    <bendpoint x="420" y="377"/>    
-    <end type="SOURCE" nodeId="4" navigable="false">      
-      <attribute name="studies"/>      
-      <multiplicity minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" nodeId="5" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
+  <generalization>    
+    <bendpoint x="301" y="239"/>    
+    <end type="SOURCE" nodeId="5"/>    
+    <end type="TARGET" nodeId="2"/>  
+  </generalization>  
   <association>    
     <end type="SOURCE" nodeId="1" navigable="false">      
       <attribute name="groups"/>      
       <multiplicity minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" nodeId="3" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association>    
-    <end type="SOURCE" nodeId="4" navigable="false">      
-      <attribute name="group"/>      
-      <multiplicity minimum="0" maximum="1"/>    
     </end>    
     <end type="TARGET" nodeId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
@@ -106,12 +89,53 @@
     <end type="TARGET" nodeId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
+  <association>    
+    <end type="SOURCE" nodeId="4" navigable="false">      
+      <attribute name="group"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <generalization>    
-    <bendpoint x="128" y="316"/>    
-    <bendpoint x="237" y="316"/>    
-    <bendpoint x="237" y="241"/>    
-    <bendpoint x="323" y="241"/>    
+    <bendpoint x="106" y="314"/>    
+    <bendpoint x="215" y="314"/>    
+    <bendpoint x="215" y="239"/>    
+    <bendpoint x="301" y="239"/>    
     <end type="SOURCE" nodeId="3"/>    
+    <end type="TARGET" nodeId="2"/>  
+  </generalization>  
+  <association>    
+    <end type="SOURCE" nodeId="5" navigable="false">      
+      <attribute name="images"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" nodeId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <bendpoint x="398" y="375"/>    
+    <end type="SOURCE" nodeId="4" navigable="false">      
+      <attribute name="studies"/>      
+      <multiplicity minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" nodeId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association>    
+    <bendpoint x="415" y="404"/>    
+    <end type="SOURCE" nodeId="5" navigable="false">      
+      <attribute name="patient"/>      
+      <multiplicity minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" nodeId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization>    
+    <bendpoint x="215" y="174"/>    
+    <bendpoint x="215" y="239"/>    
+    <bendpoint x="301" y="239"/>    
+    <end type="SOURCE" nodeId="1"/>    
     <end type="TARGET" nodeId="2"/>  
   </generalization>  
   <classifier-display autosize="true" package="true" initial-value="false" signature="false" visibility="true">    
