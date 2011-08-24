@@ -116,8 +116,11 @@ public class TasksSearchBean extends TaskAbstractBean {
 		cmd = runCommand(cmd);
 		auxLst = ((FindAllProcess)cmd).getResult();
 		
-		if(auxLst != null)
+		if(auxLst != null){
+			processList = new ArrayList<SelectItem>();
+			
 			for(ProcessDef process : auxLst)
 				processList.add(new SelectItem(process.getCode(), process.getDescription()));
+		}
 	}
 }
