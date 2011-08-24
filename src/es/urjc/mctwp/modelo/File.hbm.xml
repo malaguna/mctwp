@@ -48,7 +48,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<column name="fecha" not-null="true" />
 		</property>
 		
-		<property name="contentType" type="string" length="25">
+		<property name="contentType" type="string" length="100">
 			<column name="tipo" not-null="false" />
 		</property>
 		
