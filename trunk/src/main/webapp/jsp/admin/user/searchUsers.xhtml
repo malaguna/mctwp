@@ -59,13 +59,13 @@ along with Multiclinical Trial Web-PACS.  If not, see
 
 		<h:outputLabel value="#{msgs['jsf.generic.Surname']}" styleClass="frmLabel" for="surname" />
 		<h:inputText styleClass="frmInput" id="surname" value="#{userBean.FSrcObject.surName}" />
-		<t:message id="snError" for="lastname" />
+		<t:message id="snError" for="surname" />
 		
 		<h:outputLabel value="#{msgs['jsf.generic.Admin']}" styleClass="frmLabel" for="admin" />
 		<h:selectOneMenu id="admin" value="#{userBean.FSrcObject.admin}" styleClass="frmSelectOne">
 			<f:selectItem itemLabel="" itemValue=""/>
-			<f:selectItem itemLabel="Si" itemValue="#{true}"/>
-			<f:selectItem itemLabel="No" itemValue="#{false}"/>
+			<f:selectItem itemLabel="#{msgs['jsf.generic.Yes']}" itemValue="#{true}"/>
+			<f:selectItem itemLabel="#{msgs['jsf.generic.No']}" itemValue="#{false}"/>
 		</h:selectOneMenu>
 		<t:message id="admError" for="admin" />			
 
