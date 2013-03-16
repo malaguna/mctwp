@@ -64,7 +64,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 <ui:define name="buttonsForm">
 	<h:panelGrid columns="4">
 		<h:commandButton id="find" value="#{msgs['jsf.actions.Save']}" action="#{imageTypeBean.accSaveImageType}" styleClass="frmButton" />
-		<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{imageTypeBean.accFindImageTypes}" styleClass="frmButton" />
+		<h:commandButton id="volver" value="#{msgs['jsf.actions.Back']}" action="#{imageTypeBean.accFindImageTypes}" styleClass="frmButton" immediate="true" />
 	</h:panelGrid>
 </ui:define>
 
