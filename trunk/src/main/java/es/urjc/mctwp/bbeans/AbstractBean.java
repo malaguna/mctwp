@@ -159,6 +159,7 @@ public abstract class AbstractBean {
 			}
 		}catch(Exception ce){
 			setErrorMessage(ce.getLocalizedMessage());
+			result = null;
 		}
 		
 		return result;
