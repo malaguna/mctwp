@@ -184,15 +184,22 @@ public class PatientBean extends RequestInvAbstractBean {
 	 * @return next view
 	 */
 	public String accSavePatient() {
+		String result = null;
+		
 		Command cmd = getCommand(SavePatient.class);
 		((SavePatient) cmd).setPatient(patient);
 		((SavePatient) cmd).setGroup(getSession().getGroup());
-		runCommand(cmd);
+		cmd = runCommand(cmd);
 
-		// Update patient into session state info
-		getSession().setPatient(patient);
-
-		return accListPatientsOfGroup();
+		if(cmd != null){
+			// Update patient into session state info
+			getSession().setPatient(patient);
+			result = accListPatientsOfGroup();
+		}else{
+			setErrorMessage("nhcError", getMessage("jsf.info.DuplicatedNHC"));
+		}
+			
+		return result;
 	}
 
 	/**
