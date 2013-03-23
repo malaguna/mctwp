@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.faces.component.UIComponent;
 import javax.faces.model.SelectItem;
 
 import es.urjc.mctwp.bbeans.ActionBeanNames;
@@ -204,16 +205,25 @@ public class ProtocolBean extends RequestInvAbstractBean{
 	 * @return
 	 */
 	public String accAddProcess(){
-		Command cmd = getCommand(AddProcessToProtocolable.class);
-		((AddProcessToProtocolable)cmd).setProtocolable(source);
-		((AddProcessToProtocolable)cmd).setProcessDefId(idProcessDefSelected);
-		((AddProcessToProtocolable)cmd).setOwnerId(owner);
-		((AddProcessToProtocolable)cmd).setDays(days);
-		((AddProcessToProtocolable)cmd).setImgType(typeSelected);
+		String result = null;
 		
-		runCommand(cmd);
+		if(days != null && days < 0){
+			setErrorMessage(getMessage("jsf.generic.NoNegative"));
+		}else{
+			Command cmd = getCommand(AddProcessToProtocolable.class);
+			((AddProcessToProtocolable)cmd).setProtocolable(source);
+			((AddProcessToProtocolable)cmd).setProcessDefId(idProcessDefSelected);
+			((AddProcessToProtocolable)cmd).setOwnerId(owner);
+			((AddProcessToProtocolable)cmd).setDays(days);
+			((AddProcessToProtocolable)cmd).setImgType(typeSelected);
+			
+			cmd = runCommand(cmd);
+			
+			if(cmd != null)
+				result = accViewProtocol();
+		}
 
-		return accViewProtocol();
+		return result;
 	}
 	
 	/**
