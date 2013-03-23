@@ -104,6 +104,10 @@ public abstract class AbstractBean {
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, null));
     }
 
+	protected void setErrorMessage(String idComponent, String msg) {
+		getFacesContext().addMessage(idComponent, new FacesMessage(FacesMessage.SEVERITY_ERROR, msg, null));
+    }
+
 	protected void setInfoMessage(String msg) {
 		getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, msg, null));
     }	
