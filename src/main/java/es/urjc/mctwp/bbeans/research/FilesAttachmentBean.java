@@ -144,9 +144,11 @@ public class FilesAttachmentBean extends GenericDownloadBean {
 				InputStream is = new FileInputStream(tmpFile);
 				OutputStream os = response.getOutputStream();
 
-				byte bytes[] = new byte[BUFFER_SIZE];
-				while(is.read(bytes) != -1)
+				while(is.available() > 0){
+					byte bytes[] = new byte[is.available()];
+					is.read(bytes);
 					os.write(bytes);
+				}
 				
 				is.close();
 				tmpFile.delete();

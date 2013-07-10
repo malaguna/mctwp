@@ -210,7 +210,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	
 	<bean id="MiniPACS" class="es.urjc.mctwp.pacs.impl.DcmStorageServerImpl">
 		<property name="tempDirectory" value="/tmp" />
-		<property name="hostname" value="192.168.2.89" />
+		<property name="hostname" value="192.168.1.4" /> <!-- 2.89 RFS -->
 		<property name="port" value="1234" />
 		<property name="aeTitle" value="MCTWP" />
 		<property name="thrName" value="SERVER" />

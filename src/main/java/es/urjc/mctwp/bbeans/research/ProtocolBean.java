@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.faces.component.UIComponent;
 import javax.faces.model.SelectItem;
 
 import es.urjc.mctwp.bbeans.ActionBeanNames;
