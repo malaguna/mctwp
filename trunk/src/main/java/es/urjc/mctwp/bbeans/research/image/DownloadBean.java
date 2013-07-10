@@ -246,10 +246,12 @@ public class DownloadBean extends GenericDownloadBean {
 		zos.putNextEntry(ze);
 
 		//Write zip entry
-		byte bytes[] = new byte[BUFFER_SIZE];
 		FileInputStream fileIS = new FileInputStream(file);
-		while(fileIS.read(bytes) != -1)
+		while(fileIS.available() > 0){
+			byte bytes[] = new byte[fileIS.available()];
+			fileIS.read(bytes);
 			zos.write(bytes);
+		}
 		
 		zos.flush();
 		fileIS.close();		

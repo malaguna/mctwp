@@ -4,7 +4,6 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
 public class GenericDownloadBean extends RequestInvAbstractBean {
-	protected int BUFFER_SIZE = 4096;
 
 	protected HttpServletResponse prepareResponse(){
 		HttpServletResponse result = null;
