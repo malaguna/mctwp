@@ -79,14 +79,17 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<h:commandButton id="save" styleClass="frmButton"
 				value="#{msgs['jsf.actions.Save']}"
 				action="#{groupBean.accSaveGroup}" />
-			<h:commandButton id="delete" styleClass="frmButton"
+			<h:commandButton id="delete" styleClass="frmButton"			
 				value="#{msgs['jsf.actions.Delete']}"
+				rendered="#{groupBean.group.code > 0}"
 				action="#{groupBean.accDeleteGroup}" />
 			<h:commandButton id="deletePatients" styleClass="frmButton"
 				value="#{msgs['jsf.actions.DeletePatients']}"
+				rendered="#{groupBean.group.code > 0}"
 				action="#{patientBean.accPrepareGroupPatientsToDelete}"/>
 			<h:commandButton id="movePatients" styleClass="frmButton"
 				value="#{msgs['jsf.actions.MovePatients']}"
+				rendered="#{groupBean.group.code > 0}"
 				action="#{patientBean.accPrepareGroupPatientsToMove}"/>
 		</h:panelGrid>
 	</ui:define>

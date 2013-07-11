@@ -105,6 +105,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<h:commandButton id="delete" styleClass="frmButton"
 				immediate="true"
 				value="#{msgs['jsf.actions.Delete']}"
+				rendered="#{studyBean.study.code > 0}"
 				action="#{studyBean.accPrepareStudyToDelete}" />
 		</h:panelGrid>
 	</ui:define>

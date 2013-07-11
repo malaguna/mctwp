@@ -88,6 +88,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 				action="#{patientBean.accSavePatient}" />
 			<h:commandButton id="delete" styleClass="frmButton"
 				value="#{msgs['jsf.actions.Delete']}"
+				rendered="#{patientBean.patient.code > 0}"
 				action="#{patientBean.accPreparePatientToDelete}" />
 		</h:panelGrid>
 	</ui:define>
