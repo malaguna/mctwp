@@ -46,9 +46,10 @@ along with Multiclinical Trial Web-PACS.  If not, see
 				<h3>
 					<h:outputText
 						style="margin-right: 10px;"
-						value="Imágenes del estudio #{sessionInv.study.code} [#{sessionInv.study.hospitalId}]" />
+						value="#{msgs['jsf.headers.ImagesOfStudy']} #{sessionInv.study.code} [#{sessionInv.study.hospitalId}]" />
 					<h:commandLink 
 						style="vertical-align:  bottom;"
+						rendered="#{viewStudyImages.thumbs != null}"
 						action="#{downloadBean.accDownloadStudyImages}">
 		                <h:graphicImage 
 		                	url="/jsp/icons/picture_save_all.png" 

@@ -45,9 +45,10 @@ along with Multiclinical Trial Web-PACS.  If not, see
 				<h3>
 					<h:outputText 
 						style="margin-right: 10px;"
-						value="Imágenes de la tarea #{sessionInv.task.code}" />
+						value="#{msgs['jsf.headers.ImagesOfTask']} #{sessionInv.task.code}" />
 					<h:commandLink 
 						style="vertical-align:  bottom;"
+						rendered="#{viewTaskImages.thumbs != null}"
 						action="#{downloadBean.accDownloadTaskImages}">
 		                <h:graphicImage 
 		                	url="/jsp/icons/picture_save_all.png" 

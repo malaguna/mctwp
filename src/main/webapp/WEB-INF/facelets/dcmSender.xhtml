@@ -40,7 +40,9 @@ Definitions:
 
 <ui:composition>
 
-<h:panelGrid columns="2" id="cuerpo" styleClass="frmTabla">
+<h:panelGrid 
+	rendered="#{backBean.thumbs != null}" 
+	columns="2" id="cuerpo" styleClass="frmTabla">
 
 	<f:facet name="header">
 		<h:panelGroup styleClass="headFrm">
