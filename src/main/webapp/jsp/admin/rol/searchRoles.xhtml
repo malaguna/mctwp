@@ -90,12 +90,14 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			</f:facet>
 			
 			<t:commandLink action="#{rolBean.accEditRol}" immediate="true">
-				<h:graphicImage value="/jsp/icons/application_form_edit.png" alt="#{msgs['jsf.actions.Edit']}" />
-				<t:updateActionListener value="#{row}" property="#{rolBean.FEdcObject}"></t:updateActionListener>
+				<h:graphicImage value="/jsp/icons/application_form_edit.png" 
+				alt="#{msgs['jsf.actions.Edit']}" title="#{msgs['jsf.actions.Edit']}" />
+				<t:updateActionListener value="#{row}" property="#{rolBean.FEdcObject}"/>
 			</t:commandLink>
 			
 			<t:commandLink action="#{rolBean.accViewRolAuthorizations}" actionListener="#{rolBean.alRolSelected}" immediate="true">
-				<h:graphicImage value="/jsp/icons/cog.png" alt="#{msgs['jsf.actions.Authorizations']}"/>
+				<h:graphicImage value="/jsp/icons/cog.png" 
+				alt="#{msgs['jsf.actions.Authorizations']}" title="#{msgs['jsf.actions.Authorizations']}"/>
 			</t:commandLink>
 		</p:column>										
 	</p:dataTable>	

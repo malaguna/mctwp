@@ -116,8 +116,9 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			</f:facet>
 			
 			<t:commandLink action="#{trialBean.accDelParticipationTrial}" immediate="true">
-				<h:graphicImage value="/jsp/icons/cross.png" alt="#{msgs['jsf.actions.Edit']}" />
-				<t:updateActionListener value="#{row}" property="#{trialBean.partSelected}"></t:updateActionListener>
+				<h:graphicImage value="/jsp/icons/cross.png" 
+				alt="#{msgs['jsf.actions.Delete']}" title="#{msgs['jsf.actions.Delete']}" />
+				<t:updateActionListener value="#{row}" property="#{trialBean.partSelected}"/>
 			</t:commandLink>
 		</p:column>										
 	</p:dataTable>	

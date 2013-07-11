@@ -147,12 +147,14 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			</f:facet>
 			
 			<t:commandLink action="#{trialBean.accEditTrial}" immediate="true">
-				<h:graphicImage value="/jsp/icons/application_form_edit.png" alt="#{msgs['jsf.actions.Edit']}" />
+				<h:graphicImage value="/jsp/icons/application_form_edit.png" 
+				alt="#{msgs['jsf.actions.Edit']}" title="#{msgs['jsf.actions.Edit']}" />
 				<t:updateActionListener value="#{row}" property="#{trialBean.FEdcObject}" />
 			</t:commandLink>
 			
 			<t:commandLink action="#{trialBean.accViewMembers}" actionListener="#{trialBean.alTrialSelected}" immediate="true">
-				<h:graphicImage value="/jsp/icons/user_add.png" alt="#{msgs['jsf.actions.Participations']}"/>
+				<h:graphicImage value="/jsp/icons/user_add.png" 
+				alt="#{msgs['jsf.actions.Participations']}" title="#{msgs['jsf.actions.Participations']}"/>
 			</t:commandLink>
 		</p:column>										
 	</p:dataTable>	

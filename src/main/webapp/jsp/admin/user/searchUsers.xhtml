@@ -129,17 +129,20 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			</f:facet>
 			
 			<t:commandLink action="#{userBean.accEditUser}" immediate="true">
-				<h:graphicImage value="/jsp/icons/user_edit.png" alt="#{msgs['jsf.actions.Edit']}" />
-				<t:updateActionListener value="#{row}" property="#{userBean.FEdcObject}"></t:updateActionListener>
+				<h:graphicImage value="/jsp/icons/user_edit.png" 
+				alt="#{msgs['jsf.actions.Edit']}" title="#{msgs['jsf.actions.Edit']}" />
+				<t:updateActionListener value="#{row}" property="#{userBean.FEdcObject}" />
 			</t:commandLink>
 			
 			<t:commandLink action="#{userBean.accViewParticipations}" actionListener="#{userBean.alUserSelected}" immediate="true">
-				<h:graphicImage value="/jsp/icons/application_form_add.png" alt="#{msgs['jsf.actions.Participations']}"/>
+				<h:graphicImage value="/jsp/icons/application_form_add.png" 
+				alt="#{msgs['jsf.actions.Participations']}" titlte="#{msgs['jsf.actions.Participations']}"/>
 			</t:commandLink>
 	
 			<t:commandLink action="#{userBean.accViewLogs}" immediate="true">
-				<h:graphicImage value="/jsp/icons/eye.png" alt="#{msgs['jsf.actions.Logs']}"/>
-				<t:updateActionListener value="#{row}" property="#{userBean.user}"></t:updateActionListener>
+				<h:graphicImage value="/jsp/icons/eye.png" 
+				alt="#{msgs['jsf.actions.Logs']}" title="#{msgs['jsf.actions.Logs']}"/>
+				<t:updateActionListener value="#{row}" property="#{userBean.user}" />
 			</t:commandLink>
 		</p:column>										
 	</p:dataTable>	

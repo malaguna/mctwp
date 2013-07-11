@@ -100,8 +100,9 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			</f:facet>
 			
 			<t:commandLink action="#{rolBean.accDelAuthorizationRol}" >
-				<h:graphicImage value="/jsp/icons/cross.png" alt="#{msgs['jsf.actions.Edit']}" />
-				<t:updateActionListener value="#{row.code}" property="#{rolBean.idActionSelected}"></t:updateActionListener>
+				<h:graphicImage value="/jsp/icons/cross.png" 
+				alt="#{msgs['jsf.actions.Delete']}" title="#{msgs['jsf.actions.Delete']}" />
+				<t:updateActionListener value="#{row.code}" property="#{rolBean.idActionSelected}"/>
 			</t:commandLink>
 		</p:column>										
 	</p:dataTable>	
