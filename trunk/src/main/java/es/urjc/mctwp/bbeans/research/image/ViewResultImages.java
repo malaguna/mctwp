@@ -62,14 +62,14 @@ public class ViewResultImages extends AbstractViewImages {
 		getSession().cleanUserTempDirectory();
 		
 		if(getSession().getResult() != null){
-			setThumbs(new ArrayList<ThumbSelectItem>());
-			
 			Command cmd = getCommand(FindImagesByResult.class);
 			((FindImagesByResult)cmd).setResultObj(getSession().getResult());
 			cmd = runCommand(cmd);
 			aux = ((FindImagesByResult)cmd).getResult();
 
-			if(aux != null){
+			if(aux != null && !aux.isEmpty()){
+				setThumbs(new ArrayList<ThumbSelectItem>());
+
 				for(ImageData image : aux){
 					try{
 						getThumbs().add(getThumbnailContent(image));

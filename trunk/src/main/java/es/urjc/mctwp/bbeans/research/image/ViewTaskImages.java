@@ -52,18 +52,20 @@ public class ViewTaskImages extends AbstractViewImages {
 		getSession().cleanUserTempDirectory();
 		
 		if(getSession().getTask() != null){
-			setThumbs(new ArrayList<ThumbSelectItem>());
-
 			Command cmd = getCommand(FindImagesByTask.class);
 			((FindImagesByTask)cmd).setTask(getSession().getTask());
 			cmd = runCommand(cmd);
 			aux = ((FindImagesByTask)cmd).getResult();
+			
+			if(aux != null && !aux.isEmpty()){
+				setThumbs(new ArrayList<ThumbSelectItem>());
 
-			for(ImageData image : aux){
-				try{
-					getThumbs().add(getThumbnailContent(image));
-				}catch (Exception e){
-					setErrorMessage("Error al preparar thumbnails: " + e.getMessage());
+				for(ImageData image : aux){
+					try{
+						getThumbs().add(getThumbnailContent(image));
+					}catch (Exception e){
+						setErrorMessage("Error al preparar thumbnails: " + e.getMessage());
+					}
 				}
 			}
 		}
