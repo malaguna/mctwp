@@ -50,7 +50,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<t:message id="codeError" for="code" />
 			
 			<h:outputLabel value="#{msgs['jsf.generic.Name']}" styleClass="frmLabel" for="name" />
-			<h:inputText styleClass="frmInput" id="name" value="#{processDefBean.FEdcObject.name}" required="true" />
+			<h:inputText styleClass="frmInput" id="name" value="#{processDefBean.FEdcObject.name}" maxlength="25" required="true"  />
 			<t:message id="nameError" for="name" />
 
 			<h:outputLabel value="#{msgs['jsf.generic.Help']}" styleClass="frmLabel" for="help" />
