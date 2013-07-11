@@ -103,8 +103,9 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			</f:facet>
 			
 			<t:commandLink action="#{imageTypeBean.accEditImageType}" immediate="true">
-				<h:graphicImage value="/jsp/icons/application_form_edit.png" alt="#{msgs['jsf.actions.Edit']}" />
-				<t:updateActionListener value="#{row}" property="#{imageTypeBean.FEdcObject}"></t:updateActionListener>
+				<h:graphicImage value="/jsp/icons/application_form_edit.png" 
+				alt="#{msgs['jsf.actions.Edit']}" title="#{msgs['jsf.actions.Edit']}" />
+				<t:updateActionListener value="#{row}" property="#{imageTypeBean.FEdcObject}" />
 			</t:commandLink>
 		</p:column>										
 	</p:dataTable>	

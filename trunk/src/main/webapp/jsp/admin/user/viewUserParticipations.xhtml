@@ -110,8 +110,9 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			</f:facet>
 			
 			<t:commandLink action="#{userBean.accDelParticipationUser}" immediate="true">
-				<h:graphicImage value="/jsp/icons/cross.png" alt="#{msgs['jsf.actions.Edit']}" />
-				<t:updateActionListener value="#{row}" property="#{userBean.partSelected}"></t:updateActionListener>
+				<h:graphicImage value="/jsp/icons/cross.png" 
+				alt="#{msgs['jsf.actions.Delete']}" title="#{msgs['jsf.actions.Delete']}" />
+				<t:updateActionListener value="#{row}" property="#{userBean.partSelected}"/>
 			</t:commandLink>
 		</p:column>										
 	</p:dataTable>	
