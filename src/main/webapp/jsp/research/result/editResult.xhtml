@@ -121,7 +121,8 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<h:commandButton 
 				id="delete"
 				styleClass="frmButton" 
-				value="#{msgs['jsf.actions.Delete']}" 
+				value="#{msgs['jsf.actions.Delete']}"
+				rendered="#{resultBean.result.code > 0}"
 				action="#{resultBean.accDeleteResult}">
 				<p:confirmDialog yesLabel="Delete" noLabel="Cancel"   
 					message="Are you sure?"   
