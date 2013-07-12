@@ -78,7 +78,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 					popupTodayString="#{msgs['jsf.generic.ToDayString']}"
 					popupDateFormat="dd/MM/yyyy"
 					popupWeekString="#{msgs['jsf.generic.WeekString']}"
-					helpText="DD/MM/YYYY" forceId="true">
+					required="true" forceId="true">
 					<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Madrid" />
 				</t:inputCalendar>
 				<t:message id="fechaError" style="frmLabelError" for="fecha"
