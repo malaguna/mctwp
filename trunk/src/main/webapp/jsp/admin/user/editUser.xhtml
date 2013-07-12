@@ -50,11 +50,11 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<t:message id="codeError" for="code" />
 			
 			<h:outputLabel value="#{msgs['jsf.generic.Login']}" styleClass="frmLabel" for="login" />
-			<h:inputText styleClass="frmInput" id="login" value="#{userBean.FEdcObject.login}" size="5" />
+			<h:inputText styleClass="frmInput" id="login" value="#{userBean.FEdcObject.login}" size="5" required="true"/>
 			<t:message id="loginError" for="login" />
 			
 			<h:outputLabel value="#{msgs['jsf.generic.Name']}" styleClass="frmLabel" for="name" />
-			<h:inputText styleClass="frmInput" id="name" value="#{userBean.FEdcObject.name}" />
+			<h:inputText styleClass="frmInput" id="name" value="#{userBean.FEdcObject.name}" required="true" />
 			<t:message id="nameError" for="name" />
 		
 			<h:outputLabel value="#{msgs['jsf.generic.Lastname']}" styleClass="frmLabel" for="lastname" />
