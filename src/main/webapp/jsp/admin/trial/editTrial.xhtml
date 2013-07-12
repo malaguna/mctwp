@@ -50,7 +50,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 			<t:message id="codeError" style="frmLabelError" for="code" styleClass="error"/>
 
 			<h:outputLabel for="name" styleClass="frmLabel" value="#{msgs['jsf.generic.Name']}" />
-			<h:inputText id="name" styleClass="frmInput" value="#{trialBean.FEdcObject.name}" />
+			<h:inputText id="name" styleClass="frmInput" value="#{trialBean.FEdcObject.name}"  required="true"/>
 			<t:message id="namError" style="frmLabelError" for="name" />
 
 			<h:outputLabel for="project" styleClass="frmLabel" value="#{msgs['jsf.generic.Project']}" />
@@ -70,7 +70,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 				popupButtonStyleClass="standardBold" currentDayCellClass="currentDayCell"
 				value="#{trialBean.FEdcObject.startDate}" renderAsPopup="true"
                 popupTodayString="#{msgs['jsf.generic.ToDayString']}" popupDateFormat="dd/MM/yyyy" 
-                popupWeekString="#{msgs['jsf.generic.WeekString']}" helpText="DD/MM/YYYY" forceId="true">
+                popupWeekString="#{msgs['jsf.generic.WeekString']}" required="true" forceId="true">
                 	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Madrid"/>
             </t:inputCalendar>				
 			<t:message id="startError" style="frmLabelError" for="startDate" />
@@ -80,7 +80,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 				popupButtonStyleClass="standardBold" currentDayCellClass="currentDayCell"
 				value="#{trialBean.FEdcObject.endDate}" renderAsPopup="true"
                 popupTodayString="#{msgs['jsf.generic.ToDayString']}" popupDateFormat="dd/MM/yyyy" 
-                popupWeekString="#{msgs['jsf.generic.WeekString']}" helpText="DD/MM/YYYY" forceId="true">
+                popupWeekString="#{msgs['jsf.generic.WeekString']}" required="true" forceId="true">
                 	<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Madrid"/>
             </t:inputCalendar>				
 			<t:message id="endError" style="frmLabelError" for="endDate" />
