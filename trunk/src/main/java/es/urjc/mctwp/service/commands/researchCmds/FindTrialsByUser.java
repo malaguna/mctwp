@@ -48,12 +48,14 @@ public class FindTrialsByUser extends ResultCommand<List<Trial>> {
 
 	@Override
 	public boolean isValidCommand(){
-		return  super.isValidCommand() &&
+		return 	getActionName() != null && 
+				getUserUtils() != null && 
+				getUser() != null &&
 				trialDao != null;
 	}
 	
 	/**
-	 * This operation is always authorized, other way it can be used
+	 * This operation is always authorized, other way it can't be used
 	 * cause user is not rol assigned until it takes a trial. 
 	 */
 	@Override
