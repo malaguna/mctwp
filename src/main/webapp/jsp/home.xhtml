@@ -52,7 +52,7 @@ along with Multiclinical Trial Web-PACS.  If not, see
 	    	
 	    	<h:outputText value="#{msgs['jsf.area.Trial']}" />
 
-	    	<h:outputText value="#{msgs['jsf.area.Admin']}" />
+	    	<h:outputText value="#{msgs['jsf.area.Admin']}" rendered="#{sessionInv.userAdmin}" />
 	    	
 	    </h:panelGrid>
 
